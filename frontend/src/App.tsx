@@ -1,5 +1,13 @@
+import { httpService } from "./services/http.service"
 
 function App() {
+
+  // test connection with server
+  async function testConnection(){
+    const answer = await httpService.get('test')
+    console.log(answer)
+  } 
+  testConnection()
 
   return (
     <>

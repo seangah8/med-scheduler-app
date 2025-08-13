@@ -2,13 +2,17 @@ import express from 'express'
 import cors from 'cors'
 import { connectDB } from './config/database'
 import { ENV } from './config/env'
-import { logger } from './services/logger.service';
+import { logger } from './services/logger.service'
 
 
 const app = express()
 
-// middlewares
-app.use(cors())
+const corsOptions: cors.CorsOptions = {
+  origin: 'http://localhost:5173',
+  credentials: true, 
+}
+
+app.use(cors(corsOptions))
 app.use(express.json())
 
 // test route
