@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb"
 
-export interface AppointmentModel {
+export interface AppointmentTSModel {
     _id: string | ObjectId
     userId: string | ObjectId
     medicalFieldId: string | ObjectId
