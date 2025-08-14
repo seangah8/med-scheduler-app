@@ -1,10 +1,7 @@
-import mongoose, { Document } from 'mongoose'
-import { DoctorTSModel } from '../typescript/doctor.model'
+import mongoose from "mongoose"
 
-// omit _id to avoid conflict with mongoose's document type
-type DoctorMongoDocument = Omit<DoctorTSModel, '_id'> & Document
 
-const doctorSchema = new mongoose.Schema<DoctorMongoDocument>({
+const doctorSchema = new mongoose.Schema({
 
   name: {
     type: String,

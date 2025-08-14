@@ -3,7 +3,7 @@ import cors from 'cors'
 import { connectDB } from './config/database'
 import { ENV } from './config/env'
 import { logger } from './services/logger.service'
-
+import { userRoutes } from './api/user/user.routs'
 
 const app = express()
 
@@ -15,10 +15,8 @@ const corsOptions: cors.CorsOptions = {
 app.use(cors(corsOptions))
 app.use(express.json())
 
-// test route
-app.get('/api/test', (req, res) => {
-  res.json({ status: 'ok' })
-})
+//* Routes
+app.use('/api/user', userRoutes)
 
 
 // start server after DB connects
