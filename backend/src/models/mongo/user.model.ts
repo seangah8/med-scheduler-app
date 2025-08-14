@@ -11,10 +11,11 @@ const userSchema = new mongoose.Schema<UserMongoDocument>({
     required: true,
     unique: true,
   },
+  
 
-})
+}, {versionKey: false})  // disables __v
 
 const UserMongoModel = mongoose.model('user', userSchema)
-export default UserMongoModel
+export { UserMongoModel }
 
 

@@ -35,7 +35,7 @@ const appointmentSchema = new mongoose.Schema<AppointmentMongoDocument>({
     default: 'scheduled',
   },
 
-})
+}, {versionKey: false})  // disables __v
 
 // prevent double booking the same doctor at the same time
 appointmentSchema.index({ doctorId: 1, startAt: 1 }, { unique: true })
@@ -45,4 +45,4 @@ appointmentSchema.index({ doctorId: 1, startAt: 1 }, { unique: true })
 appointmentSchema.index({ userId: 1, startAt: -1 })
 
 const AppointmentMongoModel = mongoose.model('appointment', appointmentSchema)
-export default AppointmentMongoModel
+export { AppointmentMongoModel }

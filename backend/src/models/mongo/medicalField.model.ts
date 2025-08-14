@@ -12,7 +12,7 @@ const medicalFieldSchema = new mongoose.Schema<MedicalFieldMongoDocument>({
     unique: true,
   },
 
-})
+}, {versionKey: false})  // disables __v
 
-const MedicalFieldMongoModel = mongoose.model('medicalField', medicalFieldSchema)
-export default MedicalFieldMongoModel
+const MedicalFieldMongoModel = mongoose.model('medical_field', medicalFieldSchema)
+export { MedicalFieldMongoModel }

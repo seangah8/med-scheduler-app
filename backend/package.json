@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts"
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "seed": "ts-node src/scripts/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.9.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",

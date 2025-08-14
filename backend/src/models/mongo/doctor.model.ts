@@ -16,10 +16,10 @@ const doctorSchema = new mongoose.Schema<DoctorMongoDocument>({
     ref: 'MedicalField',
   }],
 
-})
+}, {versionKey: false})  // disables __v
 
 // optimize queries that fetch a medical field's doctors
 doctorSchema.index({ medicalFieldIds: 1 })
 
 const DoctorMongoModel = mongoose.model('doctor', doctorSchema)
-export default DoctorMongoModel
+export { DoctorMongoModel }
