@@ -4,6 +4,7 @@ import { connectDB } from './config/database'
 import { ENV } from './config/env'
 import { logger } from './services/logger.service'
 import { userRoutes } from './api/user/user.routs'
+import { authRoutes } from './api/auth/auth.routs'
 
 const app = express()
 
@@ -16,6 +17,7 @@ app.use(cors(corsOptions))
 app.use(express.json())
 
 //* Routes
+app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 
 

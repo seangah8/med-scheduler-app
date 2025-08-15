@@ -1,13 +1,13 @@
 import { httpService } from "./services/http.service"
 
 function App() {
-
-  // test connection with server
-  async function testConnection(){
-    const answer = await httpService.get('test')
-    console.log(answer)
+ 
+  // test getting otp from server
+  async function getOtp(){
+    const otp : string = await httpService.post('auth/send-otp', {phone: '0512345675'})
+    console.log('otp', otp)
   } 
-  testConnection()
+  getOtp()
 
   return (
     <>

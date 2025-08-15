@@ -1,6 +1,10 @@
 import mongoose from "mongoose"
+import { MedicalFieldTSModel } from "../typescript/medicalField.model"
 
-const medicalFieldSchema = new mongoose.Schema({
+// omit _id to avoid conflict with mongoose's document type
+type MedicalFieldDocument = Omit<MedicalFieldTSModel, '_id'> & Document
+
+const medicalFieldSchema = new mongoose.Schema<MedicalFieldDocument>({
 
   name: {
     type: String,
@@ -10,5 +14,5 @@ const medicalFieldSchema = new mongoose.Schema({
 
 }, {versionKey: false})  // disables __v
 
-const MedicalFieldMongoModel = mongoose.model('medical_field', medicalFieldSchema)
+const MedicalFieldMongoModel = mongoose.model<MedicalFieldDocument>('medical_field', medicalFieldSchema)
 export { MedicalFieldMongoModel }
