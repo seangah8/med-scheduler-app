@@ -48,7 +48,7 @@ export async function checkOTP(userId: string, password: string): Promise<void> 
     // remove the otp from db
     await OtpMongoModel.deleteOne({ _id: otpDoc._id })
 
-    logger.info(`OTP confirmed valid for user ${userId}: ${password}`)
+    logger.info(`OTP confirmed valid for user ${userId}`)
 }
 
 export function validateToken(token: string): LoginTokenModel | null {

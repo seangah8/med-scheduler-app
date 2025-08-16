@@ -47,8 +47,8 @@ async function ajax<T = any>(
         console.dir(err)
 
         if (err.response?.status === 401) {
-            sessionStorage.clear()
-            window.location.assign('/')
+            // sessionStorage.clear()
+            // window.location.assign('/')
         }
 
         throw err

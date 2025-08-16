@@ -16,8 +16,15 @@ function App() {
     console.log('loggedInUser', loggedInUser)
 
     // test logging out
-    await httpService.post('auth/logout', {})
-    console.log('user logged out')
+    try {
+      await httpService.get('auth/logout')
+      const user = await httpService.get('auth/me')
+      if(user) console.log('user', user)
+
+    } catch (err) {
+        console.log('user logged out')
+    }
+
   } 
 
   testApis('0549199728')

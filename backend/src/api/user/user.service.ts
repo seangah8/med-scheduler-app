@@ -5,6 +5,7 @@ import { CredentialsTSModel } from '../../models/typescript/credentials.model'
 
 export const userService = {
   getByPhone,
+  getById,
   add,
 }
 
@@ -12,6 +13,20 @@ async function getByPhone(phone: string): Promise<UserTSModel | null> {
   try {
     // .lean() removes mongoose document types
     const user = await UserMongoModel.findOne({ phone }).lean()
+    if (!user) return null
+    const finalUser: UserTSModel = { ...user, _id: user._id.toString() }
+    return finalUser
+
+  } catch (err : any) {
+    logger.error(`Failed to get user by phone: ${err.message}`)
+    throw err
+  }
+}
+
+async function getById(id: string): Promise<UserTSModel | null> {
+  try {
+    // .lean() removes mongoose document types
+    const user = await UserMongoModel.findOne({ _id: id }).lean()
     if (!user) return null
     const finalUser: UserTSModel = { ...user, _id: user._id.toString() }
     return finalUser

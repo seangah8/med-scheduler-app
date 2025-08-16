@@ -78,3 +78,17 @@ export async function logout(req: Request, res: Response): Promise<void> {
   }
 }
 
+export async function getLoggedInUser(req: Request, res: Response): Promise<void> {
+  try {
+    const userId = asyncLocalStorage.getStore()?.loggedinUser?.userId
+    if (!userId) throw new Error('Not logged in')
+      
+    const user = await userService.getById(userId)
+    if (!user) throw new Error('User not found')
+
+    res.send(user)
+  } catch (err: any) {
+    res.status(500).send({ error: 'Failed to get user' })
+  }
+}
+
