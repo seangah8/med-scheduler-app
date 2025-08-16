@@ -1,13 +1,22 @@
+import { UserModel } from "./models/user.model"
 import { httpService } from "./services/http.service"
 
 function App() {
  
-  // test getting otp from server
-  async function getOtp(){
-    const otp : string = await httpService.post('auth/send-otp', {phone: '0512345675'})
+  
+  async function testOtp(phone : string){
+
+    // test getting otp from server
+    const otp : string = await httpService.post('auth/send-otp', { phone })
     console.log('otp', otp)
+
+    // test verify otp from server
+    const loggedInUser : UserModel = await httpService.
+      post('auth/verify-otp', {phone, password: otp})
+    console.log('loggedInUser', loggedInUser)
   } 
-  getOtp()
+
+  testOtp('0549199728')
 
   return (
     <>

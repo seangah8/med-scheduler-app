@@ -5,6 +5,7 @@ import { ENV } from './config/env'
 import { logger } from './services/logger.service'
 import { userRoutes } from './api/user/user.routs'
 import { authRoutes } from './api/auth/auth.routs'
+import { setupAsyncLocalStorage } from './middlewares/setupAls.middleware'
 
 const app = express()
 
@@ -13,8 +14,10 @@ const corsOptions: cors.CorsOptions = {
   credentials: true, 
 }
 
+// middlewares
 app.use(cors(corsOptions))
 app.use(express.json())
+app.use(setupAsyncLocalStorage)
 
 //* Routes
 app.use('/api/auth', authRoutes)
@@ -25,10 +28,10 @@ app.use('/api/user', userRoutes)
 connectDB()
   .then(() => {
     app.listen(ENV.PORT, () => {
-      logger.info(`server started on port ${ENV.PORT}`)
+      logger.info(`Server started on port ${ENV.PORT}`)
     })
   })
   .catch((err) => {
-    logger.error({ err }, "database connection error")
+    logger.error(`Database connection error: ${err.message}`)
     process.exit(1)
   })

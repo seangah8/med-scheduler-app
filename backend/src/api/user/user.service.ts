@@ -16,8 +16,8 @@ async function getByPhone(phone: string): Promise<UserTSModel | null> {
     const finalUser: UserTSModel = { ...user, _id: user._id.toString() }
     return finalUser
 
-  } catch (err) {
-    logger.error({ err }, 'failed to get user by id')
+  } catch (err : any) {
+    logger.error(`Failed to get user by id: ${err.message}`)
     throw err
   }
 }
@@ -27,12 +27,12 @@ async function add(credentials: CredentialsTSModel): Promise<UserTSModel> {
     const newUserDoc = await UserMongoModel.create(credentials)
     const finalUser: UserTSModel = 
       { ...newUserDoc.toObject(), _id: newUserDoc._id.toString() }
-    logger.info(`user ${finalUser._id} added`)
+    logger.info(`User ${finalUser._id} added`)
     return finalUser
 
-  } catch (err) {
-    logger.error({ err }, 'Failed to create user');
-    throw err;
+  } catch (err : any) {
+    logger.error(`Failed to create user: ${err.message}`)
+    throw err
   }
 }
 

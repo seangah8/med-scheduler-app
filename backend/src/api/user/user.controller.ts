@@ -12,8 +12,8 @@ export async function getUser(req: Request, res: Response): Promise<void> {
     if(!user) throw new Error('user not found!')
     res.send(user)
   } catch (err: any) {
-    logger.error(err.message)
-    res.status(400).send(`couldn't get user`)
+    logger.error(`Failed gettin user: ${err.message}`)
+    res.status(400).send(`Couldn't get user`)
   }
 }
 
@@ -25,7 +25,7 @@ export async function addUser(req: Request<{}, {}, CredentialsTSModel>, res: Res
     const user = await userService.add(credentials)
     res.send(user)
   } catch (err: any) {
-    logger.error(err.message)
-    res.status(400).send(`couldn't save user`)
+    logger.error(`Failed saving user: ${err.message}`)
+    res.status(400).send(`Couldn't save user`)
   }
 }

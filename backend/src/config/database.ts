@@ -11,8 +11,9 @@ export async function connectDB() {
     logger.info('mongodb connected')
 
   // log error and exit app if connection fails
-  } catch (error) {
-    logger.error(error, 'mongodb connection error:')
+  } catch (error : any) {
+    logger.error(`mongodb connection error: ${error.message}`)
+    
     process.exit(1)
   }
 }
