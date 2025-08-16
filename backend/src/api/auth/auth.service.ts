@@ -53,11 +53,11 @@ export async function checkOTP(userId: string, password: string): Promise<void> 
 
 export function validateToken(token: string): LoginTokenModel | null {
   try {
-    const decoded = jwt.verify(token, ENV.JWT_SECRET) as LoginTokenModel
-    return decoded
-
-  } catch (err : any) {
+    const { userId } = jwt.verify(token, ENV.JWT_SECRET) as { userId: string }
+    return { userId }
+  } catch (err: any) {
     logger.error(`Invalid JWT token: ${err.message}`)
     return null
   }
 }
+

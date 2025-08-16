@@ -4,7 +4,7 @@ import { httpService } from "./services/http.service"
 function App() {
  
   
-  async function testOtp(phone : string){
+  async function testApis(phone : string){
 
     // test getting otp from server
     const otp : string = await httpService.post('auth/send-otp', { phone })
@@ -14,9 +14,13 @@ function App() {
     const loggedInUser : UserModel = await httpService.
       post('auth/verify-otp', {phone, password: otp})
     console.log('loggedInUser', loggedInUser)
+
+    // test logging out
+    await httpService.post('auth/logout', {})
+    console.log('user logged out')
   } 
 
-  testOtp('0549199728')
+  testApis('0549199728')
 
   return (
     <>

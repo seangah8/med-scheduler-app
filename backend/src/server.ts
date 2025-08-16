@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import { connectDB } from './config/database'
 import { ENV } from './config/env'
 import { logger } from './services/logger.service'
@@ -17,6 +18,7 @@ const corsOptions: cors.CorsOptions = {
 // middlewares
 app.use(cors(corsOptions))
 app.use(express.json())
+app.use(cookieParser())
 app.use(setupAsyncLocalStorage)
 
 //* Routes

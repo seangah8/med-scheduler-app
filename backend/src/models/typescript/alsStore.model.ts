@@ -1,6 +1,6 @@
 
 export interface LoginTokenModel {
-  _id: string
+  userId: string
 }
 
 export interface AlsStoreModel {

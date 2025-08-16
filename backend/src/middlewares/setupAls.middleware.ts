@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { authService } from '../api/auth/auth.service'
 import { asyncLocalStorage } from '../services/als.service'
 import { AlsStoreModel } from '../models/typescript/alsStore.model'
+import { logger } from '../services/logger.service'
 
 
 export async function setupAsyncLocalStorage(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -12,8 +13,9 @@ export async function setupAsyncLocalStorage(req: Request, res: Response, next: 
     if (!token) return next()
 
     const loggedinUser = authService.validateToken(token)
-    if (loggedinUser) 
+    if (loggedinUser){
       storage.loggedinUser = loggedinUser
+    }
 
     next()
   })

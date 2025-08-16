@@ -1,12 +1,15 @@
+import jwt from 'jsonwebtoken'
 import { Request, Response } from 'express'
 import { authService } from './auth.service'
 import { logger } from '../../services/logger.service'
 import { CredentialsTSModel } from '../../models/typescript/credentials.model'
 import { userService } from '../user/user.service'
 import { ENV } from '../../config/env'
-import jwt from 'jsonwebtoken'
+import { asyncLocalStorage } from '../../services/als.service'
+
 
 export async function sendOTP(req: Request, res: Response): Promise<void> {
+
   const { phone } = req.body
 
   try {
@@ -54,3 +57,24 @@ export async function verifyOTP(req: Request, res: Response): Promise<void> {
     res.status(500).send('Failed to verify OTP')
   }
 }
+
+export async function logout(req: Request, res: Response): Promise<void> {
+  const store = asyncLocalStorage.getStore()
+  const userId = store?.loggedinUser?.userId
+
+  try {
+    res.clearCookie('loginToken', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none'
+    })
+
+    logger.info(`User ${userId} logged out`)
+    res.send({ message: 'Logged out successfully' })
+
+  } catch (err: any) {
+    logger.error(`Logout failed: ${err.message}`)
+    res.status(400).send({ error: 'Logout failed' })
+  }
+}
+
