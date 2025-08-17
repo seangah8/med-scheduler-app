@@ -1,20 +1,32 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useSelector } from "react-redux"
+import { RootState } from '../store/store'
 import { authService } from "../services/auth.service"
 import { useNavigate } from "react-router-dom"
+import { authActions } from "../store/actions/auth.actions"
 
 export function Registration(){
 
+    const loggedInUser = useSelector((storeState : RootState) => 
+        storeState.authModule.loggedInUser)
+
     const navigate = useNavigate()
     const [phone, setPhone] = useState<string>('')
-    const [otp, setOtp] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+
+    // when user go back to registration it will logout
+    useEffect(()=>{
+        if(loggedInUser)
+            authActions.logout()
+    },[])
 
     async function onGetOtp(){
-        const password = await authService.sendOtp(phone)
-        if(password) console.log(`here is your password: ${password}`)
+        const otp = await authService.sendOtp(phone)
+        if(otp) console.log(`here is your password: ${otp}`)
     }
 
     async function onVerifyOtp(){
-        const user = await authService.verifyOtp(phone, otp)
+        const user = await authActions.login(phone, password)
         if(user) {
             console.log(`user: ${user._id} connected!`)
             navigate('/dashboard')
@@ -35,13 +47,13 @@ export function Registration(){
             <button onClick={onGetOtp}>Send Me Password</button>
 
 
-            <label htmlFor="otp">One Time Password:</label>
+            <label htmlFor="password">One Time Password:</label>
             <input
-                id="otp"
+                id="password"
                 type="text"
-                name="otp"
-                value={otp}
-                onChange={event=>setOtp(event.target.value)}
+                name="password"
+                value={password}
+                onChange={event=>setPassword(event.target.value)}
             />
             <button onClick={onVerifyOtp}>Verify Code</button>
 
