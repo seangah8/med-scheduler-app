@@ -1,23 +1,21 @@
 import { useState, useEffect } from "react"
-import { useSelector } from "react-redux"
-import { RootState } from '../store/store'
+import { useAppSelector, useAppDispatch } from "../store/hooks"
 import { authService } from "../services/auth.service"
 import { useNavigate } from "react-router-dom"
-import { authActions } from "../store/actions/auth.actions"
+import { authThunks } from "../store/thunks/auth.thunks"
 
 export function Registration(){
 
-    const loggedInUser = useSelector((storeState : RootState) => 
-        storeState.authModule.loggedInUser)
-
+    const loggedInUser = useAppSelector(state => state.authModule.loggedInUser)
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
     const [phone, setPhone] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
     // when user go back to registration it will logout
     useEffect(()=>{
         if(loggedInUser)
-            authActions.logout()
+            dispatch(authThunks.logout())
     },[])
 
     async function onGetOtp(){
@@ -26,7 +24,7 @@ export function Registration(){
     }
 
     async function onVerifyOtp(){
-        const user = await authActions.login(phone, password)
+        const user = await dispatch(authThunks.login(phone, password))
         if(user) {
             console.log(`user: ${user._id} connected!`)
             navigate('/dashboard')
