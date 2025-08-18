@@ -6,6 +6,7 @@ import { UserMongoModel } from '../models/mongo/user.model'
 import { MedicalFieldMongoModel } from '../models/mongo/medicalField.model'
 import { DoctorMongoModel } from '../models/mongo/doctor.model'
 import { AppointmentMongoModel } from '../models/mongo/appointment.model'
+import { seedDoctors } from './doctor.seed'
 
 async function runSeeding() {
   try {
@@ -39,7 +40,7 @@ async function seedDatabase() {
 
   logger.info(`seeding medical fields...`)
   
-const fieldNames = [
+  const fieldNames = [
   'Cardiology','Dermatology','Neurology','Pediatrics','Oncology',
   'Orthopedics','Ophthalmology','Gynecology','Obstetrics','Psychiatry',
   'Radiology','Gastroenterology','Endocrinology','Nephrology','Urology',
@@ -57,16 +58,7 @@ const fieldNames = [
   )
 
   logger.info(`seeding doctors...`)
-  const doctors = await DoctorMongoModel.insertMany(
-    Array.from({ length: 100 }).map(() => {
-      const numFields = faker.number.int({ min: 1, max: 3 })
-      const fieldIds = faker.helpers.arrayElements(medicalFields, numFields).map(f => f._id)
-      return {
-        name: faker.person.fullName(),
-        medicalFieldIds: fieldIds,
-      }
-    })
-  )
+  const doctors = await seedDoctors(medicalFields)
 
   logger.info(`seeding appointments...`)
   const usedSlots = new Set<string>()
@@ -75,7 +67,8 @@ const fieldNames = [
   while (appointments.length < 100) {
     const user = faker.helpers.arrayElement(users)
     const doctor = faker.helpers.arrayElement(doctors)
-    const medicalFieldId = faker.helpers.arrayElement(doctor.medicalFieldIds)
+    const medicalFieldId = faker.helpers.arrayElement
+      (doctor.schedule.fieldWorkdays).medicalFieldId
 
 
     // Generate a valid appointment slot: next 6 months, 
@@ -86,7 +79,7 @@ const fieldNames = [
         const date = new Date()
         date.setDate(date.getDate() + randomDaysAhead)
 
-        const dayOfWeek = date.getDay() // 0 = Sunday, 6 = Saturday
+        const dayOfWeek = date.getDay()
 
         if (dayOfWeek >= 0 && dayOfWeek <= 4) { // Sunday to Thursday only
             const hour = faker.number.int({ min: 8, max: 15 }) // 08 to 15
