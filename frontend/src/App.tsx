@@ -13,8 +13,6 @@ function App() {
     return <Navigate to="/registration" replace />
   }
 
-  console.log('loggedInUser', loggedInUser)
-
   return <> {routeElements} </>
 }
 

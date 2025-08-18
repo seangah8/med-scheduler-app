@@ -6,6 +6,8 @@ import { ENV } from './config/env'
 import { logger } from './services/logger.service'
 import { userRoutes } from './api/user/user.routs'
 import { authRoutes } from './api/auth/auth.routs'
+import { medicalFieldRoutes } from './api/medicalField/medicalField.routs'
+import { doctorRoutes } from './api/doctor/doctor.routs'
 import { setupAsyncLocalStorage } from './middlewares/setupAls.middleware'
 
 const app = express()
@@ -24,6 +26,8 @@ app.use(setupAsyncLocalStorage)
 //* Routes
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
+app.use('/api/medical-field', medicalFieldRoutes)
+app.use('/api/doctor', doctorRoutes)
 
 
 // start server after DB connects
