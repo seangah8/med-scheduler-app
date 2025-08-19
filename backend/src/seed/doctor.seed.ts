@@ -5,12 +5,12 @@ import { DoctorTSModel } from '../models/typescript/doctor.model'
 import { logger } from '../services/logger.service'
 import { MedicalFieldTSModel } from '../models/typescript/medicalField.model'
 
-export async function seedDoctors( medicalFields  : MedicalFieldTSModel[]) : Promise<(DoctorTSModel & { _id: mongoose.Types.ObjectId })[]> {
+export async function seedDoctors( medicalFields  : MedicalFieldTSModel[], amount: number) : Promise<(DoctorTSModel & { _id: mongoose.Types.ObjectId })[]> {
   try {
 
     const doctors = []
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < amount; i++) {
         
         // name
         const name = faker.person.fullName()
