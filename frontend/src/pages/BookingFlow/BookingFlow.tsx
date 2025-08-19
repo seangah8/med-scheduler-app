@@ -3,6 +3,7 @@ import { MedicalFieldModel } from "../../models/medicalField.model"
 import { DoctorModel } from "../../models/doctor.model"
 import { MedicalFieldSelector } from "./MedicalFieldSelector"
 import { DoctorSelector } from "./DoctorSelector"
+import { DateSelector } from "./DateSelector"
 
 export function BookingFlow(){
 
@@ -10,6 +11,8 @@ export function BookingFlow(){
     const [selectedField, setSelectedField] = useState<MedicalFieldModel | null>(null)
     const [selectedDoctor, setSelectedDoctor] = useState<DoctorModel | null>(null)
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+
+    console.log('selectedDoctor', selectedDoctor)
 
     return(
         <section className="booking-flow">
@@ -23,7 +26,11 @@ export function BookingFlow(){
                     field={selectedField} onSelect={(doctor) => 
                         { setSelectedDoctor(doctor); setStep(2); }} />
             }
-            {/* {step === 2 && selectedDoctor && <DateSelector doctor={selectedDoctor} onSelect={(date) => { setSelectedDate(date); setStep(3); }} />} */}
+            {
+                step === 2 && selectedDoctor && <DateSelector 
+                    doctor={selectedDoctor} onSelect={(date) => 
+                        { setSelectedDate(date); setStep(3); }} />
+            }
             {/* {step === 3 && selectedField && selectedDoctor && selectedDate && <Confirmation field={selectedField} doctor={selectedDoctor} date={selectedDate} />} */}
         </section>
     )

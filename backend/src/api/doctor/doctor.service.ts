@@ -8,13 +8,16 @@ export const doctorService = {
 
 async function query(medicalFieldId: string): Promise<DoctorTSModel[]> {
   try {
-    const doctors = await DoctorMongoModel.find({ medicalFieldIds: medicalFieldId }).lean()
+    // using index from schema to serach faster
+    const doctors = await DoctorMongoModel.find({
+      'schedule.fieldWorkdays.medicalFieldId': medicalFieldId}).lean()
     const finalDoctors: DoctorTSModel[] = doctors.map(doc => ({
       ...doc, _id: doc._id.toString()}))
     return finalDoctors
-
+    
   } catch (err: any) {
     logger.error(`Failed to get doctors for medicalFieldId ${medicalFieldId}: ${err.message}`)
     throw err
   }
 }
+

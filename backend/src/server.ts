@@ -4,11 +4,14 @@ import cookieParser from 'cookie-parser'
 import { connectDB } from './config/database'
 import { ENV } from './config/env'
 import { logger } from './services/logger.service'
+import { setupAsyncLocalStorage } from './middlewares/setupAls.middleware'
 import { userRoutes } from './api/user/user.routs'
 import { authRoutes } from './api/auth/auth.routs'
 import { medicalFieldRoutes } from './api/medicalField/medicalField.routs'
 import { doctorRoutes } from './api/doctor/doctor.routs'
-import { setupAsyncLocalStorage } from './middlewares/setupAls.middleware'
+import { appointmentRoutes } from './api/appointment/appointment.routs'
+
+
 
 const app = express()
 
@@ -28,6 +31,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/medical-field', medicalFieldRoutes)
 app.use('/api/doctor', doctorRoutes)
+app.use('/api/appointment', appointmentRoutes)
 
 
 // start server after DB connects

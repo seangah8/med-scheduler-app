@@ -1,5 +1,5 @@
 
-export interface DoctorTSModel {
+export interface DoctorModel {
   _id: string
   name: string
   schedule: {

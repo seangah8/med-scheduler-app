@@ -50,7 +50,7 @@ const doctorSchema = new mongoose.Schema<DoctorDocument>({
 }, { versionKey: false }) // disables __v
 
 // optimize search for doctors by field
-doctorSchema.index({ "schedule.medicalFieldDays.medicalFieldId": 1 })
+doctorSchema.index({ "schedule.fieldWorkdays.medicalFieldId": 1 })
 
 const DoctorMongoModel = mongoose.model<DoctorDocument>('doctor', doctorSchema)
 export { DoctorMongoModel }

@@ -37,12 +37,13 @@ const appointmentSchema = new mongoose.Schema<AppointmentDocument>({
 
 }, {versionKey: false})  // disables __v
 
-// prevent double booking the same doctor at the same time
-appointmentSchema.index({ doctorId: 1, startAt: 1 }, { unique: true })
-
 // optimize queries that fetch a user's appointments
 // sorted by date (newest first)
 appointmentSchema.index({ userId: 1, startAt: -1 })
+
+// optimize queries that fetch future appointment
+// to check unavailable booking dates
+appointmentSchema.index({ doctorId: 1, medicalFieldId: 1, startAt: 1, status: 1 })
 
 const AppointmentMongoModel = 
   mongoose.model<AppointmentDocument>('appointment', appointmentSchema)
