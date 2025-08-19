@@ -12,8 +12,6 @@ export function BookingFlow(){
     const [selectedDoctor, setSelectedDoctor] = useState<DoctorModel | null>(null)
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
 
-    console.log('selectedDoctor', selectedDoctor)
-
     return(
         <section className="booking-flow">
             {
@@ -27,8 +25,8 @@ export function BookingFlow(){
                         { setSelectedDoctor(doctor); setStep(2); }} />
             }
             {
-                step === 2 && selectedDoctor && <DateSelector 
-                    doctor={selectedDoctor} onSelect={(date) => 
+                step === 2 && selectedField && selectedDoctor && <DateSelector 
+                    doctor={selectedDoctor} field={selectedField} onSelect={(date) => 
                         { setSelectedDate(date); setStep(3); }} />
             }
             {/* {step === 3 && selectedField && selectedDoctor && selectedDate && <Confirmation field={selectedField} doctor={selectedDoctor} date={selectedDate} />} */}
