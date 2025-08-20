@@ -2,16 +2,22 @@ import { DoctorModel } from "@/models/doctor.model"
 import { httpService } from "./http.service"
 
 export const AppointmentService = {
-    getUnavailableDates,
+    getAllUnavailabilities,
     getAvailableSlots,
 }
 
+// unavailableDays: days that are completely booked ["2025-08-22", "2025-08-24", ...]
+// unavailableSlots: in other days, booked slots ["2025-08-23T10:15:00Z", ...]
+async function getAllUnavailabilities(medicalFieldId: string, doctorId: string)
+    : Promise<{ unavailableDays: string[], unavailableSlots: string[] } | null> {
 
-async function getUnavailableDates(doctorId: string, medicalFieldId : string) : Promise<Date[] | null> {
-    try{
-        const doctors = await httpService.get<Date[]>(`appointment/unavailable-dates/${doctorId}/${medicalFieldId}`)
-        return doctors
-    } catch(err){
+    try {
+        const allUnavailability = await httpService.get
+            <{unavailableDays: string[], unavailableSlots: string[]}>
+                (`appointment/unavailable-dates/${medicalFieldId}/${doctorId}`)
+        return allUnavailability
+
+    } catch (err) {
         console.log('Could not get unavailable dates:', err)
         return null
     }

@@ -8,7 +8,8 @@ import { Types } from 'mongoose'
 export async function seedAppointments(
   users: (UserTSModel & { _id: Types.ObjectId })[],
   doctors: (DoctorTSModel & { _id: Types.ObjectId })[],
-  amount: number
+  amount: number,
+  monthsAhead: number
 ) {
   const usedSlots = new Set<string>()
   const appointments = []
@@ -25,7 +26,7 @@ export async function seedAppointments(
     // generate a valid appointment date within 6 months
     let start: Date
     while (true) {
-      const randomDaysAhead = faker.number.int({ min: 0, max: 180 })
+      const randomDaysAhead = faker.number.int({ min: 0, max: monthsAhead * 30 })
       const date = new Date()
       date.setDate(date.getDate() + randomDaysAhead)
 

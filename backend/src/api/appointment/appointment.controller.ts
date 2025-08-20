@@ -1,18 +1,40 @@
 import { Request, Response } from 'express'
 import { appointmentService } from './appointment.service'
 import { logger } from '../../services/logger.service'
+import { asyncLocalStorage } from '../../services/als.service'
 
-export async function getUnavailableDates(req: Request, res: Response) : Promise<void>{
-  
-  const { doctorId, fieldId } = req.params
+
+export async function getAllUnavailability(req: Request, res: Response): Promise<void> {
+  const { fieldId, doctorId } = req.params
 
   try {
-    const unavailableDates = 
-      await appointmentService.unavailableDates(doctorId, fieldId)
-    res.send(unavailableDates)
-    
+    const totalUnavailability = await 
+      appointmentService.unavailableDates(fieldId, doctorId)
+    res.send(totalUnavailability)
+
   } catch (err: any) {
-    logger.error(err.message)
+    logger.error(`Error getting unavailable dates: ${err.message}`)
     res.status(400).send(`Couldn't get unavailable dates`)
+  }
+}
+    
+
+export async function addAppointment(req: Request<{}, {}, 
+  {medicalFieldId: string, doctorId: string, date: Date}>, res: Response): Promise<void> {
+
+  const store = asyncLocalStorage.getStore()
+  if (!store || !store?.loggedinUser) {
+    res.status(401).send('Unauthorized')
+    return
+  }
+
+  try {
+    const { medicalFieldId, doctorId, date } = req.body
+    const appointment = await appointmentService.add
+      (medicalFieldId, doctorId, store.loggedinUser.userId, date)
+    res.send(appointment)
+  } catch (err: any) {
+    logger.error(`Failed saving appointment: ${err.message}`)
+    res.status(400).send(`Couldn't save appointment`)
   }
 }

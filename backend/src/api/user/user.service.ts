@@ -12,10 +12,10 @@ export const userService = {
 async function getByPhone(phone: string): Promise<UserTSModel | null> {
   try {
     // .lean() removes mongoose document types
-    const user = await UserMongoModel.findOne({ phone }).lean()
-    if (!user) return null
-    const finalUser: UserTSModel = { ...user, _id: user._id.toString() }
-    return finalUser
+    const userDoc = await UserMongoModel.findOne({ phone }).lean()
+    if (!userDoc) return null
+    const user: UserTSModel = { ...userDoc, _id: userDoc._id.toString() }
+    return user
 
   } catch (err : any) {
     logger.error(`Failed to get user by phone: ${err.message}`)
@@ -26,10 +26,10 @@ async function getByPhone(phone: string): Promise<UserTSModel | null> {
 async function getById(id: string): Promise<UserTSModel | null> {
   try {
     // .lean() removes mongoose document types
-    const user = await UserMongoModel.findOne({ _id: id }).lean()
-    if (!user) return null
-    const finalUser: UserTSModel = { ...user, _id: user._id.toString() }
-    return finalUser
+    const userDoc = await UserMongoModel.findOne({ _id: id }).lean()
+    if (!userDoc) return null
+    const user: UserTSModel = { ...userDoc, _id: userDoc._id.toString() }
+    return user
 
   } catch (err : any) {
     logger.error(`Failed to get user by id: ${err.message}`)
@@ -40,10 +40,10 @@ async function getById(id: string): Promise<UserTSModel | null> {
 async function add(credentials: CredentialsTSModel): Promise<UserTSModel> {
   try {
     const newUserDoc = await UserMongoModel.create(credentials)
-    const finalUser: UserTSModel = 
+    const newUser: UserTSModel = 
       { ...newUserDoc.toObject(), _id: newUserDoc._id.toString() }
-    logger.info(`User ${finalUser._id} added`)
-    return finalUser
+    logger.info(`User ${newUserDoc._id} added`)
+    return newUser
 
   } catch (err : any) {
     logger.error(`Failed to create user: ${err.message}`)
