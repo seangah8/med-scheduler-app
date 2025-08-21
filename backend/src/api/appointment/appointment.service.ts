@@ -98,14 +98,12 @@ async function unavailableDates( fieldId: string, doctorId: string
 }
 
 export async function isAppointmentExists(
-  fieldId: string,
   doctorId: string,
   date: Date
 ): Promise<boolean> {
-
+  
   try {
-    const existing = await AppointmentMongoModel.exists({
-      medicalFieldId: fieldId,
+    const existing = await AppointmentMongoModel.findOne({
       doctorId,
       startAt: date,
       status: 'scheduled'

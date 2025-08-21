@@ -45,6 +45,12 @@ appointmentSchema.index({ userId: 1, startAt: -1 })
 // to check unavailable booking dates
 appointmentSchema.index({ doctorId: 1, medicalFieldId: 1, startAt: 1, status: 1 })
 
+// prevent booking doctor at the same time
+appointmentSchema.index(
+  { doctorId: 1, startAt: 1 },
+  { unique: true, partialFilterExpression: { status: 'scheduled' }}
+)
+
 const AppointmentMongoModel = 
   mongoose.model<AppointmentDocument>('appointment', appointmentSchema)
 export { AppointmentMongoModel }
