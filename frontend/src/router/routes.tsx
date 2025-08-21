@@ -5,15 +5,15 @@ import { Dashboard } from '../pages/Dashboard'
 import { BookingFlow } from '../pages/BookingFlow/BookingFlow'
 
 export const routes: RouteObject[] = [
+
   {
-    path: '/registration',
+    path: '/',
     element: <Registration />
   },
 
-  // dashboard = homepage
   {
-    path: '/',
-    element: <Dashboard />
+    path: '/registration',
+    element: <Registration />
   },
   
   {

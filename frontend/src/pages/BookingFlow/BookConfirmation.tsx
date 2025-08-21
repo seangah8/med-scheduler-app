@@ -52,7 +52,7 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, setConfi
                 confirmBooking && isSuccess && 
                 <section className="success-screen">
                     <h1>Appointment added!</h1>
-                    <button onClick={()=>navigate('/')}>back to home page</button>
+                    <button onClick={()=>navigate('/dashboard')}>back to home page</button>
                 </section>
             }
 
