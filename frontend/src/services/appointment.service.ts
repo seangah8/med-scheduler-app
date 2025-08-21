@@ -1,9 +1,24 @@
 import { DoctorModel } from "@/models/doctor.model"
 import { httpService } from "./http.service"
+import { AppointmentModel } from "@/models/appointment.model"
 
 export const AppointmentService = {
     getAllUnavailabilities,
     getAvailableSlots,
+    createAppointment,
+}
+
+async function createAppointment(medicalFieldId: string, doctorId: string, date: Date)
+    : Promise<AppointmentModel | null>{
+    try{
+        const appointment = await httpService.post<AppointmentModel>
+            ('appointment/', {medicalFieldId, doctorId, date})
+        return appointment
+
+    } catch(err){
+        console.error('Could not create an appointment:', err)
+        return null
+    }
 }
 
 // unavailableDays: days that are completely booked ["2025-08-22", "2025-08-24", ...]
@@ -18,7 +33,7 @@ async function getAllUnavailabilities(medicalFieldId: string, doctorId: string)
         return allUnavailability
 
     } catch (err) {
-        console.log('Could not get unavailable dates:', err)
+        console.error('Could not get unavailable dates:', err)
         return null
     }
 }

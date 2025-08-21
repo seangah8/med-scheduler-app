@@ -12,7 +12,7 @@ async function getMedicalFields() : Promise<MedicalFieldModel[] | null> {
             <MedicalFieldModel[]>('medical-field/')
         return medicalFields
     } catch(err){
-        console.log('Could not get medical fields:', err)
+        console.error('Could not get medical fields:', err)
         return null
     }
 }

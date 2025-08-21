@@ -23,7 +23,7 @@ export async function seedAppointments(
     const medicalFieldId = fieldEntry.medicalFieldId
     const availableDays = fieldEntry.days
 
-    // generate a valid appointment date within 6 months
+    // generate a valid appointment date within monthsAhead months
     let start: Date
     while (true) {
       const randomDaysAhead = faker.number.int({ min: 0, max: monthsAhead * 30 })

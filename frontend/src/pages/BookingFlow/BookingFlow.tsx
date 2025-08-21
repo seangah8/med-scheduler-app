@@ -4,6 +4,7 @@ import { DoctorModel } from "../../models/doctor.model"
 import { MedicalFieldSelector } from "./MedicalFieldSelector"
 import { DoctorSelector } from "./DoctorSelector"
 import { DateSelector } from "./DateSelector"
+import { BookConfirmation } from "./BookConfirmation"
 
 export function BookingFlow(){
 
@@ -29,7 +30,11 @@ export function BookingFlow(){
                     doctor={selectedDoctor} field={selectedField} onSelect={(date) => 
                         { setSelectedDate(date); setStep(3); }} />
             }
-            {/* {step === 3 && selectedField && selectedDoctor && selectedDate && <Confirmation field={selectedField} doctor={selectedDoctor} date={selectedDate} />} */}
+            {   
+                step === 3 && selectedField && selectedDoctor && 
+                    selectedDate && <BookConfirmation field={selectedField} 
+                        doctor={selectedDoctor} date={selectedDate} />
+            }
         </section>
     )
 }

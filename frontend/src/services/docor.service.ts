@@ -11,7 +11,7 @@ async function getDoctors(medicalFieldId : string) : Promise<DoctorModel[] | nul
         const doctors = await httpService.get<DoctorModel[]>(`doctor/${medicalFieldId}`)
         return doctors
     } catch(err){
-        console.log('Could not get doctors:', err)
+        console.error('Could not get doctors:', err)
         return null
     }
 }

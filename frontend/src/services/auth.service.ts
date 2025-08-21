@@ -14,7 +14,7 @@ async function sendOtp(phone : string) : Promise<string | null> {
   try{
     return await httpService.post<string>('auth/send-otp', { phone })
   } catch(err) {
-    console.log("It seems there was a proble sending you a password:", err)
+    console.error("It seems there was a proble sending you a password:", err)
     return null
   }
 }
@@ -26,7 +26,7 @@ async function verifyOtp(phone : string, password : string) : Promise<UserModel 
     return user
 
   } catch(err){
-    console.log("Could't verify password:", err)
+    console.error("Could't verify password:", err)
     return null
   }
 
@@ -38,7 +38,7 @@ async function logout() : Promise<void> {
     sessionStorage.removeItem('loggedInUser')
 
   } catch (err){
-    console.log("Could not log out:", err)
+    console.error("Could not log out:", err)
   }
 
 }
