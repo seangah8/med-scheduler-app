@@ -8,20 +8,23 @@ interface BookConfirmationProps{
     field: MedicalFieldModel
     doctor: DoctorModel
     date: Date
+    confirmBooking: boolean
+    setConfirmBooking: (confirm : boolean) => void
 }
 
-export function BookConfirmation({ field, doctor, date } : BookConfirmationProps){
+export function BookConfirmation({ field, doctor, date, confirmBooking, setConfirmBooking } : BookConfirmationProps){
 
     const navigate = useNavigate()
-    const [didConfirm, setDidConfirm] = useState<boolean>(false)
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState(false)
 
     async function onBookAppointment() {
         setIsLoading(true)
-        const appointment = await AppointmentService.createAppointment(field._id, doctor._id, date)
+        const appointment = await AppointmentService
+            .createAppointment(field._id, doctor._id, date)
+        AppointmentService.deleteLocalBookingFlow()
         setIsSuccess(!!appointment)
-        setDidConfirm(true)
+        setConfirmBooking(true)
         setIsLoading(false)
     }
 
@@ -30,7 +33,7 @@ export function BookConfirmation({ field, doctor, date } : BookConfirmationProps
 
             {/* Confirmation Screen */}
             { 
-                !didConfirm &&
+                !confirmBooking &&
                 <section className="confirmation-screen">
                     <h1>Book Confirmation</h1>
 
@@ -46,7 +49,7 @@ export function BookConfirmation({ field, doctor, date } : BookConfirmationProps
 
             {/* Success Screen */}
             {
-                didConfirm && isSuccess && 
+                confirmBooking && isSuccess && 
                 <section className="success-screen">
                     <h1>Appointment added!</h1>
                     <button onClick={()=>navigate('/')}>back to home page</button>
@@ -55,10 +58,11 @@ export function BookConfirmation({ field, doctor, date } : BookConfirmationProps
 
             {/* Error Screen */}
             {
-                didConfirm && !isSuccess && 
+                confirmBooking && !isSuccess && 
                 <section className="error-screen">
                     <h1>Couldn't save Appointment... please try again</h1>
-                    <button onClick={()=>navigate('/booking-appointment')}>back to book an appointment</button>
+                    <button onClick={() => window.location.href = '/booking-appointment'}>
+                        back to book an appointment</button>
                 </section>
             }
 

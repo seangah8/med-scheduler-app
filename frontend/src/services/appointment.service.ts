@@ -1,11 +1,15 @@
 import { DoctorModel } from "@/models/doctor.model"
 import { httpService } from "./http.service"
 import { AppointmentModel } from "@/models/appointment.model"
+import { MedicalFieldModel } from "@/models/medicalField.model"
 
 export const AppointmentService = {
     getAllUnavailabilities,
     getAvailableSlots,
     createAppointment,
+    saveLocalBookingFlow,
+    getLocalBookingFlow,
+    deleteLocalBookingFlow,
 }
 
 async function createAppointment(medicalFieldId: string, doctorId: string, date: Date)
@@ -80,4 +84,31 @@ function getAvailableSlots(date: Date, doctor: DoctorModel, unavailableSet: Set<
     }
 
     return availableSlots
+}
+
+function saveLocalBookingFlow(
+    stepNumber : number | null, 
+    selectedField : MedicalFieldModel | null, 
+    selectedDoctor : DoctorModel | null, 
+    selectedDate : Date | null
+){
+    
+    sessionStorage.setItem('bookingFlow', JSON.stringify({stepNumber, 
+        selectedField, selectedDoctor, selectedDate}))
+}
+
+function getLocalBookingFlow() : {
+    stepNumber : number, 
+    selectedField : MedicalFieldModel | null, 
+    selectedDoctor : DoctorModel | null, 
+    selectedDate : Date | null
+    } | null{
+
+  const bookingFlowStr = sessionStorage.getItem('bookingFlow')
+  if(!bookingFlowStr) return null
+  return JSON.parse(bookingFlowStr)
+}
+
+function deleteLocalBookingFlow() {
+  sessionStorage.removeItem("bookingFlow")
 }
