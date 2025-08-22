@@ -4,12 +4,28 @@ import { AppointmentModel } from "@/models/appointment.model"
 import { MedicalFieldModel } from "@/models/medicalField.model"
 
 export const AppointmentService = {
+    getAppointments,
+    createAppointment,
     getAllUnavailabilities,
     getAvailableSlots,
-    createAppointment,
     saveLocalBookingFlow,
     getLocalBookingFlow,
     deleteLocalBookingFlow,
+}
+
+async function getAppointments()
+    : Promise<AppointmentModel[] | null>{
+    try{
+        const appointments = await httpService.get<AppointmentModel[]>('appointment/')
+        // converting date string into Date type
+        const finalAppointments: AppointmentModel[] = appointments.map(app => 
+            ({...app, startAt: new Date(app.startAt)}))
+        return finalAppointments
+
+    } catch(err){
+        console.error('Could not get an appointments:', err)
+        return null
+    }
 }
 
 async function createAppointment(medicalFieldId: string, doctorId: string, date: Date)

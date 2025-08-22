@@ -6,10 +6,27 @@ import { DoctorTSModel } from "../../models/typescript/doctor.model"
 import { logger } from "../../services/logger.service"
 
 export const appointmentService = {
+  quary,
   add,
   unavailableDates,
   isAppointmentExists,
 }
+
+async function quary(userId : string) : Promise<AppointmentTSModel[]> {
+  try{
+    const appointmentsDoc = await AppointmentMongoModel.find({userId})
+      .sort({ startAt: 1 })
+      .lean()
+    const appointments: AppointmentTSModel[] = 
+      appointmentsDoc.map(app=>({...app, _id: app._id.toString()}))
+    return appointments
+
+  } catch(err){
+    logger.error(`Failed to get appointment: ${err}`)
+    throw err
+  }
+}
+
 
 
 async function add(
@@ -19,24 +36,30 @@ async function add(
   date: Date
 ): Promise<AppointmentTSModel> {
 
-  const appointmentDoc = await AppointmentMongoModel.create({
-    userId: new ObjectId(userId),
-    doctorId: new ObjectId(doctorId),
-    medicalFieldId: new ObjectId(fieldId),
-    startAt: date,
-    status: 'scheduled',
-  })
-  
-  const appointment : AppointmentTSModel = {
-    _id: appointmentDoc._id,
-    userId: appointmentDoc.userId,
-    doctorId: appointmentDoc.doctorId,
-    medicalFieldId: appointmentDoc.medicalFieldId,
-    startAt: appointmentDoc.startAt,
-    status: appointmentDoc.status,
+  try{
+    const appointmentDoc = await AppointmentMongoModel.create({
+      userId: new ObjectId(userId),
+      doctorId: new ObjectId(doctorId),
+      medicalFieldId: new ObjectId(fieldId),
+      startAt: date,
+      status: 'scheduled',
+    })
+    const appointment : AppointmentTSModel = {
+      _id: appointmentDoc._id,
+      userId: appointmentDoc.userId,
+      doctorId: appointmentDoc.doctorId,
+      medicalFieldId: appointmentDoc.medicalFieldId,
+      startAt: appointmentDoc.startAt,
+      status: appointmentDoc.status,
+    }
+    return appointment
+
+  } catch(err){
+      logger.error(`Failed to add appointment: ${err}`)
+      throw err
   }
 
-  return appointment
+
 }
 
 async function unavailableDates( fieldId: string, doctorId: string

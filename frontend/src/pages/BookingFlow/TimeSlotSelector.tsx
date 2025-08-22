@@ -9,7 +9,7 @@ interface DateSelectorProps{
     onSelect : (date : Date) => void
 }
 
-export function DateSelector({ doctor, field, onSelect } : DateSelectorProps){
+export function TimeSlotSelector({ doctor, field, onSelect } : DateSelectorProps){
 
     //ref to survives re-renders
     const unavailableDaysSetRef = useRef<Set<string>>(new Set())
@@ -47,8 +47,8 @@ export function DateSelector({ doctor, field, onSelect } : DateSelectorProps){
     if (!isLoaded) return <h2>Loading...</h2>
 
     return(
-        <section className="date-selector">
-            <h1>Date Selector</h1>
+        <section className="time-slot-selector">
+            <h1>Time Slot Selector</h1>
             <label htmlFor="date">Date:</label>
             <input
                 id='date'

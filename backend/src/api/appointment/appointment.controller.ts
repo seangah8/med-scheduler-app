@@ -1,23 +1,29 @@
 import { Request, Response } from 'express'
 import { appointmentService } from './appointment.service'
 import { logger } from '../../services/logger.service'
-import { asyncLocalStorage } from '../../services/als.service'
+import { asyncLocalStorage } from '../../services/als.service'  
 
 
-export async function getAllUnavailability(req: Request, res: Response): Promise<void> {
-  const { fieldId, doctorId } = req.params
+export async function getAppointments(req: Request, res: Response){
 
-  try {
-    const totalUnavailability = await 
-      appointmentService.unavailableDates(fieldId, doctorId)
-    res.send(totalUnavailability)
+    const store = asyncLocalStorage.getStore()
+    if (!store || !store?.loggedinUser) {
+      res.status(401).send('Unauthorized')
+      return
+    }
 
-  } catch (err: any) {
-    logger.error(`Error getting unavailable dates: ${err.message}`)
-    res.status(400).send(`Couldn't get unavailable dates`)
-  }
+    try{
+      const appointments = await appointmentService.quary(store.loggedinUser.userId)
+      console.log('appointments', appointments)
+      res.send(appointments)
+
+    } catch(err){
+      logger.error(`Failed getting appointments: ${err}`)
+      res.status(400).send(`Couldn't get appointments`)
+    }
 }
-    
+
+
 
 export async function addAppointment(req: Request<{}, {}, 
   {medicalFieldId: string, doctorId: string, date: Date}>, res: Response): Promise<void> {
@@ -36,5 +42,20 @@ export async function addAppointment(req: Request<{}, {},
   } catch (err: any) {
     logger.error(`Failed saving appointment: ${err.message}`)
     res.status(400).send(`Couldn't save appointment`)
+  }
+}
+
+
+export async function getAllUnavailability(req: Request, res: Response): Promise<void> {
+  const { fieldId, doctorId } = req.params
+
+  try {
+    const totalUnavailability = await 
+      appointmentService.unavailableDates(fieldId, doctorId)
+    res.send(totalUnavailability)
+
+  } catch (err: any) {
+    logger.error(`Error getting unavailable dates: ${err.message}`)
+    res.status(400).send(`Couldn't get unavailable dates`)
   }
 }

@@ -21,3 +21,21 @@ function App() {
 }
 
 export default App
+
+// 1. create appointments table in dashboard ✅
+// 2. make so you can see doctor + field names
+// 3. have an upcoming / past filter
+
+// 4. on click go to appointment managment teroght url link
+// 5. be able to cancel appointments
+// 6. be able to rescesule appointments
+
+// 7. make in booking flow so going back will go back in the flow
+// 8. hable error feedback to the user
+// 9. make sure the is loading states in pages
+// 10. add extra data and show in front
+
+// b. make ui
+// c. deliver exstra optional featurs
+// d. deployment
+// e. presetaition practice

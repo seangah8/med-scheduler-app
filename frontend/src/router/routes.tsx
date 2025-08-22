@@ -1,7 +1,7 @@
 // src/router/routes.tsx
 import { RouteObject } from 'react-router-dom'
 import { Registration } from '../pages/Registration'
-import { Dashboard } from '../pages/Dashboard'
+import { Dashboard } from '../pages/DashBoard/Dashboard'
 import { BookingFlow } from '../pages/BookingFlow/BookingFlow'
 
 export const routes: RouteObject[] = [
@@ -24,5 +24,5 @@ export const routes: RouteObject[] = [
   {
     path: '/booking-appointment',
     element: <BookingFlow />
-  }
+  },
 ]

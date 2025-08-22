@@ -3,7 +3,7 @@ import { MedicalFieldModel } from "../../models/medicalField.model"
 import { DoctorModel } from "../../models/doctor.model"
 import { MedicalFieldSelector } from "./MedicalFieldSelector"
 import { DoctorSelector } from "./DoctorSelector"
-import { DateSelector } from "./DateSelector"
+import { TimeSlotSelector } from "./TimeSlotSelector"
 import { BookConfirmation } from "./BookConfirmation"
 import { AppointmentService } from "../../services/appointment.service"
 
@@ -60,7 +60,7 @@ export function BookingFlow(){
                             setStepNumber(2); }} />
             }
             {
-                stepNumber === 2 && selectedField && selectedDoctor && <DateSelector 
+                stepNumber === 2 && selectedField && selectedDoctor && <TimeSlotSelector 
                     doctor={selectedDoctor} field={selectedField} onSelect={(date) => 
                         { setSelectedDate(date); setStepNumber(3); }} />
             }
