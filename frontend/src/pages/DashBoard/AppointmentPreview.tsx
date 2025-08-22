@@ -1,4 +1,6 @@
 import { AppointmentModel } from "../../models/appointment.model"
+import { useNavigate } from "react-router-dom"
+
 
 
 interface AppointmentPreview{
@@ -8,12 +10,16 @@ interface AppointmentPreview{
 }
 
 export function AppointmentPreview({ appointment, doctorMap, medicalFieldMap  } : AppointmentPreview){
+    const navigate = useNavigate()
 
     return(
-        <tr className="appointment-preview">
+        <tr className="appointment-preview" 
+            onClick={()=>{navigate(`/appointment/${appointment._id}`)}}>
+
             <td>{medicalFieldMap[appointment.medicalFieldId]}</td>
             <td>{doctorMap[appointment.doctorId]}</td>
             <td>{appointment.startAt.toISOString()}</td>
+            
         </tr>
     )
 }
