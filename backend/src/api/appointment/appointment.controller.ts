@@ -3,10 +3,22 @@ import { appointmentService } from './appointment.service'
 import { logger } from '../../services/logger.service'
 import { asyncLocalStorage } from '../../services/als.service'  
 
+export async function getAppointment(req: Request, res: Response){
+  const { id } = req.params
+  try{
+    const { appointment, doctorName, medicalFieldName } = 
+      await appointmentService.get(id)
+    res.send({appointment, doctorName, medicalFieldName})
+
+  } catch(err){
+    logger.error(`Failed getting appointment: ${err}`)
+    res.status(400).send(`Couldn't get appointment`)
+  }
+}
 
 export async function getAppointments(req: Request, res: Response){
 
-  const { status } = req.params
+   const status = req.query.status as string
 
   const store = asyncLocalStorage.getStore()
   if (!store || !store?.loggedinUser) {

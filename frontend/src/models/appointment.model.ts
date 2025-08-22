@@ -13,3 +13,10 @@ export interface AppointmentsResponse {
     doctorMap: Record<string, string>      
     medicalFieldMap: Record<string, string>
 }
+
+export interface AppointmentResponse {
+    appointment: AppointmentModel
+    doctorName: string   
+    medicalFieldName: string
+}
+

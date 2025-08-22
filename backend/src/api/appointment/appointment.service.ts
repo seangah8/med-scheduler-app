@@ -1,59 +1,50 @@
 import { ObjectId } from "mongodb"
 import { AppointmentMongoModel } from "../../models/mongo/appointment.model"
 import { DoctorMongoModel } from "../../models/mongo/doctor.model"
-import { AppointmentTSModel } from "../../models/typescript/appointment.model"
+import { AppointmentTSModel, PopulatedAppointment } from "../../models/typescript/appointment.model"
 import { DoctorTSModel } from "../../models/typescript/doctor.model"
 import { logger } from "../../services/logger.service"
 
 export const appointmentService = {
   query,
+  get,
   add,
   unavailableDates,
   isAppointmentExists,
 }
 
 async function query(userId: string, status: string): Promise<{
-  appointments: AppointmentTSModel[],
-  doctorMap: Record<string, string>,
-  medicalFieldMap: Record<string, string>
+  appointments: AppointmentTSModel[];
+  doctorMap: Record<string, string>;
+  medicalFieldMap: Record<string, string>;
 }> {
+
   try {
     const appointmentsDoc = await AppointmentMongoModel.find({ userId, status })
       .sort({ startAt: 1 })
       .populate('doctorId', 'name')
       .populate('medicalFieldId', 'name')
-      .lean()
+      .lean<PopulatedAppointment[]>();
 
     // convert all _ids to strings
     const appointments: AppointmentTSModel[] = appointmentsDoc.map(app => ({
       ...app,
       _id: app._id.toString(),
       userId: app.userId.toString(),
-      doctorId: typeof app.doctorId === 'object' && '_id' in app.doctorId
-        ? app.doctorId._id.toString()
-        : app.doctorId.toString(),
-      medicalFieldId: typeof app.medicalFieldId === 'object' && '_id' in app.medicalFieldId
-        ? app.medicalFieldId._id.toString()
-        : app.medicalFieldId.toString()
+      doctorId: app.doctorId._id.toString(),
+      medicalFieldId: app.medicalFieldId._id.toString(),
     }))
 
-    // build doctor name lookup map
+    // build doctor name map
     const doctorMap: Record<string, string> = {}
     appointmentsDoc.forEach(app => {
-      const doc = app.doctorId as any
-      if (doc?._id && doc?.name) {
-        doctorMap[doc._id.toString()] = doc.name
-      }
-    })
+      doctorMap[app.doctorId._id.toString()] = app.doctorId.name})
 
-    // build medical field name lookup map
+    // Build medical field name map
     const medicalFieldMap: Record<string, string> = {}
-    appointmentsDoc.forEach(app => {
-      const field = app.medicalFieldId as any
-      if (field?._id && field?.name) {
-        medicalFieldMap[field._id.toString()] = field.name
-      }
-    })
+    appointmentsDoc.forEach(app => 
+      {medicalFieldMap[app.medicalFieldId._id.toString()] 
+        = app.medicalFieldId.name})
 
     return { appointments, doctorMap, medicalFieldMap }
 
@@ -64,6 +55,40 @@ async function query(userId: string, status: string): Promise<{
 }
 
 
+
+async function get(id: string): Promise<{
+  appointment: AppointmentTSModel
+  doctorName: string
+  medicalFieldName: string
+}> {
+
+  try {
+    const app = await AppointmentMongoModel.findById(id)
+      .populate('doctorId', 'name')
+      .populate('medicalFieldId', 'name')
+      .lean<PopulatedAppointment>()
+
+    if (!app) throw new Error(`Appointment with ID ${id} not found`)
+
+    // convert _ids to strings and flatten
+    const appointment: AppointmentTSModel = {
+      ...app,
+      _id: app._id.toString(),
+      userId: app.userId.toString(),
+      doctorId: app.doctorId._id.toString(),
+      medicalFieldId: app.medicalFieldId._id.toString()
+    }
+
+    const doctorName = app.doctorId.name
+    const medicalFieldName = app.medicalFieldId.name
+
+    return { appointment, doctorName, medicalFieldName }
+
+  } catch (err) {
+    logger.error(`Failed to get appointment ${id}: ${err}`)
+    throw err
+  }
+}
 
 
 

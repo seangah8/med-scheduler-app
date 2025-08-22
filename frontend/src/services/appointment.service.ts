@@ -1,10 +1,11 @@
-import { DoctorModel } from "@/models/doctor.model"
+import { DoctorModel } from "../models/doctor.model"
 import { httpService } from "./http.service"
-import { AppointmentModel, AppointmentsResponse } from "@/models/appointment.model"
-import { MedicalFieldModel } from "@/models/medicalField.model"
+import { AppointmentModel, AppointmentsResponse, AppointmentResponse } from "../models/appointment.model"
+import { MedicalFieldModel } from "../models/medicalField.model"
 
 export const AppointmentService = {
     getAppointmentsData,
+    getAppointmentData,
     createAppointment,
     getAllUnavailabilities,
     getAvailableSlots,
@@ -17,7 +18,7 @@ async function getAppointmentsData(status : string)
     : Promise<AppointmentsResponse | null>{
     try{
         const {appointments, doctorMap, medicalFieldMap} = 
-            await httpService.get<AppointmentsResponse>(`appointment/${status}`)
+            await httpService.get<AppointmentsResponse>(`appointment?status=${status}`)
         // converting date string into Date type
         const finalAppointments: AppointmentModel[] = appointments.map(app => 
             ({...app, startAt: new Date(app.startAt)}))
@@ -25,6 +26,22 @@ async function getAppointmentsData(status : string)
 
     } catch(err){
         console.error('Could not get an appointments:', err)
+        return null
+    }
+}
+
+async function getAppointmentData(id : string)
+    : Promise<AppointmentResponse | null>{
+    try{
+        const {appointment, doctorName, medicalFieldName} = 
+            await httpService.get<AppointmentResponse>(`appointment/${id}`)
+        // converting date string into Date type
+        const finalAppointment: AppointmentModel = 
+            {...appointment, startAt: new Date(appointment.startAt)}
+        return {appointment: finalAppointment, doctorName, medicalFieldName}
+
+    } catch(err){
+        console.error('Could not get an appointment:', err)
         return null
     }
 }
