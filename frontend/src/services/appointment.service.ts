@@ -1,10 +1,10 @@
 import { DoctorModel } from "@/models/doctor.model"
 import { httpService } from "./http.service"
-import { AppointmentModel } from "@/models/appointment.model"
+import { AppointmentModel, AppointmentsResponse } from "@/models/appointment.model"
 import { MedicalFieldModel } from "@/models/medicalField.model"
 
 export const AppointmentService = {
-    getAppointments,
+    getAppointmentsData,
     createAppointment,
     getAllUnavailabilities,
     getAvailableSlots,
@@ -13,14 +13,15 @@ export const AppointmentService = {
     deleteLocalBookingFlow,
 }
 
-async function getAppointments(status : string)
-    : Promise<AppointmentModel[] | null>{
+async function getAppointmentsData(status : string)
+    : Promise<AppointmentsResponse | null>{
     try{
-        const appointments = await httpService.get<AppointmentModel[]>(`appointment/${status}`)
+        const {appointments, doctorMap, medicalFieldMap} = 
+            await httpService.get<AppointmentsResponse>(`appointment/${status}`)
         // converting date string into Date type
         const finalAppointments: AppointmentModel[] = appointments.map(app => 
             ({...app, startAt: new Date(app.startAt)}))
-        return finalAppointments
+        return {appointments: finalAppointments, doctorMap, medicalFieldMap}
 
     } catch(err){
         console.error('Could not get an appointments:', err)

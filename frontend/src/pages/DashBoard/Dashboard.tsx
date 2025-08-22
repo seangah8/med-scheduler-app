@@ -13,6 +13,8 @@ export function Dashboard(){
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const [appointments, setAppointments] = useState<AppointmentModel[]>([])
+    const [doctorMap, setDoctorMap] = useState<Record<string, string>>({})
+    const [medicalFieldMap, setMedicalFieldMap] = useState<Record<string, string>>({})
     const [onPast, setOnPast] = useState<boolean>(false)
 
     useEffect(()=>{
@@ -21,8 +23,14 @@ export function Dashboard(){
 
     async function loadAppointments(){
         const status = onPast ? 'completed' : 'scheduled'
-        const aps = await AppointmentService.getAppointments(status)
-        if(aps) setAppointments(aps)
+        const data = await AppointmentService.getAppointmentsData(status)
+        if(data) {
+            const { appointments: aps, doctorMap: drMap, 
+                medicalFieldMap: fieldMap } = data
+            setAppointments(aps)
+            setDoctorMap(drMap)
+            setMedicalFieldMap(fieldMap)
+        }
     }
 
     async function onLogout(){
@@ -39,7 +47,11 @@ export function Dashboard(){
             <button onClick={()=>setOnPast(true)}>Past</button>
             <button onClick={()=>setOnPast(false)}>Upcoming</button>
 
-            <AppointmentList appointments={appointments}/>
+            <AppointmentList 
+                appointments={appointments} 
+                doctorMap={doctorMap}
+                medicalFieldMap={medicalFieldMap}
+            />
         </section>
     )
 }

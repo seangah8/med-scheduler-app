@@ -6,25 +6,64 @@ import { DoctorTSModel } from "../../models/typescript/doctor.model"
 import { logger } from "../../services/logger.service"
 
 export const appointmentService = {
-  quary,
+  query,
   add,
   unavailableDates,
   isAppointmentExists,
 }
 
-async function quary(userId : string, status: string) : Promise<AppointmentTSModel[]> {
-  try{
-    const appointmentsDoc = await AppointmentMongoModel.find({userId, status})
-      .sort({ startAt: 1 }).lean()
-    const appointments: AppointmentTSModel[] = 
-      appointmentsDoc.map(app=>({...app, _id: app._id.toString()}))
-    return appointments
+async function query(userId: string, status: string): Promise<{
+  appointments: AppointmentTSModel[],
+  doctorMap: Record<string, string>,
+  medicalFieldMap: Record<string, string>
+}> {
+  try {
+    const appointmentsDoc = await AppointmentMongoModel.find({ userId, status })
+      .sort({ startAt: 1 })
+      .populate('doctorId', 'name')
+      .populate('medicalFieldId', 'name')
+      .lean()
 
-  } catch(err){
-    logger.error(`Failed to get appointment: ${err}`)
+    // convert all _ids to strings
+    const appointments: AppointmentTSModel[] = appointmentsDoc.map(app => ({
+      ...app,
+      _id: app._id.toString(),
+      userId: app.userId.toString(),
+      doctorId: typeof app.doctorId === 'object' && '_id' in app.doctorId
+        ? app.doctorId._id.toString()
+        : app.doctorId.toString(),
+      medicalFieldId: typeof app.medicalFieldId === 'object' && '_id' in app.medicalFieldId
+        ? app.medicalFieldId._id.toString()
+        : app.medicalFieldId.toString()
+    }))
+
+    // build doctor name lookup map
+    const doctorMap: Record<string, string> = {}
+    appointmentsDoc.forEach(app => {
+      const doc = app.doctorId as any
+      if (doc?._id && doc?.name) {
+        doctorMap[doc._id.toString()] = doc.name
+      }
+    })
+
+    // build medical field name lookup map
+    const medicalFieldMap: Record<string, string> = {}
+    appointmentsDoc.forEach(app => {
+      const field = app.medicalFieldId as any
+      if (field?._id && field?.name) {
+        medicalFieldMap[field._id.toString()] = field.name
+      }
+    })
+
+    return { appointments, doctorMap, medicalFieldMap }
+
+  } catch (err) {
+    logger.error(`Failed to get appointments: ${err}`)
     throw err
   }
 }
+
+
 
 
 

@@ -8,19 +8,19 @@ const appointmentSchema = new mongoose.Schema<AppointmentDocument>({
 
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'user',
     required: true,
   },
 
   doctorId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Doctor',
+    ref: 'doctor',
     required: true,
   },
 
   medicalFieldId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'MedicalField',
+    ref: 'medical_field',
     required: true,
   },
 

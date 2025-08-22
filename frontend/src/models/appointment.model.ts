@@ -7,3 +7,9 @@ export interface AppointmentModel {
     startAt: Date
     status: 'scheduled' | 'completed' | 'cancelled'
 }
+
+export interface AppointmentsResponse {
+    appointments: AppointmentModel[]
+    doctorMap: Record<string, string>      
+    medicalFieldMap: Record<string, string>
+}

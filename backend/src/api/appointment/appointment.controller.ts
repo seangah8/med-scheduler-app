@@ -15,9 +15,9 @@ export async function getAppointments(req: Request, res: Response){
   }
 
   try{
-    const appointments = await appointmentService.quary(store.loggedinUser.userId, status)
-    console.log('appointments', appointments)
-    res.send(appointments)
+    const {appointments, doctorMap, medicalFieldMap} = 
+      await appointmentService.query(store.loggedinUser.userId, status)
+    res.send({appointments, doctorMap, medicalFieldMap})
 
   } catch(err){
     logger.error(`Failed getting appointments: ${err}`)

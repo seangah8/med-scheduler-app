@@ -3,9 +3,12 @@ import { AppointmentPreview } from "./AppointmentPreview"
 
 interface AppointmentListProps{
     appointments: AppointmentModel[]
+    doctorMap: Record<string, string>  
+    medicalFieldMap: Record<string, string>  
+
 }
 
-export function AppointmentList({ appointments } : AppointmentListProps){
+export function AppointmentList({ appointments, doctorMap, medicalFieldMap } : AppointmentListProps){
 
     return(
         <table className="appointment-list">
@@ -19,7 +22,12 @@ export function AppointmentList({ appointments } : AppointmentListProps){
             <tbody>
             {
                 appointments.map(app=>
-                    <AppointmentPreview key={app._id} appointment={app}/>
+                    <AppointmentPreview 
+                        key={app._id} 
+                        appointment={app}
+                        doctorMap={doctorMap}
+                        medicalFieldMap={medicalFieldMap}
+                    />
                 )
             }
             </tbody>

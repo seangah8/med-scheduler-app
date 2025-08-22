@@ -3,14 +3,16 @@ import { AppointmentModel } from "../../models/appointment.model"
 
 interface AppointmentPreview{
     appointment: AppointmentModel
+    doctorMap: Record<string, string>  
+    medicalFieldMap: Record<string, string>  
 }
 
-export function AppointmentPreview({ appointment } : AppointmentPreview){
+export function AppointmentPreview({ appointment, doctorMap, medicalFieldMap  } : AppointmentPreview){
 
     return(
         <tr className="appointment-preview">
-            <td>{appointment.medicalFieldId}</td>
-            <td>{appointment.doctorId}</td>
+            <td>{medicalFieldMap[appointment.medicalFieldId]}</td>
+            <td>{doctorMap[appointment.doctorId]}</td>
             <td>{appointment.startAt.toISOString()}</td>
         </tr>
     )
