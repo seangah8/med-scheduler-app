@@ -9,14 +9,15 @@ export const appointmentService = {
   query,
   get,
   add,
+  cancel,
   unavailableDates,
   isAppointmentExists,
 }
 
 async function query(userId: string, status: string): Promise<{
-  appointments: AppointmentTSModel[];
-  doctorMap: Record<string, string>;
-  medicalFieldMap: Record<string, string>;
+  appointments: AppointmentTSModel[]
+  doctorMap: Record<string, string>
+  medicalFieldMap: Record<string, string>
 }> {
 
   try {
@@ -24,7 +25,7 @@ async function query(userId: string, status: string): Promise<{
       .sort({ startAt: 1 })
       .populate('doctorId', 'name')
       .populate('medicalFieldId', 'name')
-      .lean<PopulatedAppointment[]>();
+      .lean<PopulatedAppointment[]>()
 
     // convert all _ids to strings
     const appointments: AppointmentTSModel[] = appointmentsDoc.map(app => ({
@@ -121,9 +122,35 @@ async function add(
       logger.error(`Failed to add appointment: ${err}`)
       throw err
   }
-
-
 }
+
+export async function cancel(id: string): Promise<AppointmentTSModel> {
+  try {
+    // new: true => return the updated document, not the original one
+    const updated = await AppointmentMongoModel.findByIdAndUpdate(
+      id,
+      { $set: { status: 'cancelled' } },
+      { new: true, lean: true }
+    )
+
+    if (!updated) {
+      throw new Error('Appointment not found')
+    }
+
+    return {
+      ...updated,
+      _id: updated._id.toString(),
+      userId: updated.userId.toString(),
+      doctorId: updated.doctorId.toString(),
+      medicalFieldId: updated.medicalFieldId.toString(),
+    } as AppointmentTSModel
+
+  } catch (err) {
+    console.error('Failed to cancel appointment:', err)
+    throw err
+  }
+}
+
 
 async function unavailableDates( fieldId: string, doctorId: string
   ): Promise<{unavailableDays: string[], unavailableSlots: string[]}> {

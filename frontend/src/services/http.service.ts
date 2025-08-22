@@ -1,9 +1,7 @@
 import Axios, { AxiosRequestConfig, Method } from 'axios'
 
-// const BASE_URL = import.meta.env.VITE_API_BASE_URL
-// console.log(BASE_URL, 'BASE_URL')
-
-const BASE_URL = 'http://localhost:3000/api/'
+const BASE_URL = import.meta.env.VITE_API_BASE_URL
+console.log('BASE_URL', BASE_URL)
 
 const axios = Axios.create({ withCredentials: true })
 
@@ -19,6 +17,9 @@ export const httpService = {
     },
     delete<T = any>(endpoint: string, data?: any): Promise<T> {
         return ajax<T>(endpoint, 'DELETE', data)
+    },
+    patch<T = any>(endpoint: string, data?: any): Promise<T> {
+        return ajax<T>(endpoint, 'PATCH', data)
     }
 }
 
@@ -46,7 +47,6 @@ async function ajax<T = any>(
         console.log(`Had issues ${method}ing to the backend, endpoint: ${endpoint}, with data: `, data)
         console.dir(err)
 
-        // 
         if (err.response?.status === 401) {
             sessionStorage.clear()
             window.location.assign('/')

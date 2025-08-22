@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { AppointmentService } from "../services/appointment.service"
-import { AppointmentModel } from "../models/appointment.model"
+import { AppointmentService } from "../../services/appointment.service"
+import { AppointmentModel } from "../../models/appointment.model"
+import { CancelModal } from "./CancelModal"
 
 export function AppointmentManagement(){
 
@@ -9,6 +10,7 @@ export function AppointmentManagement(){
     const [appointment, setAppointment] = useState<AppointmentModel | null>(null)
     const [doctorName, setDoctorName] = useState<string>('')
     const [medicalFieldName, setMedicalFieldName] = useState<string>('')
+    const [showCancelModal, setShowCancelModal] = useState<boolean>(false)
 
     useEffect(()=>{
         if(id){
@@ -27,6 +29,12 @@ export function AppointmentManagement(){
         }
     }
 
+    async function onCancelAppointment() {
+        if(appointment)
+            AppointmentService.cancelAppointment(appointment._id)
+        setShowCancelModal(false)
+    }
+
     if(!appointment) return <h3>Loading...</h3>
 
     return(
@@ -35,6 +43,17 @@ export function AppointmentManagement(){
             <p>Field: {medicalFieldName}</p>
             <p>Doctor: {doctorName}</p>
             <p>Date: {appointment.startAt.toString()}</p>
+
+            <button onClick={()=>setShowCancelModal(true)}>Cancel</button>
+
+
+            {
+                showCancelModal && 
+                <CancelModal
+                    setShowCancelModal={setShowCancelModal}
+                    onCancelAppointment={onCancelAppointment}
+                />
+            }
         </section>
     )
 }

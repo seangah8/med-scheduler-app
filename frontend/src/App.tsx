@@ -27,7 +27,7 @@ export default App
 // 3. have an upcoming / past filter ✅
 
 // 4. on click go to appointment managment teroght url link  ✅
-// 5. re-fech doctor and field names from backend 
+// 5. re-fech doctor and field names from backend ✅
 // 6. be able to cancel appointments
 // 7. be able to rescesule appointments
 

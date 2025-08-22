@@ -59,6 +59,18 @@ export async function addAppointment(req: Request<{}, {},
   }
 }
 
+export async function cancelAppointment(req: Request, res: Response) {
+  const { id } = req.params
+  try{
+    const canceledAppointment = await appointmentService.cancel(id)
+    res.send(canceledAppointment)
+
+  } catch(err){
+    logger.error(`Failed cancel appointment: ${err}`)
+    res.status(400).send(`Couldn't cancel appointment`)
+  }
+}
+
 
 export async function getAllUnavailability(req: Request, res: Response): Promise<void> {
   const { fieldId, doctorId } = req.params

@@ -7,6 +7,7 @@ export const AppointmentService = {
     getAppointmentsData,
     getAppointmentData,
     createAppointment,
+    cancelAppointment,
     getAllUnavailabilities,
     getAvailableSlots,
     saveLocalBookingFlow,
@@ -55,6 +56,18 @@ async function createAppointment(medicalFieldId: string, doctorId: string, date:
 
     } catch(err){
         console.error('Could not create an appointment:', err)
+        return null
+    }
+}
+
+async function cancelAppointment(id: string) : Promise<AppointmentModel | null>{
+    try{
+        const appointment = 
+            await httpService.patch<AppointmentModel>(`appointment/cancel/${id}`)
+        return appointment
+
+    } catch(err){
+        console.error('Could not cancel the appointment:', err)
         return null
     }
 }
