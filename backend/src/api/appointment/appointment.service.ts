@@ -12,11 +12,10 @@ export const appointmentService = {
   isAppointmentExists,
 }
 
-async function quary(userId : string) : Promise<AppointmentTSModel[]> {
+async function quary(userId : string, status: string) : Promise<AppointmentTSModel[]> {
   try{
-    const appointmentsDoc = await AppointmentMongoModel.find({userId})
-      .sort({ startAt: 1 })
-      .lean()
+    const appointmentsDoc = await AppointmentMongoModel.find({userId, status})
+      .sort({ startAt: 1 }).lean()
     const appointments: AppointmentTSModel[] = 
       appointmentsDoc.map(app=>({...app, _id: app._id.toString()}))
     return appointments

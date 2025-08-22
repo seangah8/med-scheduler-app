@@ -39,7 +39,7 @@ const appointmentSchema = new mongoose.Schema<AppointmentDocument>({
 
 // optimize queries that fetch a user's appointments
 // sorted by date (newest first)
-appointmentSchema.index({ userId: 1, startAt: -1 })
+appointmentSchema.index({ userId: 1, status: 1, startAt: -1 })
 
 // optimize queries that fetch future appointment
 // to check unavailable booking dates

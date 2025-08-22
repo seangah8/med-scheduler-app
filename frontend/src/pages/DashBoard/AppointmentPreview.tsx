@@ -7,7 +7,6 @@ interface AppointmentPreview{
 
 export function AppointmentPreview({ appointment } : AppointmentPreview){
 
-    console.log('_id', appointment._id)
     return(
         <tr className="appointment-preview">
             <td>{appointment.medicalFieldId}</td>

@@ -23,7 +23,7 @@ function App() {
 export default App
 
 // 1. create appointments table in dashboard ✅
-// 2. make so you can see doctor + field names
+// 2. make so you can see doctor + field names ✅
 // 3. have an upcoming / past filter
 
 // 4. on click go to appointment managment teroght url link

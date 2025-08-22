@@ -6,21 +6,23 @@ import { asyncLocalStorage } from '../../services/als.service'
 
 export async function getAppointments(req: Request, res: Response){
 
-    const store = asyncLocalStorage.getStore()
-    if (!store || !store?.loggedinUser) {
-      res.status(401).send('Unauthorized')
-      return
-    }
+  const { status } = req.params
 
-    try{
-      const appointments = await appointmentService.quary(store.loggedinUser.userId)
-      console.log('appointments', appointments)
-      res.send(appointments)
+  const store = asyncLocalStorage.getStore()
+  if (!store || !store?.loggedinUser) {
+    res.status(401).send('Unauthorized')
+    return
+  }
 
-    } catch(err){
-      logger.error(`Failed getting appointments: ${err}`)
-      res.status(400).send(`Couldn't get appointments`)
-    }
+  try{
+    const appointments = await appointmentService.quary(store.loggedinUser.userId, status)
+    console.log('appointments', appointments)
+    res.send(appointments)
+
+  } catch(err){
+    logger.error(`Failed getting appointments: ${err}`)
+    res.status(400).send(`Couldn't get appointments`)
+  }
 }
 
 

@@ -6,7 +6,7 @@ import { log } from '../../middlewares/log.middleware'
 
 const router : Router = express.Router()
 
-router.get('/', requireAuth, getAppointments)
+router.get('/:status', requireAuth, getAppointments)
 router.get('/unavailable-dates/:fieldId/:doctorId', requireAuth, getAllUnavailability)
 router.post('/', log, requireAuth, validateBooking, addAppointment)
 

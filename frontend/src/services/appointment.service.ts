@@ -13,10 +13,10 @@ export const AppointmentService = {
     deleteLocalBookingFlow,
 }
 
-async function getAppointments()
+async function getAppointments(status : string)
     : Promise<AppointmentModel[] | null>{
     try{
-        const appointments = await httpService.get<AppointmentModel[]>('appointment/')
+        const appointments = await httpService.get<AppointmentModel[]>(`appointment/${status}`)
         // converting date string into Date type
         const finalAppointments: AppointmentModel[] = appointments.map(app => 
             ({...app, startAt: new Date(app.startAt)}))

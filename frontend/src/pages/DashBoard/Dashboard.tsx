@@ -13,13 +13,15 @@ export function Dashboard(){
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const [appointments, setAppointments] = useState<AppointmentModel[]>([])
+    const [onPast, setOnPast] = useState<boolean>(false)
 
     useEffect(()=>{
         loadAppointments()
-    },[])
+    },[onPast])
 
     async function loadAppointments(){
-        const aps = await AppointmentService.getAppointments()
+        const status = onPast ? 'completed' : 'scheduled'
+        const aps = await AppointmentService.getAppointments(status)
         if(aps) setAppointments(aps)
     }
 
@@ -33,6 +35,9 @@ export function Dashboard(){
             <button onClick={onLogout}>logout</button>
             <button onClick={()=>navigate('/appointment-management')}>appointment management</button>
             <button onClick={()=>navigate('/booking-appointment')}>book an appointment</button>
+
+            <button onClick={()=>setOnPast(true)}>Past</button>
+            <button onClick={()=>setOnPast(false)}>Upcoming</button>
 
             <AppointmentList appointments={appointments}/>
         </section>
