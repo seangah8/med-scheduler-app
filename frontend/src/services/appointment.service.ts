@@ -147,13 +147,12 @@ function getAvailableSlots(date: Date, doctor: DoctorModel, unavailableSet: Set<
 }
 
 function saveLocalBookingFlow(
-    stepNumber : number | null, 
     selectedField : MedicalFieldModel | null, 
     selectedDoctor : DoctorModel | null, 
     selectedDate : Date | null
 ){
     
-    sessionStorage.setItem('bookingFlow', JSON.stringify({stepNumber, 
+    sessionStorage.setItem('bookingFlow', JSON.stringify({
         selectedField, selectedDoctor, selectedDate}))
 }
 

@@ -29,12 +29,12 @@ export default App
 // 4. on click go to appointment managment teroght url link  ✅
 // 5. re-fech doctor and field names from backend ✅
 // 6. be able to cancel appointments ✅
-// 7. be able to rescesule appointments
+// 7. be able to rescesule appointments ✅
 
 // 8. make in booking flow so going back will go back in the flow
 // 9. create / take from library component an input+scroll comp 
 // and use it in booking flow 
-// 10. hable error feedback to the user
+// 10. handle error feedback to the user
 // 11. make sure the is loading states in pages
 // 12. add extra data and show in front
 

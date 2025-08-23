@@ -1,4 +1,4 @@
-// src/router/routes.tsx
+import { Navigate } from 'react-router-dom'
 import { RouteObject } from 'react-router-dom'
 import { Registration } from '../pages/Registration'
 import { Dashboard } from '../pages/DashBoard/Dashboard'
@@ -23,11 +23,16 @@ export const routes: RouteObject[] = [
   },
 
   {
-    path: '/booking-appointment',
+    path: '/booking-appointment/:step',
     element: <BookingFlow />
   },
 
-    {
+  {
+    path: '/booking-appointment',
+    element: <Navigate to="/booking-appointment/medical_field" replace />
+  },
+
+  {
     path: '/appointment/:id',
     element: <AppointmentManagement />
   },

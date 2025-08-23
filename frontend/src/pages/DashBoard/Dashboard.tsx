@@ -41,7 +41,6 @@ export function Dashboard(){
         <section className="dashboard">
             <h1>Dashboard Page</h1>
             <button onClick={onLogout}>logout</button>
-            <button onClick={()=>navigate('/appointment-management')}>appointment management</button>
             <button onClick={()=>navigate('/booking-appointment')}>book an appointment</button>
 
             <button onClick={()=>setOnPast(true)}>Past</button>
