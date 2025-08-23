@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { DoctorModel } from "@/models/doctor.model"
 import { MedicalFieldModel } from "@/models/medicalField.model"
 import { AppointmentService } from "../../services/appointment.service"
+import { TimeSlotService } from "../../services/timeSlot.service"
 
 interface BookConfirmationProps{
     field: MedicalFieldModel
@@ -39,7 +40,7 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, setConfi
 
                     <h3>{`Medical Field: ${field.name}`}</h3>
                     <h3>{`Doctor: ${doctor.name}`}</h3>
-                    <h3>{`Date: ${date}`}</h3>
+                    <h3>{`Date: ${TimeSlotService.formatDateTimeLong(date)}`}</h3>
 
                     <button onClick={onBookAppointment} disabled={isLoading}>
                         {isLoading ? 'Booking...' : 'Book Appointment'}

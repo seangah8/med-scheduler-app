@@ -22,23 +22,30 @@ function App() {
 
 export default App
 
-// 1. create appointments table in dashboard ✅
-// 2. make so you can see doctor + field names ✅
-// 3. have an upcoming / past filter ✅
-// 4. on click go to appointment managment teroght url link  ✅
-// 5. re-fech doctor and field names from backend ✅
-// 6. be able to cancel appointments ✅
-// 7. be able to rescesule appointments ✅
-// 8. make in booking flow so going back will go back in the flow  ✅
-// 9. create / take from library component an input+scroll comp 
-// and use it in booking flow ✅
-// 10. add calender into time slot selector
+// 1. clear calendar interface
+  // handle timezone considerations
 
-// 11. handle error feedback to the user
-// 12. make sure the is loading states in pages
-// 13. add extra data and show in front
+// 2. for new users: 
+  // welcome message 
+  // clear call to action to start booking their first appointment
+  // quick overview of available medical services that our facility provide
 
-// b. make ui
-// c. deliver exstra optional featurs
-// d. deployment
-// e. presetaition practice
+// 3. cancel + rescedule
+  // confirmation notification for canceling + reschedule appointments
+  // make so cancel and rescedule modals wont open at the same time
+  // when canceling -> move to dashboard, when rescedule -> update the time in front
+  // remove cancle and rescedule buttons in completed appointmens
+
+// 4. add details for appointments and show in booking flow and appointmemt managment
+
+// 5. make send and verify otp in seperate components that will be shown seperatly
+
+
+// a. finish core
+// b. make ui basic
+// c. polish core
+  // 1. handle error feedback to the user
+  // 2. make sure the is loading states in pages
+  // 3. qa your web
+  // 3. add extra data and show in front
+// d. polish ui
