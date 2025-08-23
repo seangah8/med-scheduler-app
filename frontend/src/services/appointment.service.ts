@@ -8,6 +8,7 @@ export const AppointmentService = {
     getAppointmentData,
     createAppointment,
     cancelAppointment,
+    rescheduleAppointment,
     getAllUnavailabilities,
     getAvailableSlots,
     saveLocalBookingFlow,
@@ -34,12 +35,12 @@ async function getAppointmentsData(status : string)
 async function getAppointmentData(id : string)
     : Promise<AppointmentResponse | null>{
     try{
-        const {appointment, doctorName, medicalFieldName} = 
+        const { appointment, doctor, medicalField } = 
             await httpService.get<AppointmentResponse>(`appointment/${id}`)
         // converting date string into Date type
         const finalAppointment: AppointmentModel = 
             {...appointment, startAt: new Date(appointment.startAt)}
-        return {appointment: finalAppointment, doctorName, medicalFieldName}
+        return {appointment: finalAppointment, doctor, medicalField}
 
     } catch(err){
         console.error('Could not get an appointment:', err)
@@ -68,6 +69,18 @@ async function cancelAppointment(id: string) : Promise<AppointmentModel | null>{
 
     } catch(err){
         console.error('Could not cancel the appointment:', err)
+        return null
+    }
+}
+
+async function rescheduleAppointment(id: string, date: Date) : Promise<AppointmentModel | null>{
+    try{
+        const appointment = await httpService.patch<AppointmentModel>
+            (`appointment/reschedule/${id}/${date}`)
+        return appointment
+
+    } catch(err){
+        console.error('Could not reschedule the appointment:', err)
         return null
     }
 }

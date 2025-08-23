@@ -3,14 +3,18 @@ import { useParams } from "react-router-dom"
 import { AppointmentService } from "../../services/appointment.service"
 import { AppointmentModel } from "../../models/appointment.model"
 import { CancelModal } from "./CancelModal"
+import { RescheduleModal } from "./RescheduleModal"
+import { DoctorModel } from "@/models/doctor.model"
+import { MedicalFieldModel } from "@/models/medicalField.model"
 
 export function AppointmentManagement(){
 
     const { id } = useParams<{ id: string }>()
     const [appointment, setAppointment] = useState<AppointmentModel | null>(null)
-    const [doctorName, setDoctorName] = useState<string>('')
-    const [medicalFieldName, setMedicalFieldName] = useState<string>('')
+    const [doctor, setDoctor] = useState<DoctorModel | null>(null)
+    const [medicalField, setMedicalField] = useState<MedicalFieldModel | null>(null)
     const [showCancelModal, setShowCancelModal] = useState<boolean>(false)
+    const [showRescheduleModal, setShowRescheduleModal] = useState<boolean>(false)
 
     useEffect(()=>{
         if(id){
@@ -21,11 +25,10 @@ export function AppointmentManagement(){
     async function loadAppointment(appointmentId : string) {
         const data = await AppointmentService.getAppointmentData(appointmentId)
         if(data){
-            const {appointment : app, doctorName: drName, 
-                medicalFieldName: mfieldName} = data
+            const {appointment : app, doctor: dr, medicalField: mfield} = data
             setAppointment(app)
-            setDoctorName(drName)
-            setMedicalFieldName(mfieldName)
+            setDoctor(dr)
+            setMedicalField(mfield)
         }
     }
 
@@ -35,16 +38,23 @@ export function AppointmentManagement(){
         setShowCancelModal(false)
     }
 
-    if(!appointment) return <h3>Loading...</h3>
+    async function onRescheduleAppointment(date: Date){
+        if(appointment)
+            AppointmentService.rescheduleAppointment(appointment._id, date)
+        setShowRescheduleModal(false)
+    }
+
+    if(!appointment || !medicalField || !doctor) return <h3>Loading...</h3>
 
     return(
         <section className="appointment-management">
             <h1>Appointment Management</h1>
-            <p>Field: {medicalFieldName}</p>
-            <p>Doctor: {doctorName}</p>
+            <p>Field: {medicalField.name}</p>
+            <p>Doctor: {doctor.name}</p>
             <p>Date: {appointment.startAt.toString()}</p>
 
             <button onClick={()=>setShowCancelModal(true)}>Cancel</button>
+            <button onClick={()=>setShowRescheduleModal(true)}>Reschedule</button>
 
 
             {
@@ -52,6 +62,16 @@ export function AppointmentManagement(){
                 <CancelModal
                     setShowCancelModal={setShowCancelModal}
                     onCancelAppointment={onCancelAppointment}
+                />
+            }
+
+            {
+                showRescheduleModal && 
+                <RescheduleModal
+                    medicalField={medicalField}
+                    doctor={doctor}
+                    setShowRescheduleModal={setShowRescheduleModal}
+                    onRescheduleAppointment={onRescheduleAppointment}
                 />
             }
         </section>

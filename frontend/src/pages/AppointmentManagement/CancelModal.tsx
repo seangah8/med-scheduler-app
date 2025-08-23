@@ -5,7 +5,8 @@ interface CancelModalProps{
     onCancelAppointment: () => void
 }
 
-export function CancelModal({setShowCancelModal, onCancelAppointment} : CancelModalProps){
+export function CancelModal({setShowCancelModal, onCancelAppointment} 
+    : CancelModalProps){
 
     return(
         <section className="cancel-modal">

@@ -6,9 +6,9 @@ import { asyncLocalStorage } from '../../services/als.service'
 export async function getAppointment(req: Request, res: Response){
   const { id } = req.params
   try{
-    const { appointment, doctorName, medicalFieldName } = 
+    const { appointment, doctor, medicalField } = 
       await appointmentService.get(id)
-    res.send({appointment, doctorName, medicalFieldName})
+    res.send({ appointment, doctor, medicalField })
 
   } catch(err){
     logger.error(`Failed getting appointment: ${err}`)
@@ -63,6 +63,19 @@ export async function cancelAppointment(req: Request, res: Response) {
   const { id } = req.params
   try{
     const canceledAppointment = await appointmentService.cancel(id)
+    res.send(canceledAppointment)
+
+  } catch(err){
+    logger.error(`Failed cancel appointment: ${err}`)
+    res.status(400).send(`Couldn't cancel appointment`)
+  }
+}
+
+export async function rescheduleAppointment(req: Request, res: Response) {
+  const { id, date } = req.params
+  try{
+    const newDate = new Date(date)
+    const canceledAppointment = await appointmentService.reschedule(id, newDate)
     res.send(canceledAppointment)
 
   } catch(err){

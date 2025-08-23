@@ -1,3 +1,5 @@
+import { DoctorModel } from "./doctor.model"
+import { MedicalFieldModel } from "./medicalField.model"
 
 export interface AppointmentModel {
     _id: string
@@ -16,7 +18,7 @@ export interface AppointmentsResponse {
 
 export interface AppointmentResponse {
     appointment: AppointmentModel
-    doctorName: string   
-    medicalFieldName: string
+    doctor: DoctorModel   
+    medicalField: MedicalFieldModel
 }
 

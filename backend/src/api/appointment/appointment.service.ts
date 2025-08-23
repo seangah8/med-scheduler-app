@@ -1,15 +1,17 @@
 import { ObjectId } from "mongodb"
 import { AppointmentMongoModel } from "../../models/mongo/appointment.model"
 import { DoctorMongoModel } from "../../models/mongo/doctor.model"
-import { AppointmentTSModel, PopulatedAppointment } from "../../models/typescript/appointment.model"
+import { AppointmentTSModel, PopulatedAppointment, NamePopulatedAppointment } from "../../models/typescript/appointment.model"
 import { DoctorTSModel } from "../../models/typescript/doctor.model"
 import { logger } from "../../services/logger.service"
+import { MedicalFieldTSModel } from "../../models/typescript/medicalField.model"
 
 export const appointmentService = {
   query,
   get,
   add,
   cancel,
+  reschedule,
   unavailableDates,
   isAppointmentExists,
 }
@@ -25,7 +27,7 @@ async function query(userId: string, status: string): Promise<{
       .sort({ startAt: 1 })
       .populate('doctorId', 'name')
       .populate('medicalFieldId', 'name')
-      .lean<PopulatedAppointment[]>()
+      .lean<NamePopulatedAppointment[]>()
 
     // convert all _ids to strings
     const appointments: AppointmentTSModel[] = appointmentsDoc.map(app => ({
@@ -59,19 +61,18 @@ async function query(userId: string, status: string): Promise<{
 
 async function get(id: string): Promise<{
   appointment: AppointmentTSModel
-  doctorName: string
-  medicalFieldName: string
+  doctor: DoctorTSModel
+  medicalField: MedicalFieldTSModel
 }> {
-
   try {
     const app = await AppointmentMongoModel.findById(id)
-      .populate('doctorId', 'name')
-      .populate('medicalFieldId', 'name')
+      .populate('doctorId')
+      .populate('medicalFieldId')
       .lean<PopulatedAppointment>()
 
-    if (!app) throw new Error(`Appointment with ID ${id} not found`)
+    if (!app) throw new Error(`Appointment with id ${id} not found`)
 
-    // convert _ids to strings and flatten
+    // convert appointment _ids into strings
     const appointment: AppointmentTSModel = {
       ...app,
       _id: app._id.toString(),
@@ -80,16 +81,19 @@ async function get(id: string): Promise<{
       medicalFieldId: app.medicalFieldId._id.toString()
     }
 
-    const doctorName = app.doctorId.name
-    const medicalFieldName = app.medicalFieldId.name
+    // return the entire populated objects
+    const doctor = app.doctorId
+    const medicalField = app.medicalFieldId
 
-    return { appointment, doctorName, medicalFieldName }
+    return { appointment, doctor, medicalField }
 
   } catch (err) {
     logger.error(`Failed to get appointment ${id}: ${err}`)
     throw err
   }
 }
+
+
 
 
 
@@ -124,29 +128,56 @@ async function add(
   }
 }
 
-export async function cancel(id: string): Promise<AppointmentTSModel> {
+async function cancel(id: string): Promise<AppointmentTSModel> {
   try {
     // new: true => return the updated document, not the original one
-    const updated = await AppointmentMongoModel.findByIdAndUpdate(
-      id,
-      { $set: { status: 'cancelled' } },
-      { new: true, lean: true }
-    )
+    const updated = await AppointmentMongoModel.findByIdAndUpdate
+      (id, { $set: { status: 'cancelled' } }, { new: true })
+      .lean()
+    
 
     if (!updated) {
       throw new Error('Appointment not found')
     }
 
-    return {
+    const appointment : AppointmentTSModel ={
       ...updated,
       _id: updated._id.toString(),
       userId: updated.userId.toString(),
       doctorId: updated.doctorId.toString(),
       medicalFieldId: updated.medicalFieldId.toString(),
-    } as AppointmentTSModel
+    }
+
+    return appointment
 
   } catch (err) {
-    console.error('Failed to cancel appointment:', err)
+    logger.error(`Failed to cancel appointment: ${err}`)
+    throw err
+  }
+}
+
+async function reschedule(id: string, date: Date): Promise<AppointmentTSModel> {
+  try {
+    const updated = await AppointmentMongoModel.findByIdAndUpdate
+      (id, { $set: { startAt: date } }, { new: true })
+      .lean()
+
+    if (!updated) {
+      throw new Error('Appointment not found')
+    }
+
+    const appointment : AppointmentTSModel ={
+      ...updated,
+      _id: updated._id.toString(),
+      userId: updated.userId.toString(),
+      doctorId: updated.doctorId.toString(),
+      medicalFieldId: updated.medicalFieldId.toString(),
+    }
+
+    return appointment
+
+  } catch (err) {
+    logger.error(`Failed to reschedule appointment: ${err}`)
     throw err
   }
 }

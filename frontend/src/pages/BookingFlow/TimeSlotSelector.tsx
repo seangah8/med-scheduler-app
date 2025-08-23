@@ -4,12 +4,12 @@ import { MedicalFieldModel } from "@/models/medicalField.model"
 import { AppointmentService } from "../../services/appointment.service"
 
 interface DateSelectorProps{
-    doctor: DoctorModel
     field: MedicalFieldModel
+    doctor: DoctorModel
     onSelect : (date : Date) => void
 }
 
-export function TimeSlotSelector({ doctor, field, onSelect } : DateSelectorProps){
+export function TimeSlotSelector({ field, doctor, onSelect } : DateSelectorProps){
 
     //ref to survives re-renders
     const unavailableDaysSetRef = useRef<Set<string>>(new Set())
