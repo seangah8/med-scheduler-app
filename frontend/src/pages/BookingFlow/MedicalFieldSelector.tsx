@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
+import { Autocomplete, TextField } from '@mui/material'
 import { medicalFieldService } from '../../services/medicalField.service'
 import { MedicalFieldModel } from "../../models/medicalField.model"
 
 interface MedicalFieldSelectorProps{
-    onSelect : (field : MedicalFieldModel) => void
+    currantField: MedicalFieldModel | null
+    onSelect : (field : MedicalFieldModel | null) => void
 }
 
-export function MedicalFieldSelector({ onSelect } : MedicalFieldSelectorProps){
+export function MedicalFieldSelector({ currantField, onSelect } : MedicalFieldSelectorProps){
 
     const [medicalFields, setMedicalFields] = useState<MedicalFieldModel[]>([])
 
@@ -22,15 +24,13 @@ export function MedicalFieldSelector({ onSelect } : MedicalFieldSelectorProps){
     return(
         <section className="medical-field-selection">
             <h1>Medical Field Selection</h1>
-            <ul>
-                {
-                    medicalFields.map(mf =>
-                        <li key={mf._id} onClick={()=>onSelect(mf)}>
-                            {mf.name}
-                        </li>
-                    )
-                }
-            </ul>
+                <Autocomplete
+                    options={medicalFields}
+                    value={currantField}
+                    getOptionLabel={option => option.name}
+                    renderInput={params => <TextField {...params} label="Select Medical Field" />}
+                    onChange={(_, value) => {if (value) onSelect(value)}}
+                />
         </section>
     )
 }

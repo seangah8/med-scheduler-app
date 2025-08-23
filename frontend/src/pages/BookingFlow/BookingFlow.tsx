@@ -72,19 +72,22 @@ export function BookingFlow() {
     <section className="booking-flow">
       {
         stepNumber === 0 &&
-        <MedicalFieldSelector onSelect={field => {
-          setSelectedField(field)
-          setSelectedDoctor(null)
-          setSelectedDate(null)
-          goToStep(1)
-        }} />
+        <MedicalFieldSelector currantField={selectedField} 
+          onSelect={field => {
+            setSelectedField(field)
+            setSelectedDoctor(null)
+            setSelectedDate(null)
+          }
+        }/>
       }
       {
         stepNumber === 1 && selectedField &&
-        <DoctorSelector field={selectedField} onSelect={doctor => {
+        <DoctorSelector 
+        currantDoctor={selectedDoctor}
+        field={selectedField} 
+        onSelect={doctor => {
           setSelectedDoctor(doctor)
           setSelectedDate(null)
-          goToStep(2)
         }} />
       }
       {

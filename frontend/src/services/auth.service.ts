@@ -36,6 +36,7 @@ async function logout() : Promise<void> {
   try{
     await httpService.post<void>('auth/logout')
     sessionStorage.removeItem('loggedInUser')
+    sessionStorage.removeItem('bookingFlow')
 
   } catch (err){
     console.error("Could not log out:", err)
