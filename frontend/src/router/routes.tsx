@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom'
 import { RouteObject } from 'react-router-dom'
-import { Registration } from '../pages/Registration'
+import { Registration } from '../pages/Registration/Registration'
 import { Dashboard } from '../pages/DashBoard/Dashboard'
 import { BookingFlow } from '../pages/BookingFlow/BookingFlow'
 import { AppointmentManagement } from '../pages/AppointmentManagement/AppointmentManagement'

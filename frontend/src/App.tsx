@@ -34,6 +34,7 @@ export default App
   // 1. qa your web
     // dont show time slots in the past
     // fix day with one timeslot disappear
+    // enable on RegistrationVerification go back with browser arrow 
   // 2. handle error feedback to the user
   // 3. make sure the is loading states in pages
   // 4. add extra data and show in front
