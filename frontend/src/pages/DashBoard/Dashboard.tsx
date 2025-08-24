@@ -1,19 +1,18 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 import { authThunks } from "../../store/thunks/auth.thunks"
 import { useAppDispatch } from "../../store/hooks"
 import { AppointmentModel } from "../../models/appointment.model"
 import { AppointmentService } from "../../services/appointment.service"
-import { AppointmentList } from "./AppointmentList"
 import { authService } from "../../services/auth.service"
 import { medicalFieldService } from "../../services/medicalField.service"
 import { MedicalFieldModel } from "../../models/medicalField.model"
+import { DashboardRegular } from "./DashboardRegular/DashboardRegular"
+import { DashboardWelcome } from "./DashboardNew"
 
 
 
 export function Dashboard(){
 
-    const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const [appointments, setAppointments] = useState<AppointmentModel[]>([])
     const [doctorMap, setDoctorMap] = useState<Record<string, string>>({})
@@ -77,39 +76,18 @@ export function Dashboard(){
             {/* for regular users */}
             {
                 !isUserNew &&
-                <section className="dashboard-regular">
-                    <button onClick={()=>navigate('/booking-appointment')}>
-                        book appointment +
-                    </button>
-                    <button onClick={()=>setOnPast(true)}>Past</button>
-                    <button onClick={()=>setOnPast(false)}>Upcoming</button>
-                    <AppointmentList 
-                        appointments={appointments} 
-                        doctorMap={doctorMap}
-                        medicalFieldMap={medicalFieldMap}
-                    />
-                </section>
+                <DashboardRegular
+                    appointments={appointments} 
+                    doctorMap={doctorMap}
+                    medicalFieldMap={medicalFieldMap}
+                    setOnPast={setOnPast}
+                />
             }
 
             {/* for new users */}
             {
                 isUserNew &&
-                <section className="dashboard-new-user">
-                    <h1>Welcome To Shiba Connect!</h1>
-                    <button onClick={()=>navigate('/booking-appointment')}>
-                        book your first appointment here!
-                    </button>
-                    <ul>
-                        {
-                            medicalFields.map(field => 
-                                <li key={field._id}>
-                                    <p>{field.name}</p>
-                                    <p>{field.details}</p>
-                                </li>
-                            )
-                        }
-                    </ul>
-                </section>
+                <DashboardWelcome medicalFields={medicalFields}/>
             }
         </section>
     )

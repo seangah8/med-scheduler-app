@@ -1,5 +1,5 @@
-import { TimeSlotService } from "../../services/timeSlot.service"
-import { AppointmentModel } from "../../models/appointment.model"
+import { TimeSlotService } from "../../../services/timeSlot.service"
+import { AppointmentModel } from "../../../models/appointment.model"
 import { useNavigate } from "react-router-dom"
 
 

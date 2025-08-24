@@ -1,4 +1,4 @@
-import { AppointmentModel } from "../../models/appointment.model"
+import { AppointmentModel } from "../../../models/appointment.model"
 import { AppointmentPreview } from "./AppointmentPreview"
 
 interface AppointmentListProps{
