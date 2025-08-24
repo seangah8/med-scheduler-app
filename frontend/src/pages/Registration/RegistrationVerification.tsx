@@ -12,7 +12,7 @@ export function RegistrationVerification({password, setPassword, onGetOtp, onVer
 
     return(
         <section className="registration-verification">
-            <label htmlFor="password">One Time Password:</label>
+            <label htmlFor="password">What you received?</label>
             <input
                 id="password"
                 type="text"
@@ -20,8 +20,8 @@ export function RegistrationVerification({password, setPassword, onGetOtp, onVer
                 value={password}
                 onChange={event=>setPassword(event.target.value)}
             />
-            <button onClick={onVerifyOtp}>Verify Code</button>
-            <p onClick={onGetOtp}>did not get a code? try again</p>
+            <button onClick={onVerifyOtp}>Approve</button>
+            <p>Did not receive, please <span onClick={onGetOtp}>send again</span></p>
         </section>
     )
 }

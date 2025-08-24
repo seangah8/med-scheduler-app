@@ -40,26 +40,30 @@ export function Registration(){
     return(
         <section className="registration">
 
-            {/* sending phone*/}
-            {
-                !isGotPassword &&
-                <RegistrationSendOtp
-                    phone={phone}
-                    setPhone={setPhone}
-                    onGetOtp={onGetOtp}
-                />
-            }
+            <div className="registration-main">
 
-            {/* verify otp*/}
-            {
-                isGotPassword &&
-                <RegistrationVerification
-                    password={password}
-                    setPassword={setPassword}
-                    onGetOtp={onGetOtp}
-                    onVerifyOtp={onVerifyOtp}
-                />
-            }
+                {/* sending phone*/}
+                {
+                    !isGotPassword &&
+                    <RegistrationSendOtp
+                        phone={phone}
+                        setPhone={setPhone}
+                        onGetOtp={onGetOtp}
+                    />
+                }
+
+                {/* verify otp*/}
+                {
+                    isGotPassword &&
+                    <RegistrationVerification
+                        password={password}
+                        setPassword={setPassword}
+                        onGetOtp={onGetOtp}
+                        onVerifyOtp={onVerifyOtp}
+                    />
+                }
+
+            </div>
 
         </section>
     )

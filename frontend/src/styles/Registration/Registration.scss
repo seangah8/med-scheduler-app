@@ -1,0 +1,19 @@
+
+.registration{
+    
+    .registration-main{
+        position: fixed;
+        top: 250px;
+        right: 250px;
+        width: 240px;
+        height: 240px;
+        padding: 30px;
+        border: solid black 3px;
+        text-align: center;
+
+        label{
+            font-size: large;
+            font-weight: bold;
+        }
+    }
+}

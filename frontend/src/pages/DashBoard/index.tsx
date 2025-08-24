@@ -6,8 +6,8 @@ import { AppointmentService } from "../../services/appointment.service"
 import { authService } from "../../services/auth.service"
 import { medicalFieldService } from "../../services/medicalField.service"
 import { MedicalFieldModel } from "../../models/medicalField.model"
-import { DashboardRegular } from "./DashboardRegular/DashboardRegular"
-import { DashboardWelcome } from "./DashboardNew"
+import { DashboardRegular } from "./DashboardRegular"
+import { DashboardWelcome } from "./DashboardWelcome"
 
 
 

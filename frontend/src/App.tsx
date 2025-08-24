@@ -22,15 +22,16 @@ function App() {
 
 export default App
 
+// basic UI Layout:
 
-// 1. seperate components that will be shown seperatly:
-  // send and verify otp (add on verify otp cmp "did not get a code, try again" )
-  // dashboard regular vs new user
+// Registration ✅
+// DashboardRegular
+// DashboardWelcome
+// BookingFlow
+// AppointmentManagement
 
-
-// a. finish core
-// b. make ui basic
-// c. polish core
+// a. make ui basic
+// b. polish core
   // 1. qa your web
     // dont show time slots in the past
     // fix day with one timeslot disappear
@@ -38,4 +39,4 @@ export default App
   // 2. handle error feedback to the user
   // 3. make sure the is loading states in pages
   // 4. add extra data and show in front
-// d. polish ui
+// c. polish ui

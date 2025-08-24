@@ -11,15 +11,18 @@ export function RegistrationSendOtp({phone, setPhone, onGetOtp}
 
     return(
         <section className="registration-send-otp">
-            <label htmlFor="phone">Phone Number:</label>
+            <label htmlFor="phone">Login to your personal area</label>
             <input
                 id="phone"
                 type="text"
                 name="phone"
                 value={phone}
+                placeholder="Phone Number"
                 onChange={event=>setPhone(event.target.value)}
             />
-            <button onClick={onGetOtp}>Send Me Password</button>
+            <p>To identify who we have the honor of dealing with, 
+                we will send you a one-time identification code</p>
+            <button onClick={onGetOtp}>Approve</button>
         </section>
     )
 }

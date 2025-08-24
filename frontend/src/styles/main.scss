@@ -1,4 +1,7 @@
 @use './vars';
+@use './Registration/Registration.scss';
+@use './Registration/RegistrationSendOtp.scss';
+@use './Registration/RegistrationVerification.scss';
 
 
 body{
