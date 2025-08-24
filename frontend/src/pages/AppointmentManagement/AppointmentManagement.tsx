@@ -6,6 +6,7 @@ import { CancelModal } from "./CancelModal"
 import { RescheduleModal } from "./RescheduleModal"
 import { DoctorModel } from "@/models/doctor.model"
 import { MedicalFieldModel } from "@/models/medicalField.model"
+import { TimeSlotService } from "../../services/timeSlot.service"
 
 export function AppointmentManagement(){
 
@@ -70,10 +71,11 @@ export function AppointmentManagement(){
 
     return(
         <section className="appointment-management">
-            <h1>Appointment Management</h1>
+            <h1>Appointment Info</h1>
             <p>Field: {medicalField.name}</p>
             <p>Doctor: {doctor.name}</p>
-            <p>Date: {appointment.startAt.toString()}</p>
+            <p>Date: {TimeSlotService.formatDateTimeLong(appointment.startAt)}</p>
+            {medicalField.requiredInfo && <p>Requirements: {medicalField.requiredInfo}</p>}
 
             {
                 !wasAppCompleted &&

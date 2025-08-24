@@ -103,7 +103,8 @@ export function Dashboard(){
                         {
                             medicalFields.map(field => 
                                 <li key={field._id}>
-                                    {field.name}
+                                    <p>{field.name}</p>
+                                    <p>{field.details}</p>
                                 </li>
                             )
                         }

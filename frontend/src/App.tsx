@@ -23,10 +23,8 @@ function App() {
 export default App
 
 
-// 1. add details for appointments and show in booking flow and appointmemt managment
-
-// 2. seperate components that will be shown seperatly:
-  // send and verify otp
+// 1. seperate components that will be shown seperatly:
+  // send and verify otp (add on verify otp cmp "did not get a code, try again" )
   // dashboard regular vs new user
 
 

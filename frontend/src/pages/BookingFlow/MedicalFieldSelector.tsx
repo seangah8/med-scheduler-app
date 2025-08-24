@@ -31,6 +31,7 @@ export function MedicalFieldSelector({ currantField, onSelect } : MedicalFieldSe
                     renderInput={params => <TextField {...params} label="Select Medical Field" />}
                     onChange={(_, value) => {if (value) onSelect(value)}}
                 />
+            {currantField && <p>{currantField.details}</p>}
         </section>
     )
 }

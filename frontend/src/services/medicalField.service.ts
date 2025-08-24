@@ -10,6 +10,7 @@ async function getMedicalFields() : Promise<MedicalFieldModel[] | null> {
     try{
         const medicalFields = await httpService.get
             <MedicalFieldModel[]>('medical-field/')
+        console.log('medicalFields', medicalFields)
         return medicalFields
     } catch(err){
         console.error('Could not get medical fields:', err)

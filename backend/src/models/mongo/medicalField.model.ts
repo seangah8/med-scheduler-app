@@ -12,6 +12,17 @@ const medicalFieldSchema = new mongoose.Schema<MedicalFieldDocument>({
     unique: true,
   },
 
+  details: {
+    type: String,
+    required: true,
+  },
+
+  requiredInfo: {
+    type: String,
+    required: false,
+    default: null,
+  },
+
 }, {versionKey: false})  // disables __v
 
 const MedicalFieldMongoModel = mongoose.model<MedicalFieldDocument>('medical_field', medicalFieldSchema)

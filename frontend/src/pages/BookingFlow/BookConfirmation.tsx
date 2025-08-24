@@ -42,6 +42,7 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, setConfi
                     <h3>{`Medical Field: ${field.name}`}</h3>
                     <h3>{`Doctor: ${doctor.name}`}</h3>
                     <h3>{`Date: ${TimeSlotService.formatDateTimeLong(date)}`}</h3>
+                    {field.requiredInfo && <h3>{`Requirements: ${field.requiredInfo}`}</h3>}
 
                     <button onClick={onBookAppointment} disabled={isLoading}>
                         {isLoading ? 'Booking...' : 'Book Appointment'}

@@ -1,3 +1,4 @@
+import { TimeSlotService } from "../../services/timeSlot.service"
 import { AppointmentModel } from "../../models/appointment.model"
 import { useNavigate } from "react-router-dom"
 
@@ -18,7 +19,7 @@ export function AppointmentPreview({ appointment, doctorName, medicalFieldName  
 
             <td>{doctorName}</td>
             <td>{medicalFieldName}</td>
-            <td>{appointment.startAt.toISOString()}</td>
+            <td>{TimeSlotService.formatDateTimeLong(appointment.startAt)}</td>
             
         </tr>
     )

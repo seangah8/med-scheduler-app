@@ -12,7 +12,7 @@ import { seedUsers } from './user.seed'
 
 async function seedDatabase() {
 
-  const amount = {users: 10, doctors: 5, apointments: 10000, monthsAhead: 3}
+  const amount = {users: 10, doctors: 50, apointments: 1000, monthsAhead: 3}
 
   try{
 
