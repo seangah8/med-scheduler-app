@@ -23,15 +23,9 @@ function App() {
 export default App
 
 
-// 1. cancel + rescedule
-  // confirmation notification for canceling + reschedule appointments
-  // make so cancel and rescedule modals wont open at the same time
-  // when canceling -> move to dashboard, when rescedule -> update the time in front
-  // remove cancle and rescedule buttons in completed appointmens
+// 1. add details for appointments and show in booking flow and appointmemt managment
 
-// 2. add details for appointments and show in booking flow and appointmemt managment
-
-// 3. seperate components that will be shown seperatly:
+// 2. seperate components that will be shown seperatly:
   // send and verify otp
   // dashboard regular vs new user
 

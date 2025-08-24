@@ -11,16 +11,33 @@ export function AppointmentManagement(){
 
     const { id } = useParams<{ id: string }>()
     const [appointment, setAppointment] = useState<AppointmentModel | null>(null)
+    const [wasAppCompleted, setWasAppCompleted] = useState<boolean>(false)
     const [doctor, setDoctor] = useState<DoctorModel | null>(null)
     const [medicalField, setMedicalField] = useState<MedicalFieldModel | null>(null)
     const [showCancelModal, setShowCancelModal] = useState<boolean>(false)
     const [showRescheduleModal, setShowRescheduleModal] = useState<boolean>(false)
 
     useEffect(()=>{
-        if(id){
+        if(id)
             loadAppointment(id)
-        }
     },[id])
+
+    useEffect(()=>{
+        if(appointment)
+            setWasAppCompleted(appointment.status === 'completed')
+    },[appointment])
+
+    // if open cancel modal close the reschedule one
+    useEffect(()=>{
+        if(showCancelModal)
+            setShowRescheduleModal(false)
+    },[showCancelModal])
+
+    // if open reschedule modal close the cancel one
+    useEffect(()=>{
+        if(showRescheduleModal)
+            setShowCancelModal(false)
+    },[showRescheduleModal])
 
     async function loadAppointment(appointmentId : string) {
         const data = await AppointmentService.getAppointmentData(appointmentId)
@@ -58,8 +75,14 @@ export function AppointmentManagement(){
             <p>Doctor: {doctor.name}</p>
             <p>Date: {appointment.startAt.toString()}</p>
 
-            <button onClick={()=>setShowCancelModal(true)}>Cancel</button>
-            <button onClick={()=>setShowRescheduleModal(true)}>Reschedule</button>
+            {
+                !wasAppCompleted &&
+                <section className="action-buttons">
+                    <button onClick={()=>setShowCancelModal(true)}>Cancel</button>
+                    <button onClick={()=>setShowRescheduleModal(true)}>Reschedule</button>
+                </section>
+            }
+
 
 
             {
