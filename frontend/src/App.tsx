@@ -39,8 +39,10 @@ export default App
 // a. finish core
 // b. make ui basic
 // c. polish core
-  // 1. handle error feedback to the user
-  // 2. make sure the is loading states in pages
-  // 3. qa your web
-  // 3. add extra data and show in front
+  // 1. qa your web
+    // dont show time slots in the past
+    // fix day with one timeslot disappear
+  // 2. handle error feedback to the user
+  // 3. make sure the is loading states in pages
+  // 4. add extra data and show in front
 // d. polish ui

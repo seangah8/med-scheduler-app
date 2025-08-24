@@ -32,16 +32,21 @@ export function AppointmentManagement(){
         }
     }
 
-    async function onCancelAppointment() {
-        if(appointment)
-            AppointmentService.cancelAppointment(appointment._id)
-        setShowCancelModal(false)
+    async function onCancelAppointment() : Promise<AppointmentModel | null> {
+        if(appointment){
+            const app = await 
+                AppointmentService.cancelAppointment(appointment._id)
+            if(app) return app
+        }
+        return null
     }
 
-    async function onRescheduleAppointment(date: Date){
-        if(appointment)
-            AppointmentService.rescheduleAppointment(appointment._id, date)
-        setShowRescheduleModal(false)
+    async function onRescheduleAppointment(date: Date) : Promise<AppointmentModel | null>{
+        if(appointment){
+            const app = await AppointmentService.rescheduleAppointment(appointment._id, date)
+            return app
+        }
+        return null
     }
 
     if(!appointment || !medicalField || !doctor) return <h3>Loading...</h3>
@@ -68,6 +73,7 @@ export function AppointmentManagement(){
             {
                 showRescheduleModal && 
                 <RescheduleModal
+                    appointmentId={appointment._id}
                     medicalField={medicalField}
                     doctor={doctor}
                     setShowRescheduleModal={setShowRescheduleModal}
