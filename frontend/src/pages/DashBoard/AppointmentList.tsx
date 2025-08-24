@@ -25,8 +25,8 @@ export function AppointmentList({ appointments, doctorMap, medicalFieldMap } : A
                     <AppointmentPreview 
                         key={app._id} 
                         appointment={app}
-                        doctorMap={doctorMap}
-                        medicalFieldMap={medicalFieldMap}
+                        doctorName={doctorMap[app.doctorId]}
+                        medicalFieldName={medicalFieldMap[app.medicalFieldId]}
                     />
                 )
             }

@@ -25,6 +25,7 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, setConfi
             .createAppointment(field._id, doctor._id, date)
         AppointmentService.deleteLocalBookingFlow()
         setIsSuccess(!!appointment)
+        if(appointment)
         setConfirmBooking(true)
         setIsLoading(false)
     }

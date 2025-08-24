@@ -7,6 +7,8 @@ export const authService = {
     verifyOtp,
     logout,
     getLoggedinUser,
+    saveLocalIsUserNew,
+    getIsUserNew,
 }
 
 
@@ -20,9 +22,11 @@ async function sendOtp(phone : string) : Promise<string | null> {
 }
 
 async function verifyOtp(phone : string, password : string) : Promise<UserModel | null> {
+
   try{
-    const user = await httpService.post<UserModel>('auth/verify-otp', { phone, password })
+    const {user, isUserNew}  = await httpService.post<{user: UserModel, isUserNew: boolean}>('auth/verify-otp', { phone, password })
     _saveLocalUser(user)
+    saveLocalIsUserNew(isUserNew)
     return user
 
   } catch(err){
@@ -36,6 +40,7 @@ async function logout() : Promise<void> {
   try{
     await httpService.post<void>('auth/logout')
     sessionStorage.removeItem('loggedInUser')
+    sessionStorage.removeItem('isUserNew')
     sessionStorage.removeItem('bookingFlow')
 
   } catch (err){
@@ -48,6 +53,17 @@ function getLoggedinUser(): UserModel | null{
   const userStr = sessionStorage.getItem('loggedInUser')
   if(!userStr) return null
   return JSON.parse(userStr)
+}
+
+function saveLocalIsUserNew(isUserNew: boolean) : boolean{
+  sessionStorage.setItem('isUserNew', JSON.stringify(isUserNew))
+  return isUserNew
+}
+
+function getIsUserNew(): boolean | null{
+  const isUserNew = sessionStorage.getItem('isUserNew')
+  if(!isUserNew) return null
+  return JSON.parse(isUserNew)
 }
 
 function _saveLocalUser(user : UserModel) : UserModel {

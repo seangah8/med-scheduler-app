@@ -22,6 +22,11 @@ const otpSchema = new Schema<OtpDocument>({
     required: true 
   },
 
+  isUserNew: {
+    type: Boolean,
+    required: true
+  }
+
 }, {versionKey: false})  // disables __v
 
 // index to auto-delete after expiresAt

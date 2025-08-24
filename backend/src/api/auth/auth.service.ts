@@ -12,7 +12,7 @@ export const authService = {
   validateToken,
 }
 
-export async function setOTP(userId: string): Promise<string> {
+export async function setOTP(userId: string, isUserNew: boolean): Promise<string> {
 
   // remove any existing otps for this user
   await OtpMongoModel.deleteMany({ userId })
@@ -26,7 +26,8 @@ export async function setOTP(userId: string): Promise<string> {
   await OtpMongoModel.create({
     userId: new mongoose.Types.ObjectId(userId),
     password: otp,
-    expiresAt
+    expiresAt,
+    isUserNew
   })
 
   logger.info(`mock otp for user ${userId}: ${otp}`)
@@ -34,7 +35,7 @@ export async function setOTP(userId: string): Promise<string> {
 }
 
 
-export async function checkOTP(userId: string, password: string): Promise<void> {
+export async function checkOTP(userId: string, password: string): Promise<boolean> {
 
   const otpDoc = await OtpMongoModel.findOne({
       userId,
@@ -49,6 +50,7 @@ export async function checkOTP(userId: string, password: string): Promise<void> 
     await OtpMongoModel.deleteOne({ _id: otpDoc._id })
 
     logger.info(`OTP confirmed valid for user ${userId}`)
+    return otpDoc.isUserNew
 }
 
 export function validateToken(token: string): LoginTokenModel | null {

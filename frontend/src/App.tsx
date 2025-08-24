@@ -22,23 +22,18 @@ function App() {
 
 export default App
 
-// 1. clear calendar interface
-  // handle timezone considerations
 
-// 2. for new users: 
-  // welcome message 
-  // clear call to action to start booking their first appointment
-  // quick overview of available medical services that our facility provide
-
-// 3. cancel + rescedule
+// 1. cancel + rescedule
   // confirmation notification for canceling + reschedule appointments
   // make so cancel and rescedule modals wont open at the same time
   // when canceling -> move to dashboard, when rescedule -> update the time in front
   // remove cancle and rescedule buttons in completed appointmens
 
-// 4. add details for appointments and show in booking flow and appointmemt managment
+// 2. add details for appointments and show in booking flow and appointmemt managment
 
-// 5. make send and verify otp in seperate components that will be shown seperatly
+// 3. seperate components that will be shown seperatly:
+  // send and verify otp
+  // dashboard regular vs new user
 
 
 // a. finish core
