@@ -2,8 +2,6 @@ import { useState, useEffect } from "react"
 import { AppointmentModel } from "../../models/appointment.model"
 import { AppointmentService } from "../../services/appointment.service"
 import { authService } from "../../services/auth.service"
-import { medicalFieldService } from "../../services/medicalField.service"
-import { MedicalFieldModel } from "../../models/medicalField.model"
 import { DashboardRegular } from "./DashboardRegular"
 import { DashboardWelcome } from "./DashboardWelcome"
 
@@ -14,7 +12,6 @@ export function Dashboard(){
     const [appointments, setAppointments] = useState<AppointmentModel[]>([])
     const [doctorMap, setDoctorMap] = useState<Record<string, string>>({})
     const [medicalFieldMap, setMedicalFieldMap] = useState<Record<string, string>>({})
-    const [medicalFields, setMedicalFields] = useState<MedicalFieldModel[]>([])
     const [onPast, setOnPast] = useState<boolean>(false)
     const [isUserNew, setIsUserNew] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -37,10 +34,7 @@ export function Dashboard(){
         loadAppointments()
     },[onPast])
 
-    useEffect(()=>{
-        if(isUserNew)
-            loadMedicalFields()
-    },[isUserNew])
+
 
     async function loadAppointments(){
         const status = onPast ? 'completed' : 'scheduled'
@@ -53,13 +47,6 @@ export function Dashboard(){
             setMedicalFieldMap(fieldMap)
         }
     }
-
-    async function loadMedicalFields() {
-        const fields = await medicalFieldService.getMedicalFields()
-        if(fields) setMedicalFields(fields)
-    }
-
-
 
     if(isLoading) return <h3>Loading...</h3>
 
@@ -82,7 +69,7 @@ export function Dashboard(){
             {/* for new users */}
             {
                 isUserNew &&
-                <DashboardWelcome medicalFields={medicalFields}/>
+                <DashboardWelcome/>
             }
         </section>
     )

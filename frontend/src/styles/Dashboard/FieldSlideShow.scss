@@ -1,0 +1,14 @@
+
+
+.field-slide-show{
+    cursor: grab;
+    width: 90vw;
+
+    .field-card{
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+}
