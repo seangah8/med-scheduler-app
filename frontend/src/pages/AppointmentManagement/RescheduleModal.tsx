@@ -3,6 +3,7 @@ import { TimeSlotSelector } from "../BookingFlow/TimeSlotSelector"
 import { DoctorModel } from "@/models/doctor.model"
 import { useState } from "react"
 import { AppointmentModel } from "@/models/appointment.model"
+import { TimeSlotService } from "../../services/timeSlot.service"
 
 
 interface RescheduleModalProps{
@@ -36,8 +37,7 @@ export function RescheduleModal({appointmentId, medicalField, doctor, setShowRes
                 wasRescheduledSuccessfully === null &&
                 !choosenDate &&
                 <section className="reschedule-calendar">
-                    <h3>What time do you want to reschedule the appointment to?</h3>
-                    <button onClick={()=>setShowRescheduleModal(false)}>Cancel</button>
+                    <button className="cancel-button" onClick={()=>setShowRescheduleModal(false)}>X</button>
                     <TimeSlotSelector 
                         field={medicalField}
                         doctor={doctor}
@@ -51,10 +51,12 @@ export function RescheduleModal({appointmentId, medicalField, doctor, setShowRes
                 wasRescheduledSuccessfully === null &&
                 choosenDate &&
                 <section className="reschedule-confirmation">
-                    <p>{`Are you sure you want to reschedule the 
-                        appointment to ${choosenDate.toString()}`}</p>
-                    <button onClick={()=>setChoosenDate(null)}>No</button>
-                    <button onClick={onApprove}>Yes</button>
+                    <h3>{`Are you sure you want to reschedule your 
+                        appointment to ${TimeSlotService.formatDateTimeLong(choosenDate)}?`}</h3>
+                    <div className="buttons-area">
+                        <button onClick={()=>setChoosenDate(null)}>No</button>
+                        <button onClick={onApprove}>Yes</button>
+                    </div>
                 </section>
             }
 
@@ -62,13 +64,13 @@ export function RescheduleModal({appointmentId, medicalField, doctor, setShowRes
             {
                 wasRescheduledSuccessfully !== null &&
                 <section className="reschedule-status">
-                    <p>
+                    <h3>
                     {
                         wasRescheduledSuccessfully
                         ? 'appointment rescheduled'
                         : 'could not reschedule the appointment, try again later'
                     }
-                    </p>
+                    </h3>
                     <button onClick={()=>{
                         setShowRescheduleModal(false)
                         if (wasRescheduledSuccessfully)

@@ -28,9 +28,11 @@ export function CancelModal({setShowCancelModal, onCancelAppointment}
             {
                 wasCanceledSuccessfully === null &&
                 <section className="cancel-confirmation">
-                    <h3>Are you sure you want to cancel the appointment?</h3>
-                    <button onClick={()=>setShowCancelModal(false)}>No</button>
-                    <button onClick={onApprove}>Yes</button>
+                    <h3>Are you sure you want to cancel your appointment?</h3>
+                    <div className="buttons-area">
+                        <button onClick={()=>setShowCancelModal(false)}>No</button>
+                        <button onClick={onApprove}>Yes</button>
+                    </div>
                 </section>
             }
 
@@ -38,13 +40,13 @@ export function CancelModal({setShowCancelModal, onCancelAppointment}
             {
                 wasCanceledSuccessfully !== null &&
                 <section className="cancel-status">
-                    <p>
+                    <h3>
                         {
                             wasCanceledSuccessfully
                             ? 'appointment canceled'
                             : 'could not cancel the appointment, try again later'
                         }
-                    </p>
+                    </h3>
                     <button onClick={()=>
                         wasCanceledSuccessfully
                         ? navigate('/dashboard')

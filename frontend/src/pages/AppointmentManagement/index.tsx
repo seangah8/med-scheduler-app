@@ -85,25 +85,27 @@ export function AppointmentManagement(){
                 </section>
             }
 
+            { (showCancelModal || showRescheduleModal) &&
+            <div className="modals-container">
+                {
+                    showCancelModal && 
+                    <CancelModal
+                        setShowCancelModal={setShowCancelModal}
+                        onCancelAppointment={onCancelAppointment}
+                    />
+                }
 
-
-            {
-                showCancelModal && 
-                <CancelModal
-                    setShowCancelModal={setShowCancelModal}
-                    onCancelAppointment={onCancelAppointment}
-                />
-            }
-
-            {
-                showRescheduleModal && 
-                <RescheduleModal
-                    appointmentId={appointment._id}
-                    medicalField={medicalField}
-                    doctor={doctor}
-                    setShowRescheduleModal={setShowRescheduleModal}
-                    onRescheduleAppointment={onRescheduleAppointment}
-                />
+                {
+                    showRescheduleModal && 
+                    <RescheduleModal
+                        appointmentId={appointment._id}
+                        medicalField={medicalField}
+                        doctor={doctor}
+                        setShowRescheduleModal={setShowRescheduleModal}
+                        onRescheduleAppointment={onRescheduleAppointment}
+                    />
+                }
+            </div>
             }
         </section>
     )
