@@ -17,16 +17,25 @@ export function DashboardRegular({appointments, doctorMap, medicalFieldMap, setO
 
     return(
         <section className="dashboard-regular">
-            <button onClick={()=>navigate('/booking-appointment')}>
+            <h2>My Appointments</h2>
+            <button className="book-appointment-button" 
+                onClick={()=>navigate('/booking-appointment')}>
                 book appointment +
             </button>
-            <button onClick={()=>setOnPast(true)}>Past</button>
-            <button onClick={()=>setOnPast(false)}>Upcoming</button>
+            <div className="filter">
+                <button onClick={()=>setOnPast(true)}>Past Appointments</button>
+                <button onClick={()=>setOnPast(false)}>Upcoming Appointments</button>
+            </div>
             <AppointmentList 
                 appointments={appointments} 
                 doctorMap={doctorMap}
                 medicalFieldMap={medicalFieldMap}
             />
+
+            {
+                appointments.length === 0 &&
+                <p>no appointments found</p>
+            }
         </section>
     )
 }

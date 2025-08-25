@@ -2,9 +2,13 @@ import { useEffect } from 'react'
 import { useRoutes, useLocation, useNavigate } from 'react-router-dom'
 import { routes } from './router/routes'
 import { useAppSelector } from './store/hooks'
+import { authThunks } from './store/thunks/auth.thunks'
+import { useAppDispatch } from './store/hooks'
+
 
 function App() {
 
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const location = useLocation()
   const routeElements = useRoutes(routes)
@@ -17,7 +21,25 @@ function App() {
     }
   }, [loggedInUser, location.pathname])
 
-  return <> {routeElements} </>
+    async function onLogout(){
+      await dispatch(authThunks.logout())
+    }
+
+  return (<section className='app'> 
+
+    {/* show app header all the time but the registration page*/}
+    { 
+      location.pathname !== '/' && location.pathname !== '/registration' &&
+      <section className='app-header'>
+        <button onClick={onLogout}>logout</button>
+      </section>
+    }
+
+
+    {routeElements} 
+
+  </section>
+  )
 }
 
 export default App

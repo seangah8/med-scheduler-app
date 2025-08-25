@@ -14,13 +14,17 @@ export function AppointmentPreview({ appointment, doctorName, medicalFieldName  
     const navigate = useNavigate()
 
     return(
-        <tr className="appointment-preview" 
+        <article className="appointment-preview" 
             onClick={()=>{navigate(`/appointment/${appointment._id}`)}}>
 
-            <td>{doctorName}</td>
-            <td>{medicalFieldName}</td>
-            <td>{TimeSlotService.formatDateTimeLong(appointment.startAt)}</td>
+            <div className="appointment-info">
+                <h3>{doctorName}</h3>
+                <p>{medicalFieldName}</p>
+                <p>{TimeSlotService.formatDateTimeLong(appointment.startAt)}</p>
+            </div>
+            <i className="fa-solid fa-angle-right"></i>
+
             
-        </tr>
+        </article>
     )
 }

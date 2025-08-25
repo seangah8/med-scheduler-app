@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react"
-import { authThunks } from "../../store/thunks/auth.thunks"
-import { useAppDispatch } from "../../store/hooks"
 import { AppointmentModel } from "../../models/appointment.model"
 import { AppointmentService } from "../../services/appointment.service"
 import { authService } from "../../services/auth.service"
@@ -13,7 +11,6 @@ import { DashboardWelcome } from "./DashboardWelcome"
 
 export function Dashboard(){
 
-    const dispatch = useAppDispatch()
     const [appointments, setAppointments] = useState<AppointmentModel[]>([])
     const [doctorMap, setDoctorMap] = useState<Record<string, string>>({})
     const [medicalFieldMap, setMedicalFieldMap] = useState<Record<string, string>>({})
@@ -62,16 +59,14 @@ export function Dashboard(){
         if(fields) setMedicalFields(fields)
     }
 
-    async function onLogout(){
-        await dispatch(authThunks.logout())
-    }
+
 
     if(isLoading) return <h3>Loading...</h3>
 
     return(
         <section className="dashboard">
 
-            <button onClick={onLogout}>logout</button>
+            
 
             {/* for regular users */}
             {

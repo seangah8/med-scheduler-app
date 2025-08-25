@@ -11,26 +11,19 @@ interface AppointmentListProps{
 export function AppointmentList({ appointments, doctorMap, medicalFieldMap } : AppointmentListProps){
 
     return(
-        <table className="appointment-list">
-            <thead>
-                <tr>
-                    <th>Medical Field</th>
-                    <th>Doctor</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
+        <ul className="appointment-list">
             {
                 appointments.map(app=>
-                    <AppointmentPreview 
-                        key={app._id} 
-                        appointment={app}
-                        doctorName={doctorMap[app.doctorId]}
-                        medicalFieldName={medicalFieldMap[app.medicalFieldId]}
-                    />
+                    <li key={app._id} >
+                        <AppointmentPreview 
+                            appointment={app}
+                            doctorName={doctorMap[app.doctorId]}
+                            medicalFieldName={medicalFieldMap[app.medicalFieldId]}
+                        />
+                    </li>
+                    
                 )
             }
-            </tbody>
-        </table>
+        </ul>
     )
 }

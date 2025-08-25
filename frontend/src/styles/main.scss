@@ -2,9 +2,16 @@
 @use './Registration/Registration.scss';
 @use './Registration/RegistrationSendOtp.scss';
 @use './Registration/RegistrationVerification.scss';
+@use './Dashboard/Dashboard.scss';
+@use './Dashboard/DashboardRegular.scss';
 
 
 body{
     margin: 0px;
+
+    h1, h2, h3, p{
+        margin: 0;
+    }
+
 
 }

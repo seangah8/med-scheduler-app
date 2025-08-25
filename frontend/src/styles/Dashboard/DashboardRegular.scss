@@ -1,0 +1,40 @@
+
+
+.dashboard-regular{
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+
+    .book-appointment-button{
+        width: 200px;
+        align-self: flex-end;
+    }
+
+    .appointment-list{
+
+        list-style-type: none;
+
+        .appointment-preview{
+            cursor: pointer;
+            border: solid gray 1px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &:hover{
+                background-color: ghostwhite;
+            }
+
+            .appointment-info{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+    }
+
+
+
+}
