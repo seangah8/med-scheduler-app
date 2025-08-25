@@ -64,32 +64,39 @@ export function TimeSlotSelector({ field, doctor, onSelect }: TimeSlotSelectorPr
 
   return (
     <section className="time-slot-selector">
-      <h1>Time Slot Selector</h1>
+      <h1>Select Time</h1>
 
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DateCalendar
-          value={calendarDate}
-          onChange={(newDate) => {
-            if (!newDate) return
-            const dateStr = format(newDate, 'yyyy-MM-dd')
-            if (!unavailableDaysSetRef.current.has(dateStr)) {
-              setCalendarDate(newDate)
-            }
-          }}
-          shouldDisableDate={(date) => TimeSlotService.isDayDisable
-            (date, field._id, doctor, unavailableDaysSetRef.current)}
-        />
-      </LocalizationProvider>
+      <div className="time-select-area">
 
-      <ul>
-        {
-          availableDaySlots.map(d =>
-            <li key={d.toISOString()} onClick={() => onSelect(d)}>
-              {TimeSlotService.formatTimeShort(d)}
-            </li>
-          )
-        }
-      </ul>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DateCalendar
+            views={['day']}
+            value={calendarDate}
+            onChange={(newDate) => {
+              if (!newDate) return
+              const dateStr = format(newDate, 'yyyy-MM-dd')
+              if (!unavailableDaysSetRef.current.has(dateStr)) {
+                setCalendarDate(newDate)
+              }
+            }}
+            shouldDisableDate={(date) => TimeSlotService.isDayDisable
+              (date, field._id, doctor, unavailableDaysSetRef.current)}
+          />
+        </LocalizationProvider>
+
+        <ul>
+          {
+            availableDaySlots.map(d =>
+              <li key={d.toISOString()} onClick={() => onSelect(d)}>
+                {TimeSlotService.formatTimeShort(d)}
+              </li>
+            )
+          }
+        </ul>
+
+      </div>
+
+
     </section>
   )
 }

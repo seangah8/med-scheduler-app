@@ -46,8 +46,8 @@ export default App
 // basic UI Layout:
 
 // Registration ✅
-// DashboardRegular
-// DashboardWelcome
+// DashboardRegular ✅
+// DashboardWelcome ✅
 // BookingFlow
 // AppointmentManagement
 

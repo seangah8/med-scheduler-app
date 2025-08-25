@@ -1,0 +1,51 @@
+
+.time-slot-selector{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    h1{
+        font-size: 2rem;
+    }
+
+    .time-select-area{
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+
+        .MuiDateCalendar-root{
+            margin: 0px;
+            height: 290px;
+        }
+
+        ul{
+            margin: 0px;
+            margin-top: 20px;
+            height: 260px;
+            overflow-y: auto;
+            padding: 0px;
+            list-style-type: none;
+            width: 40%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        li{
+            cursor: pointer;
+            height: 30px;
+            width: 75px;
+            background-color: aliceblue;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover{
+                background-color: rgb(215, 225, 234);
+            }
+        }
+
+    }
+}

@@ -25,7 +25,6 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, setConfi
             .createAppointment(field._id, doctor._id, date)
         AppointmentService.deleteLocalBookingFlow()
         setIsSuccess(!!appointment)
-        if(appointment)
         setConfirmBooking(true)
         setIsLoading(false)
     }
@@ -37,12 +36,12 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, setConfi
             { 
                 !confirmBooking &&
                 <section className="confirmation-screen">
-                    <h1>Book Confirmation</h1>
+                    <h1>Final Details</h1>
 
-                    <h3>{`Medical Field: ${field.name}`}</h3>
-                    <h3>{`Doctor: ${doctor.name}`}</h3>
-                    <h3>{`Date: ${TimeSlotService.formatDateTimeLong(date)}`}</h3>
-                    {field.requiredInfo && <h3>{`Requirements: ${field.requiredInfo}`}</h3>}
+                    <p>{`Medical Field: ${field.name}`}</p>
+                    <p>{`Doctor: ${doctor.name}`}</p>
+                    <p>{`Date: ${TimeSlotService.formatDateTimeLong(date)}`}</p>
+                    {field.requiredInfo && <p>{`Requirements: ${field.requiredInfo}`}</p>}
 
                     <button onClick={onBookAppointment} disabled={isLoading}>
                         {isLoading ? 'Booking...' : 'Book Appointment'}
@@ -54,7 +53,7 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, setConfi
             {
                 confirmBooking && isSuccess && 
                 <section className="success-screen">
-                    <h1>Appointment added!</h1>
+                    <h1>New Appointment Have Been Add!</h1>
                     <button onClick={()=>navigate('/dashboard')}>back to home page</button>
                 </section>
             }
@@ -65,7 +64,7 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, setConfi
                 <section className="error-screen">
                     <h1>Couldn't save Appointment... please try again</h1>
                     <button onClick={() => window.location.href = '/booking-appointment'}>
-                        back to book an appointment</button>
+                        back booking an appointment</button>
                 </section>
             }
 

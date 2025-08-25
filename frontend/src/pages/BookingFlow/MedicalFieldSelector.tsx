@@ -23,14 +23,14 @@ export function MedicalFieldSelector({ currantField, onSelect } : MedicalFieldSe
 
     return(
         <section className="medical-field-selection">
-            <h1>Medical Field Selection</h1>
-                <Autocomplete
-                    options={medicalFields}
-                    value={currantField}
-                    getOptionLabel={option => option.name}
-                    renderInput={params => <TextField {...params} label="Select Medical Field" />}
-                    onChange={(_, value) => {if (value) onSelect(value)}}
-                />
+            <h1>Select Medical Field</h1>
+            <Autocomplete
+                options={medicalFields}
+                value={currantField}
+                getOptionLabel={option => option.name}
+                renderInput={params => <TextField {...params} label="Select Medical Field" />}
+                onChange={(_, value) => {if (value) onSelect(value)}}
+            />
             {currantField && <p>{currantField.details}</p>}
         </section>
     )

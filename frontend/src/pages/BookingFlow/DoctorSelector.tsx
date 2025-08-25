@@ -25,7 +25,7 @@ export function DoctorSelector({ field, currantDoctor, onSelect } : DoctorSelect
 
     return(
         <section className="doctor-selection">
-            <h1>Doctor Selection</h1>
+            <h1>Select Doctor From This Field</h1>
             <Autocomplete
                 options={doctors}
                 value={currantDoctor}

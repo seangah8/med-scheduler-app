@@ -8,6 +8,14 @@
 @use './Dashboard/DashboardRegular.scss';
 @use './Dashboard/DashboardWelcome.scss';
 @use './Dashboard/FieldSlideShow.scss';
+@use './BookingFlow/BookingFlow.scss';
+@use './BookingFlow/MedicalFieldSelector.scss';
+@use './BookingFlow/DoctorSelector.scss';
+@use './BookingFlow/TimeSlotSelector.scss';
+@use './BookingFlow/BookConfirmation.scss';
+@use './AppointmentManagement/AppointmentManagement.scss';
+@use './AppointmentManagement/CancelModal.scss';
+@use './AppointmentManagement/RescheduleModal.scss';
 
 
 body{
