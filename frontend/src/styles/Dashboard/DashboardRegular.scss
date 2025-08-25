@@ -1,7 +1,7 @@
 
 
 .dashboard-regular{
-    width: 75%;
+    width: 100%;
     display: flex;
     flex-direction: column;
 
@@ -13,6 +13,7 @@
     .appointment-list{
 
         list-style-type: none;
+        padding: 0px;
 
         .appointment-preview{
             cursor: pointer;

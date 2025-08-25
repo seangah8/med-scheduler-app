@@ -1,4 +1,6 @@
 @use './vars';
+@use './App.scss';
+@use './components/AppHeader.scss';
 @use './Registration/Registration.scss';
 @use './Registration/RegistrationSendOtp.scss';
 @use './Registration/RegistrationVerification.scss';

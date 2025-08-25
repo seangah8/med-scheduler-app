@@ -1,44 +1,43 @@
-import { useEffect } from 'react'
+import { useEffect, useState, useLayoutEffect } from 'react'
 import { useRoutes, useLocation, useNavigate } from 'react-router-dom'
 import { routes } from './router/routes'
 import { useAppSelector } from './store/hooks'
-import { authThunks } from './store/thunks/auth.thunks'
-import { useAppDispatch } from './store/hooks'
+import { AppHeader } from './components/AppHeader'
 
 
 function App() {
 
-  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const location = useLocation()
   const routeElements = useRoutes(routes)
   const loggedInUser = useAppSelector(state => state.authModule.loggedInUser)
+  const [isUnderRegistration, setIsUnderRegistration] = useState<boolean>(false)
+
+  useLayoutEffect(() => {
+    const registrationPaths = ['/', '/registration']
+    setIsUnderRegistration(registrationPaths.includes(location.pathname))
+  }, [location.pathname])
 
   // redirect to registration if not logged in
   useEffect(() => {
-    if (!loggedInUser && location.pathname !== '/') {
+    if (!loggedInUser && !isUnderRegistration) {
       navigate('/', { replace: true })
     }
   }, [loggedInUser, location.pathname])
 
-    async function onLogout(){
-      await dispatch(authThunks.logout())
-    }
+  return (
 
-  return (<section className='app'> 
+    <section className='app' style={!isUnderRegistration ? {width: '75%'} : undefined}> 
 
-    {/* show app header all the time but the registration page*/}
-    { 
-      location.pathname !== '/' && location.pathname !== '/registration' &&
-      <section className='app-header'>
-        <button onClick={onLogout}>logout</button>
-      </section>
-    }
+      {/* show app header all the time but the registration page*/}
+      { 
+        !isUnderRegistration &&
+        <AppHeader/>
+      }
 
+      {routeElements} 
 
-    {routeElements} 
-
-  </section>
+    </section>
   )
 }
 
