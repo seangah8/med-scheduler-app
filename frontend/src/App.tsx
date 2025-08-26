@@ -42,11 +42,3 @@ function App() {
 }
 
 export default App
-
-
-// 1. disable toady if all time slots have passed
-
-
-
-// a. polish core
-// b. polish ui

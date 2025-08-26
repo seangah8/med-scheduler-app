@@ -3,12 +3,13 @@ interface RegistrationVerificationProps{
     password: string
     isVerifying: boolean
     showInvalidPassMsg: boolean
+    waitingForPassword: boolean
     setPassword: (str : string) => void
     onGetOtp: () => void
     onVerifyOtp: () => void
 }
 
-export function RegistrationVerification({password, isVerifying, showInvalidPassMsg, setPassword, onGetOtp, onVerifyOtp} 
+export function RegistrationVerification({password, isVerifying, showInvalidPassMsg, waitingForPassword, setPassword, onGetOtp, onVerifyOtp} 
     : RegistrationVerificationProps){
 
     return(
@@ -18,14 +19,23 @@ export function RegistrationVerification({password, isVerifying, showInvalidPass
                 id="password"
                 type="text"
                 name="password"
+                placeholder="Enter Temporary Code"
                 value={password}
                 onChange={event=>setPassword(event.target.value)}
             />
-            {showInvalidPassMsg  && <p>Invalid Password, please try again</p>}
+            {   showInvalidPassMsg  && 
+                <p className="invalid-input-err">
+                    Invalid password, please try again.
+                </p>
+            }
             <button onClick={onVerifyOtp} disabled={isVerifying}>
                 {isVerifying ? 'Verifying...' : 'Approve'}
             </button>
-            <p>Did not receive, please <span onClick={onGetOtp}>send again</span></p>
+            <p className="try-again-text">Did not receive? please  
+                <span onClick={()=> !waitingForPassword && onGetOtp()}>
+                    {' '} send again
+                </span>
+            </p>
         </section>
     )
 }

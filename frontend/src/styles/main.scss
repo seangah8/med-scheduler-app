@@ -1,4 +1,4 @@
-@use './vars';
+@use './vars' as var;
 @use './App.scss';
 @use './components/AppHeader.scss';
 @use './Registration/Registration.scss';
@@ -25,9 +25,38 @@ body{
         margin: 0;
     }
 
+    font-family: "Raleway", sans-serif;
+
     button{
         cursor: pointer;
+        border: none;
+        height: 40px;
+        width: 220px;
+        border-radius: 20px;
+        background-color: var.$blue;
+        color: white;
+        font-family: "Raleway", sans-serif;
+        font-size: 1rem;
+        
+        &:hover{
+            background-color: var.$blue-mark;
+        }
+
+        &:disabled{
+            cursor: default;
+            opacity: 0.6; 
+
+            &:hover{
+                background-color: var.$blue;
+            }
+        }
     }
+
+
+    input{
+        font-family: "Raleway", sans-serif;
+    }
+    
 
 
 }

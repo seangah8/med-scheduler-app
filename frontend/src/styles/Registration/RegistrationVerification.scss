@@ -7,9 +7,16 @@
     align-items: center;
     justify-content: space-between;
 
-    span{
-        cursor: pointer;
-        font-weight: bold;
+
+
+    .try-again-text{
+        font-size: 0.9rem;
+
+        span{
+            cursor: pointer;
+            font-weight: bold;
+        }
+
     }
 
 }

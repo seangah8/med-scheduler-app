@@ -27,10 +27,14 @@ export function RegistrationSendOtp({phone, waitingForPassword, setPhone, onGetO
                 type="text"
                 name="phone"
                 value={phone}
-                placeholder="Phone Number"
+                placeholder="Your Phone Number"
                 onChange={event=>setPhone(event.target.value)}
             />
-            {!isPhoneValid && <p>please enter a valid phone number</p>}
+            {   !isPhoneValid && 
+                <p className="invalid-input-err">
+                    please enter a valid phone number.
+                </p>
+            }
             <p>To identify who we have the honor of dealing with, 
                 we will send you a one-time identification code</p>
             <button onClick={()=>checkPhoneValidation(phone)} disabled={waitingForPassword}>

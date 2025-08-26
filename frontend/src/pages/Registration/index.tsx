@@ -67,6 +67,7 @@ export function Registration(){
                         password={password}
                         isVerifying={isVerifying}
                         showInvalidPassMsg={showInvalidPassMsg}
+                        waitingForPassword={waitingForPassword}
                         setPassword={setPassword}
                         onGetOtp={onGetOtp}
                         onVerifyOtp={onVerifyOtp}
