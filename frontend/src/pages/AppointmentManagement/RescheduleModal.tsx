@@ -34,7 +34,7 @@ export function RescheduleModal({appointmentId, medicalField, doctor, setShowRes
     }
 
     return(
-        <section className="reschedule-modal">
+        <section className="reschedule-modal"  onClick={e => e.stopPropagation()}>
 
             {/* reschedule calendar */}
             {

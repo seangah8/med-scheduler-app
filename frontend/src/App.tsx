@@ -43,13 +43,11 @@ function App() {
 
 export default App
 
-// 1. qa your web
-  // add so selected slot will look diffrent
-  // (mabye) make it possible to exit ,odal by clicking outsid of it
-// 2. add extra data and show in front
+
+// 1. add extra data and show in front
   // 
-// 3. handle error feedback to the user
-// 4. make sure the is loading states in pages
+// 2. handle error feedback to the user
+// 3. make sure the is loading states in pages
 
 
 

@@ -26,7 +26,7 @@ export function CancelModal({setShowCancelModal, onCancelAppointment}
     
 
     return(
-        <section className="cancel-modal">
+        <section className="cancel-modal"  onClick={e => e.stopPropagation()}>
             {/* cancel confirmation */}
             {
                 wasCanceledSuccessfully === null &&

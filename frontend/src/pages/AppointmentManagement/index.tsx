@@ -86,7 +86,7 @@ export function AppointmentManagement(){
             }
 
             { (showCancelModal || showRescheduleModal) &&
-            <div className="modals-container">
+            <div className="modals-container" onClick={()=> {setShowCancelModal(false); setShowRescheduleModal(false)}}>
                 {
                     showCancelModal && 
                     <CancelModal
