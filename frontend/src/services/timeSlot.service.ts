@@ -29,6 +29,8 @@ function formatDateTimeLong(date: Date): string {
 function getAvailableSlots(date: Date, doctor: DoctorModel, unavailableSet: Set<string>): Date[] {
     const { start, end, intervalMinutes, breaks } = doctor.schedule
 
+    const now = new Date()
+
     const availableSlots: Date[] = []
     const chosenDate = new Date(date)
 
@@ -58,6 +60,9 @@ function getAvailableSlots(date: Date, doctor: DoctorModel, unavailableSet: Set<
         })
 
         if (isInBreak) continue
+
+        // chek if slot already passed
+        if (slot < now) continue
 
         // check if this slot is unavailable
         if (unavailableSet.has(slot.toISOString())) continue

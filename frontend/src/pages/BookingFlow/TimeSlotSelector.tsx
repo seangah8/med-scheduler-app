@@ -48,10 +48,7 @@ export function TimeSlotSelector({ field, doctor, onSelect }: TimeSlotSelectorPr
     }
 
   const firstAvailable = TimeSlotService.findFirstAvailableDate(
-    doctor,
-    field._id,
-    unavailableDaysSetRef.current,
-  )
+    doctor, field._id, unavailableDaysSetRef.current)
 
   if (firstAvailable) {
     setCalendarDate(firstAvailable)

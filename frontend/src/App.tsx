@@ -43,21 +43,20 @@ function App() {
 
 export default App
 
-// basic UI Layout:
+// 1. qa your web
+  // dont show time slots in the past
+  // fix so day with one timeslot wont disappear
+  // enable on RegistrationVerification go back with browser arrow 
+  // (mabye) replace in booking flow session -> urls 
+  // make buttons of confirmation to load and be disable
+  // add "back to home page button next to logout"
+  // remove prev and next buttons in first/last pages
+// 2. add extra data and show in front
+  // 
+// 3. handle error feedback to the user
+// 4. make sure the is loading states in pages
 
-// Registration ✅
-// DashboardRegular ✅
-// DashboardWelcome ✅
-// BookingFlow
-// AppointmentManagement
 
-// a. make ui basic
-// b. polish core
-  // 1. qa your web
-    // dont show time slots in the past
-    // fix day with one timeslot disappear
-    // enable on RegistrationVerification go back with browser arrow 
-  // 2. handle error feedback to the user
-  // 3. make sure the is loading states in pages
-  // 4. add extra data and show in front
-// c. polish ui
+
+// a. polish core
+// b. polish ui
