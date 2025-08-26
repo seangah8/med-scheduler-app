@@ -46,6 +46,18 @@ export function TimeSlotSelector({ field, doctor, selectedDate, onSelect }: Time
       const slotsSet = new Set<string>(unavailableSlots.map(d => new Date(d).toISOString()))
       unavailableDaysSetRef.current = daysSet
       unavailableSlotsSetRef.current = slotsSet
+
+      // check if today is not already in unavailableDaysSet
+      const now = new Date()
+      const todayStr = format(now, 'yyyy-MM-dd')
+      if (!daysSet.has(todayStr)) {
+        const potentialTodaySlots = TimeSlotService.getAvailableSlots(now, doctor, slotsSet)
+        const futureTodaySlots = potentialTodaySlots.filter(slot => slot > now)
+
+        if (futureTodaySlots.length === 0) {
+          daysSet.add(todayStr)
+        }
+      }
     }
 
     const firstAvailable = TimeSlotService.findFirstAvailableDate(
