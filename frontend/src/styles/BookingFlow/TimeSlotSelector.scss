@@ -43,7 +43,16 @@
             justify-content: center;
 
             &:hover{
-                background-color: rgb(215, 225, 234);
+                background-color: rgb(225, 241, 253);
+            }
+        }
+
+        .selected-date{
+            color: white;
+            background-color: rgb(62, 120, 174);
+
+            &:hover{
+                background-color: rgb(62, 120, 174);
             }
         }
 

@@ -117,7 +117,11 @@ export function BookingFlow() {
       }
       {
         stepNumber === 2 && selectedField && selectedDoctor &&
-        <TimeSlotSelector doctor={selectedDoctor} field={selectedField} onSelect={date => {
+        <TimeSlotSelector 
+        doctor={selectedDoctor} 
+        field={selectedField}
+        selectedDate={selectedDate} 
+        onSelect={date => {
           setSelectedDate(date)
         }} />
       }

@@ -12,10 +12,11 @@ import { TimeSlotService } from "../../services/timeSlot.service"
 interface TimeSlotSelectorProps {
   field: MedicalFieldModel
   doctor: DoctorModel
+  selectedDate: Date | null
   onSelect: (date: Date) => void
 }
 
-export function TimeSlotSelector({ field, doctor, onSelect }: TimeSlotSelectorProps) {
+export function TimeSlotSelector({ field, doctor, selectedDate, onSelect }: TimeSlotSelectorProps) {
   const unavailableDaysSetRef = useRef<Set<string>>(new Set())
   const unavailableSlotsSetRef = useRef<Set<string>>(new Set())
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
@@ -84,7 +85,9 @@ export function TimeSlotSelector({ field, doctor, onSelect }: TimeSlotSelectorPr
         <ul>
           {
             availableDaySlots.map(d =>
-              <li key={d.toISOString()} onClick={() => onSelect(d)}>
+              <li key={d.toISOString()} 
+              className={selectedDate === d ? 'selected-date' : ''}
+              onClick={() => onSelect(d)}>
                 {TimeSlotService.formatTimeShort(d)}
               </li>
             )

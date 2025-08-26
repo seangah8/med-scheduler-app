@@ -44,7 +44,6 @@ function App() {
 export default App
 
 // 1. qa your web
-  // prevent user appoint for medical field he already have been appointed at
   // add so selected slot will look diffrent
   // (mabye) make it possible to exit ,odal by clicking outsid of it
 // 2. add extra data and show in front

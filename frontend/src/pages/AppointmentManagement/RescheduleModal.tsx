@@ -45,6 +45,7 @@ export function RescheduleModal({appointmentId, medicalField, doctor, setShowRes
                     <TimeSlotSelector 
                         field={medicalField}
                         doctor={doctor}
+                        selectedDate={choosenDate}
                         onSelect={(date)=>setChoosenDate(date)}
                     />
                 </section>
