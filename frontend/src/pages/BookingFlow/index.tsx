@@ -7,6 +7,7 @@ import { DoctorSelector } from "./DoctorSelector"
 import { TimeSlotSelector } from "./TimeSlotSelector"
 import { BookConfirmation } from "./BookConfirmation"
 import { AppointmentService } from "../../services/appointment.service"
+import { AppointmentModel } from "@/models/appointment.model"
 
 
 export function BookingFlow() {
@@ -18,6 +19,8 @@ export function BookingFlow() {
   const [selectedDoctor, setSelectedDoctor] = useState<DoctorModel | null>(null)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [confirmBooking, setConfirmBooking] = useState<boolean>(false)
+  const [appointments, setAppointments] = useState<AppointmentModel[]>([])
+  const [appointmentOnFieldExists, setAppointmentOnFieldExists] = useState<boolean>(false)
 
   const steps = ['medical_field', 'doctor', 'date', 'confirmation']
   let stepNumber = steps.indexOf(step || '')
@@ -26,6 +29,7 @@ export function BookingFlow() {
 
   // load sessionStorage
   useEffect(() => {
+    loadAppointments()
     const local = AppointmentService.getLocalBookingFlow()
     if (local) {
       setSelectedField(local.selectedField)
@@ -59,6 +63,25 @@ export function BookingFlow() {
     
   }, [step, isLoading])
 
+  useEffect(()=>{
+    if(!selectedField) setAppointmentOnFieldExists(false)
+    else{
+      const isExists = appointments.some(app =>
+        selectedField._id === app.medicalFieldId)
+      setAppointmentOnFieldExists(isExists)
+    }
+  },[selectedField, appointments])
+
+  
+  async function loadAppointments(){
+      const data = await AppointmentService.getAppointmentsData('scheduled')
+      if(data) {
+          const { appointments } = data
+          setAppointments(appointments)
+      }
+  }
+
+
   function isNextDisabled(): boolean {
     switch (stepNumber) {
       case 0: return selectedField === null
@@ -72,7 +95,9 @@ export function BookingFlow() {
     <section className="booking-flow">
       {
         stepNumber === 0 &&
-        <MedicalFieldSelector currantField={selectedField} 
+        <MedicalFieldSelector 
+          currantField={selectedField}
+          appointmentOnFieldExists={appointmentOnFieldExists} 
           onSelect={field => {
             setSelectedField(field)
             setSelectedDoctor(null)
@@ -103,6 +128,7 @@ export function BookingFlow() {
           doctor={selectedDoctor}
           date={selectedDate}
           confirmBooking={confirmBooking}
+          appointmentOnFieldExists={appointmentOnFieldExists}
           setConfirmBooking={setConfirmBooking}
         />
       }

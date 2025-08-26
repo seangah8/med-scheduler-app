@@ -44,7 +44,6 @@ function App() {
 export default App
 
 // 1. qa your web
-  // remove prev and next buttons in first/last pages
   // prevent user appoint for medical field he already have been appointed at
   // add so selected slot will look diffrent
   // (mabye) make it possible to exit ,odal by clicking outsid of it

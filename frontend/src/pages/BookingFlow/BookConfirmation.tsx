@@ -10,10 +10,11 @@ interface BookConfirmationProps{
     doctor: DoctorModel
     date: Date
     confirmBooking: boolean
+    appointmentOnFieldExists: boolean
     setConfirmBooking: (confirm : boolean) => void
 }
 
-export function BookConfirmation({ field, doctor, date, confirmBooking, setConfirmBooking } : BookConfirmationProps){
+export function BookConfirmation({ field, doctor, date, confirmBooking, appointmentOnFieldExists, setConfirmBooking } : BookConfirmationProps){
 
     const navigate = useNavigate()
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
@@ -42,8 +43,9 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, setConfi
                     <p>{`Doctor: ${doctor.name}`}</p>
                     <p>{`Date: ${TimeSlotService.formatDateTimeLong(date)}`}</p>
                     {field.requiredInfo && <p>{`Requirements: ${field.requiredInfo}`}</p>}
-
-                    <button onClick={onBookAppointment} disabled={isBooking}>
+                    {appointmentOnFieldExists}
+                    {appointmentOnFieldExists && <p>can't book appointment - already have one for this field</p>}
+                    <button onClick={onBookAppointment} disabled={isBooking || appointmentOnFieldExists}>
                         {isBooking ? 'Booking...' : 'Book Appointment'}
                     </button>
                 </section>

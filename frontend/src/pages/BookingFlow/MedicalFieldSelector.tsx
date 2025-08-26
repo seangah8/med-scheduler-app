@@ -5,10 +5,11 @@ import { MedicalFieldModel } from "../../models/medicalField.model"
 
 interface MedicalFieldSelectorProps{
     currantField: MedicalFieldModel | null
+    appointmentOnFieldExists: boolean
     onSelect : (field : MedicalFieldModel | null) => void
 }
 
-export function MedicalFieldSelector({ currantField, onSelect } : MedicalFieldSelectorProps){
+export function MedicalFieldSelector({ currantField, appointmentOnFieldExists, onSelect } : MedicalFieldSelectorProps){
 
     const [medicalFields, setMedicalFields] = useState<MedicalFieldModel[]>([])
 
@@ -32,6 +33,7 @@ export function MedicalFieldSelector({ currantField, onSelect } : MedicalFieldSe
                 onChange={(_, value) => {if (value) onSelect(value)}}
             />
             {currantField && <p>{currantField.details}</p>}
+            {appointmentOnFieldExists && <p>notice: you wont be able book appointment in this field - already have one</p>}
         </section>
     )
 }
