@@ -10,6 +10,22 @@ const doctorSchema = new mongoose.Schema<DoctorDocument>({
     required: true,
   },
 
+  experienceSince: {
+    type: Date,
+    required: true,
+  },
+
+  educationFrom: {
+    type: String,
+    required: true,
+  },
+
+  rating: {
+    type: Number,
+    required: true,
+    default: null
+  },
+
   schedule: {
 
     start: {

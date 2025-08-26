@@ -45,7 +45,8 @@ export default App
 
 
 // 1. add extra data and show in front
-  // 
+  // doctor - experience, education, ratings
+  // appointment - appointmentTypes ('in-person' | 'virtual'), link
 // 2. handle error feedback to the user
 // 3. make sure the is loading states in pages
 

@@ -10,6 +10,20 @@ export async function seedDoctors( medicalFields  : MedicalFieldTSModel[], amoun
 
     const doctors = []
 
+    const medicalSchools: string[] = [
+      "Harvard Medical School",
+      "Johns Hopkins School of Medicine",
+      "Stanford University School of Medicine",
+      "University of Oxford Medical Sciences Division",
+      "Karolinska Institutet",
+      "University of Cambridge School of Clinical Medicine",
+      "Yale School of Medicine",
+      "University of Toronto Faculty of Medicine",
+      "University of Melbourne Medical School",
+      "Tel Aviv University Sackler Faculty of Medicine"
+    ]
+
+
     for (let i = 0; i < amount; i++) {
         
         // name
@@ -48,8 +62,21 @@ export async function seedDoctors( medicalFields  : MedicalFieldTSModel[], amoun
         const fieldWorkdays = Array.from(fieldWorkdaysMap.entries())
             .map(([medicalFieldId, days]) => ({ medicalFieldId, days }))
 
+        // random educationFrom
+        const educationFrom = faker.helpers.arrayElement(medicalSchools)
+
+        // random experienceSince date in past 0–30 years
+        const experienceYearsAgo = faker.number.int({ min: 0, max: 30 })
+        const experienceSince = faker.date.past({ years: experienceYearsAgo })
+
+        // random rating between 3.0 and 5.0 (1 decimal)
+        const rating = Math.round(faker.number.float({ min: 3.0, max: 5.0 }) * 10) / 10
+
         doctors.push({
             name,
+            experienceSince,
+            educationFrom,
+            rating,
             schedule: {
             start: `${scheduleStartHour.toString().padStart(2, '0')}:00`,
             end: `${scheduleEndHour.toString().padStart(2, '0')}:00`,

@@ -3,6 +3,7 @@ import { Autocomplete, TextField } from '@mui/material'
 import { DoctorService } from '../../services/docor.service'
 import { DoctorModel } from '../../models/doctor.model'
 import { MedicalFieldModel } from '../../models/medicalField.model'
+import { Rating } from '@mui/material'
 
 interface DoctorSelectorProps{
     currantDoctor: DoctorModel | null
@@ -33,6 +34,20 @@ export function DoctorSelector({ field, currantDoctor, onSelect } : DoctorSelect
                 renderInput={params => <TextField {...params} label="Select Doctor" />}
                 onChange={(_, value) => {if (value) onSelect(value)}}
             />
+            {
+                currantDoctor &&
+                <div className='doctor-info'>
+                    <p>
+                        Years of Experience: {new Date().getFullYear() - 
+                        new Date(currantDoctor.experienceSince).getFullYear()}
+                    </p>
+                    <p> Education: {currantDoctor.educationFrom} </p>
+                    <div>
+                        <p>Rating</p>
+                        <Rating value={currantDoctor.rating} precision={0.1} readOnly/>
+                    </div>
+                </div>
+            }
         </section>
     )
 }
