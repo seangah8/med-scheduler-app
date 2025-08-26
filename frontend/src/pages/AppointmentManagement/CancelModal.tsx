@@ -14,11 +14,14 @@ export function CancelModal({setShowCancelModal, onCancelAppointment}
     const navigate = useNavigate()
     const [wasCanceledSuccessfully, setWasCanceledSuccessfully] 
         = useState<boolean | null>(null)
+    const [isCanceling, setIsCanceling] = useState(false)
 
     async function onApprove(){
+        setIsCanceling(true)
         const app = await onCancelAppointment()
         if(app) setWasCanceledSuccessfully(true)
         else setWasCanceledSuccessfully(false)
+        setIsCanceling(false)
     }
     
 
@@ -31,7 +34,9 @@ export function CancelModal({setShowCancelModal, onCancelAppointment}
                     <h3>Are you sure you want to cancel your appointment?</h3>
                     <div className="buttons-area">
                         <button onClick={()=>setShowCancelModal(false)}>No</button>
-                        <button onClick={onApprove}>Yes</button>
+                        <button onClick={onApprove} disabled={isCanceling}>
+                           {isCanceling ? 'Canceling...' : 'Yes'}
+                        </button>
                     </div>
                 </section>
             }

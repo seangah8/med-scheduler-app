@@ -17,7 +17,7 @@ export function Dashboard(){
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
     // check if user is new to display proper welcome
-    // if user was new and booked appointment he's not new any more
+    // if user was new and booked appointment he's not new anymore
     useEffect(()=>{
         let isNew = authService.getIsUserNew()
         if(isNew !== null){
@@ -62,6 +62,7 @@ export function Dashboard(){
                     appointments={appointments} 
                     doctorMap={doctorMap}
                     medicalFieldMap={medicalFieldMap}
+                    onPast={onPast}
                     setOnPast={setOnPast}
                 />
             }

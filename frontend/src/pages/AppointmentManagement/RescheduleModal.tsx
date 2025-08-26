@@ -20,13 +20,17 @@ export function RescheduleModal({appointmentId, medicalField, doctor, setShowRes
     const [choosenDate, setChoosenDate] = useState<Date | null>(null)
     const [wasRescheduledSuccessfully, setWasRescheduledSuccessfully] 
         = useState<boolean | null>(null)
+    const [isRescheduling, setIsRescheduling] = useState(false)
 
     async function onApprove() : Promise<void>{
+        setIsRescheduling(true)
         if(choosenDate){
             const app = await onRescheduleAppointment(choosenDate)
             if(app) setWasRescheduledSuccessfully(true)
             else setWasRescheduledSuccessfully(false)
-        } else setWasRescheduledSuccessfully(false)
+        } 
+        else setWasRescheduledSuccessfully(false)
+        setIsRescheduling(false)
     }
 
     return(
@@ -55,7 +59,9 @@ export function RescheduleModal({appointmentId, medicalField, doctor, setShowRes
                         appointment to ${TimeSlotService.formatDateTimeLong(choosenDate)}?`}</h3>
                     <div className="buttons-area">
                         <button onClick={()=>setChoosenDate(null)}>No</button>
-                        <button onClick={onApprove}>Yes</button>
+                        <button onClick={onApprove} disabled={isRescheduling}>
+                            {isRescheduling ? 'Rescheduling...' : 'Yes'}
+                        </button>
                     </div>
                 </section>
             }

@@ -17,16 +17,16 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, setConfi
 
     const navigate = useNavigate()
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
-    const [isLoading, setIsLoading] = useState(false)
+    const [isBooking, setIsBooking] = useState(false)
 
     async function onBookAppointment() {
-        setIsLoading(true)
+        setIsBooking(true)
         const appointment = await AppointmentService
             .createAppointment(field._id, doctor._id, date)
         AppointmentService.deleteLocalBookingFlow()
         setIsSuccess(!!appointment)
         setConfirmBooking(true)
-        setIsLoading(false)
+        setIsBooking(false)
     }
 
     return(
@@ -43,8 +43,8 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, setConfi
                     <p>{`Date: ${TimeSlotService.formatDateTimeLong(date)}`}</p>
                     {field.requiredInfo && <p>{`Requirements: ${field.requiredInfo}`}</p>}
 
-                    <button onClick={onBookAppointment} disabled={isLoading}>
-                        {isLoading ? 'Booking...' : 'Book Appointment'}
+                    <button onClick={onBookAppointment} disabled={isBooking}>
+                        {isBooking ? 'Booking...' : 'Book Appointment'}
                     </button>
                 </section>
             }

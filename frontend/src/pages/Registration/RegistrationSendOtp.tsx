@@ -1,12 +1,12 @@
 
-
 interface RegistrationSendOtpProps{
     phone: string
+    waitingForPassword: boolean
     setPhone: (str : string) => void
     onGetOtp: () => void
 }
 
-export function RegistrationSendOtp({phone, setPhone, onGetOtp} 
+export function RegistrationSendOtp({phone, waitingForPassword, setPhone, onGetOtp} 
     : RegistrationSendOtpProps){
 
     return(
@@ -22,7 +22,9 @@ export function RegistrationSendOtp({phone, setPhone, onGetOtp}
             />
             <p>To identify who we have the honor of dealing with, 
                 we will send you a one-time identification code</p>
-            <button onClick={onGetOtp}>Approve</button>
+            <button onClick={onGetOtp} disabled={waitingForPassword}>
+                {waitingForPassword ? 'Sending...' : 'Approve'}
+            </button>
         </section>
     )
 }

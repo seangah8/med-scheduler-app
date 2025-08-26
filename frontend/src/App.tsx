@@ -44,13 +44,11 @@ function App() {
 export default App
 
 // 1. qa your web
-  // dont show time slots in the past
-  // fix so day with one timeslot wont disappear
-  // enable on RegistrationVerification go back with browser arrow 
-  // (mabye) replace in booking flow session -> urls 
-  // make buttons of confirmation to load and be disable
   // add "back to home page button next to logout"
   // remove prev and next buttons in first/last pages
+  // prevent user appoint for medical field he already have been appointed at
+  // add so selected slot will look diffrent
+  // (mabye) make it possible to exit ,odal by clicking outsid of it
 // 2. add extra data and show in front
   // 
 // 3. handle error feedback to the user

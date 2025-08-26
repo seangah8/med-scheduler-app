@@ -14,6 +14,9 @@ export function Registration(){
     const [phone, setPhone] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [isGotPassword, setIsGotPassword] = useState<boolean>(false)
+    const [waitingForPassword, setWaitingForPassword] = useState<boolean>(false)
+    const [isVerifying, setIsVerifying] = useState<boolean>(false)
+
 
     // when user go back to registration it will logout
     useEffect(()=>{
@@ -22,19 +25,23 @@ export function Registration(){
     },[])
 
     async function onGetOtp(){
+        setWaitingForPassword(true)
         const otp = await authService.sendOtp(phone)
         if(otp) {
             console.log(`here is your password: ${otp}`)
             setIsGotPassword(true)
         }
+        setWaitingForPassword(false)
     }
 
     async function onVerifyOtp(){
+        setIsVerifying(true)
         const user = await dispatch(authThunks.login(phone, password))
         if(user) {
             console.log(`user: ${user._id} connected!`)
             navigate('/dashboard')
         }
+        setIsVerifying(false)
     }
 
     return(
@@ -47,6 +54,7 @@ export function Registration(){
                     !isGotPassword &&
                     <RegistrationSendOtp
                         phone={phone}
+                        waitingForPassword={waitingForPassword}
                         setPhone={setPhone}
                         onGetOtp={onGetOtp}
                     />
@@ -57,6 +65,7 @@ export function Registration(){
                     isGotPassword &&
                     <RegistrationVerification
                         password={password}
+                        isVerifying={isVerifying}
                         setPassword={setPassword}
                         onGetOtp={onGetOtp}
                         onVerifyOtp={onVerifyOtp}

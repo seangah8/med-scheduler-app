@@ -7,10 +7,11 @@ interface DashboardRegularProps{
     appointments: AppointmentModel[]
     doctorMap: Record<string, string>
     medicalFieldMap: Record<string, string>
+    onPast: boolean
     setOnPast : (boolean : boolean) => void
 }
 
-export function DashboardRegular({appointments, doctorMap, medicalFieldMap, setOnPast} 
+export function DashboardRegular({appointments, doctorMap, medicalFieldMap, onPast, setOnPast} 
     : DashboardRegularProps){
 
     const navigate = useNavigate()
@@ -23,8 +24,8 @@ export function DashboardRegular({appointments, doctorMap, medicalFieldMap, setO
                 book appointment +
             </button>
             <div className="filter">
-                <button onClick={()=>setOnPast(true)}>Past Appointments</button>
-                <button onClick={()=>setOnPast(false)}>Upcoming Appointments</button>
+                <button onClick={()=>setOnPast(true)} disabled={onPast}>Past Appointments</button>
+                <button onClick={()=>setOnPast(false)} disabled={!onPast}>Upcoming Appointments</button>
             </div>
             <AppointmentList 
                 appointments={appointments} 
