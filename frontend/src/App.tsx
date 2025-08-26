@@ -44,9 +44,7 @@ function App() {
 export default App
 
 
-// 1. handle error feedback to the user
-// 2. make sure the is loading states in pages
-// 3. disable toady if all time slots have passed
+// 1. disable toady if all time slots have passed
 
 
 

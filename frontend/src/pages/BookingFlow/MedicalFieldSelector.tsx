@@ -12,6 +12,7 @@ interface MedicalFieldSelectorProps{
 export function MedicalFieldSelector({ currantField, appointmentOnFieldExists, onSelect } : MedicalFieldSelectorProps){
 
     const [medicalFields, setMedicalFields] = useState<MedicalFieldModel[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     useEffect(()=>{
         loadMedicalFields()
@@ -19,8 +20,14 @@ export function MedicalFieldSelector({ currantField, appointmentOnFieldExists, o
 
     async function loadMedicalFields(){
         const fields = await medicalFieldService.getMedicalFields()
-        if(fields) setMedicalFields(fields)
+        if(fields) {
+            setMedicalFields(fields)
+            setIsLoading(false)
+        }
+        
     }
+
+    if(isLoading) return <h3>Loading...</h3>
 
     return(
         <section className="medical-field-selection">

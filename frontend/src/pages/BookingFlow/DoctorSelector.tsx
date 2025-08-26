@@ -14,6 +14,7 @@ interface DoctorSelectorProps{
 export function DoctorSelector({ field, currantDoctor, onSelect } : DoctorSelectorProps){
 
     const [doctors, setDoctors] = useState<DoctorModel[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     useEffect(()=>{
         loadDoctors()
@@ -21,8 +22,13 @@ export function DoctorSelector({ field, currantDoctor, onSelect } : DoctorSelect
 
     async function loadDoctors(){
         const doctors = await DoctorService.getDoctors(field._id)
-        if(doctors) setDoctors(doctors)
+        if(doctors) {
+            setDoctors(doctors)
+            setIsLoading(false)
+        }
     }
+
+    if(isLoading) return <h3>Loading...</h3>
 
     return(
         <section className="doctor-selection">

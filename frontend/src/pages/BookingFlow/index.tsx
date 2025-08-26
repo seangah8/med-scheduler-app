@@ -27,9 +27,12 @@ export function BookingFlow() {
   // in case the addres is not valid
   stepNumber = (stepNumber === -1) ? 0 : stepNumber
 
-  // load sessionStorage
+ 
   useEffect(() => {
+    // to see if user trying book again on some field
     loadAppointments()
+
+    // load sessionStorage
     const local = AppointmentService.getLocalBookingFlow()
     if (local) {
       setSelectedField(local.selectedField)

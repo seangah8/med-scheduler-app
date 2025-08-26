@@ -10,11 +10,12 @@ import { DashboardWelcome } from "./DashboardWelcome"
 export function Dashboard(){
 
     const [appointments, setAppointments] = useState<AppointmentModel[]>([])
+    const [loadingApps, setLoadingApps] = useState<boolean>(true)
     const [doctorMap, setDoctorMap] = useState<Record<string, string>>({})
     const [medicalFieldMap, setMedicalFieldMap] = useState<Record<string, string>>({})
     const [onPast, setOnPast] = useState<boolean>(false)
     const [isUserNew, setIsUserNew] = useState<boolean>(false)
-    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [loadingUserStat, setLoadingUserStat] = useState<boolean>(true)
 
     // check if user is new to display proper welcome
     // if user was new and booked appointment he's not new anymore
@@ -27,7 +28,7 @@ export function Dashboard(){
             }
             setIsUserNew(isNew)
         }
-        setIsLoading(false)
+        setLoadingUserStat(false)
     },[appointments])
 
     useEffect(()=>{
@@ -37,6 +38,7 @@ export function Dashboard(){
 
 
     async function loadAppointments(){
+        setLoadingApps(true)
         const status = onPast ? 'completed' : 'scheduled'
         const data = await AppointmentService.getAppointmentsData(status)
         if(data) {
@@ -46,9 +48,10 @@ export function Dashboard(){
             setDoctorMap(drMap)
             setMedicalFieldMap(fieldMap)
         }
+        setLoadingApps(false)
     }
 
-    if(isLoading) return <h3>Loading...</h3>
+    if(loadingUserStat) return <h3>Loading...</h3>
 
     return(
         <section className="dashboard">
@@ -63,6 +66,7 @@ export function Dashboard(){
                     doctorMap={doctorMap}
                     medicalFieldMap={medicalFieldMap}
                     onPast={onPast}
+                    loadingApps={loadingApps}
                     setOnPast={setOnPast}
                 />
             }

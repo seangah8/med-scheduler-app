@@ -19,7 +19,7 @@ interface TimeSlotSelectorProps {
 export function TimeSlotSelector({ field, doctor, selectedDate, onSelect }: TimeSlotSelectorProps) {
   const unavailableDaysSetRef = useRef<Set<string>>(new Set())
   const unavailableSlotsSetRef = useRef<Set<string>>(new Set())
-  const [isLoaded, setIsLoaded] = useState<boolean>(false)
+  const [isLoaded, setIsLoaded] = useState<boolean>(true)
   const [calendarDate, setCalendarDate] = useState<Date | null>(new Date())
   const [availableDaySlots, setAvailableDaySlots] = useState<Date[]>([])
 
@@ -48,17 +48,17 @@ export function TimeSlotSelector({ field, doctor, selectedDate, onSelect }: Time
       unavailableSlotsSetRef.current = slotsSet
     }
 
-  const firstAvailable = TimeSlotService.findFirstAvailableDate(
-    doctor, field._id, unavailableDaysSetRef.current)
+    const firstAvailable = TimeSlotService.findFirstAvailableDate(
+      doctor, field._id, unavailableDaysSetRef.current)
 
-  if (firstAvailable) {
-    setCalendarDate(firstAvailable)
+    if (firstAvailable) {
+      setCalendarDate(firstAvailable)
+    }
+
+    setIsLoaded(false)
   }
 
-    setIsLoaded(true)
-  }
-
-  if (!isLoaded) return <h2>Loading...</h2>
+  if (isLoaded) return <h2>Loading...</h2>
 
   return (
     <section className="time-slot-selector">

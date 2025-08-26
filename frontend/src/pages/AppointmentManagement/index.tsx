@@ -67,7 +67,8 @@ export function AppointmentManagement(){
         return null
     }
 
-    if(!appointment || !medicalField || !doctor) return <h3>Loading...</h3>
+    if(!appointment || !medicalField || !doctor) 
+        return <h3>Loading...</h3>
 
     return(
         <section className="appointment-management">

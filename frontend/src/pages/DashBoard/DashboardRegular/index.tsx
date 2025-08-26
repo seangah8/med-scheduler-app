@@ -8,11 +8,18 @@ interface DashboardRegularProps{
     doctorMap: Record<string, string>
     medicalFieldMap: Record<string, string>
     onPast: boolean
+    loadingApps: boolean
     setOnPast : (boolean : boolean) => void
 }
 
-export function DashboardRegular({appointments, doctorMap, medicalFieldMap, onPast, setOnPast} 
-    : DashboardRegularProps){
+export function DashboardRegular({
+    appointments, 
+    doctorMap, 
+    medicalFieldMap, 
+    onPast, 
+    loadingApps, 
+    setOnPast
+    } : DashboardRegularProps){
 
     const navigate = useNavigate()
 
@@ -27,11 +34,15 @@ export function DashboardRegular({appointments, doctorMap, medicalFieldMap, onPa
                 <button onClick={()=>setOnPast(true)} disabled={onPast}>Past Appointments</button>
                 <button onClick={()=>setOnPast(false)} disabled={!onPast}>Upcoming Appointments</button>
             </div>
-            <AppointmentList 
+            {   loadingApps ?
+                <p>loading appointments...</p>
+                :
+                <AppointmentList 
                 appointments={appointments} 
                 doctorMap={doctorMap}
                 medicalFieldMap={medicalFieldMap}
             />
+            }
 
             {
                 appointments.length === 0 &&
