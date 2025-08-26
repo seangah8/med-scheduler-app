@@ -1,9 +1,11 @@
 import { authThunks } from '../store/thunks/auth.thunks'
 import { useAppDispatch } from '../store/hooks'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export function AppHeader(){
 
+    const navigation = useNavigate()
     const dispatch = useAppDispatch()
     const shebaHeaderImage = "https://play-lh.googleusercontent.com/3eLZej2ZDq1EcneA28FOj4xfKvaoSqZ2XNcGwIz5U8vPNe2wgCeSkcfSmnUE-kQvmA"
     const [isLogingOut, setIsLogingOut] = useState<boolean>(false)
@@ -16,7 +18,10 @@ export function AppHeader(){
 
     return(
         <section className='app-header'>
-            <button onClick={onLogout} disabled={isLogingOut}>Logout</button>
+            <div>
+                <button onClick={onLogout} disabled={isLogingOut}>Logout</button>
+                <button onClick={()=>navigation('/dashboard')} disabled={isLogingOut}>Home Page</button>
+            </div>
             <img src={shebaHeaderImage} alt='sheba-connect-image'/>
         </section>
     )
