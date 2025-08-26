@@ -1,13 +1,49 @@
-
+@use '../vars' as var;
 
 .app-header{
+    margin-bottom: 40px;
     height: 120px;
-    padding: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     img{
-        height: 100%;
+        position: relative;
+        bottom: -10px;
+        height: 85%;
     }
+
+    .buttons-area{
+        display: flex;
+        gap: 20px;
+
+        button{
+            width: 175px;
+            height: 45px;
+            border-radius: 25px;
+        }
+
+        .logout{
+            background-color: var.$red-mark;
+
+            &:hover{
+                background-color: var.$red;
+            }
+        }
+
+        .home-page{
+            background-color: white;
+            color: black;
+            border: solid var.$red-mark 2px;
+
+            &:hover{
+                border-color: var.$red;
+            }
+        }
+
+    }
+
+
 }
