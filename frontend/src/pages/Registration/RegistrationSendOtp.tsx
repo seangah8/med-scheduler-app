@@ -1,3 +1,4 @@
+import { useState } from "react"
 
 interface RegistrationSendOtpProps{
     phone: string
@@ -8,6 +9,15 @@ interface RegistrationSendOtpProps{
 
 export function RegistrationSendOtp({phone, waitingForPassword, setPhone, onGetOtp} 
     : RegistrationSendOtpProps){
+
+    const [isPhoneValid, setIsPhoneValid] = useState<boolean>(true)
+
+    function checkPhoneValidation(phone : string){
+        const phoneRegex = /^0\d{9}$/
+        const valid = phoneRegex.test(phone)
+        if(valid) onGetOtp()
+        setIsPhoneValid(valid)
+    }
 
     return(
         <section className="registration-send-otp">
@@ -20,9 +30,10 @@ export function RegistrationSendOtp({phone, waitingForPassword, setPhone, onGetO
                 placeholder="Phone Number"
                 onChange={event=>setPhone(event.target.value)}
             />
+            {!isPhoneValid && <p>please enter a valid phone number</p>}
             <p>To identify who we have the honor of dealing with, 
                 we will send you a one-time identification code</p>
-            <button onClick={onGetOtp} disabled={waitingForPassword}>
+            <button onClick={()=>checkPhoneValidation(phone)} disabled={waitingForPassword}>
                 {waitingForPassword ? 'Sending...' : 'Approve'}
             </button>
         </section>

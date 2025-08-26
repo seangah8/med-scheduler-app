@@ -16,7 +16,7 @@ export function Registration(){
     const [isGotPassword, setIsGotPassword] = useState<boolean>(false)
     const [waitingForPassword, setWaitingForPassword] = useState<boolean>(false)
     const [isVerifying, setIsVerifying] = useState<boolean>(false)
-
+    const [showInvalidPassMsg, setShowInvalidPassMsg] = useState<boolean>(false)
 
     // when user go back to registration it will logout
     useEffect(()=>{
@@ -40,7 +40,7 @@ export function Registration(){
         if(user) {
             console.log(`user: ${user._id} connected!`)
             navigate('/dashboard')
-        }
+        } else setShowInvalidPassMsg(true)
         setIsVerifying(false)
     }
 
@@ -66,6 +66,7 @@ export function Registration(){
                     <RegistrationVerification
                         password={password}
                         isVerifying={isVerifying}
+                        showInvalidPassMsg={showInvalidPassMsg}
                         setPassword={setPassword}
                         onGetOtp={onGetOtp}
                         onVerifyOtp={onVerifyOtp}
