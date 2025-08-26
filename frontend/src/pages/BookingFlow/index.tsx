@@ -111,8 +111,17 @@ export function BookingFlow() {
       {
         !confirmBooking &&
         <section className="prev-next-buttons">
-          <button onClick={() => goToStep(stepNumber - 1)} disabled={stepNumber < 1}>prev</button>
-          <button onClick={() => goToStep(stepNumber + 1)} disabled={isNextDisabled()}>next</button>
+          <button
+            onClick={() => goToStep(stepNumber - 1)}
+            disabled={stepNumber < 1}
+            style={{ visibility: stepNumber !== 0 ? 'visible' : 'hidden' }}
+          >perv</button>   
+
+          <button 
+            onClick={() => goToStep(stepNumber + 1)} 
+            disabled={isNextDisabled()}
+            style={{ visibility: stepNumber !== 3 ? 'visible' : 'hidden' }}
+          >next</button>
         </section>
       }
     </section>
