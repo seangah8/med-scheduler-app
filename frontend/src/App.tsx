@@ -43,9 +43,6 @@ function App() {
 
 export default App
 
-// in home page remove the home button in app header
-// change name from approve in appointment managment to something like "go home page"
-// fix the misspeling at the end of booking flow
 // make sure phone numbers starts with 05 and not 0
 // make add appointment button in welcome page smaller
 

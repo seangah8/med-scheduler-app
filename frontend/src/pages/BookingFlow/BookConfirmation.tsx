@@ -46,7 +46,7 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, appointm
                     {
                         appointmentOnFieldExists && 
                         <p className="overbooking-text">
-                            can't book appointment - already have one for this field
+                            can't book appointment - already have one for this field.
                         </p>
                     }
                     <button 
@@ -63,7 +63,7 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, appointm
             {
                 confirmBooking && isSuccess && 
                 <section className="success-screen">
-                    <h1>New Appointment Have Been Add!</h1>
+                    <h1>New Appointment Has Been Added!</h1>
                     <button onClick={()=>navigate('/dashboard')}>back to home page</button>
                 </section>
             }
@@ -72,7 +72,7 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, appointm
             {
                 confirmBooking && !isSuccess && 
                 <section className="error-screen">
-                    <h1>Couldn't save Appointment... Please try again</h1>
+                    <h1>Couldn't save appointment... Please try again</h1>
                     <button onClick={() => window.location.href = '/booking-appointment'}>
                         book new appointment</button>
                 </section>

@@ -82,8 +82,8 @@ export function RescheduleModal({
                     <h3>
                     {
                         wasRescheduledSuccessfully
-                        ? 'appointment rescheduled'
-                        : 'could not reschedule the appointment, try again later'
+                        ? 'Appointment rescheduled'
+                        : 'Could not reschedule the appointment, try again later'
                     }
                     </h3>
                     <button onClick={()=>{

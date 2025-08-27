@@ -38,7 +38,6 @@ export function Registration(){
         setIsVerifying(true)
         const user = await dispatch(authThunks.login(phone, password))
         if(user) {
-            console.log(`user: ${user._id} connected!`)
             navigate('/dashboard')
         } else setShowInvalidPassMsg(true)
         setIsVerifying(false)

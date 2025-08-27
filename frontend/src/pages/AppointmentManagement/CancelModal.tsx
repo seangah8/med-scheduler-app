@@ -53,8 +53,8 @@ export function CancelModal({
                     <h3>
                         {
                             wasCanceledSuccessfully
-                            ? 'appointment canceled'
-                            : 'could not cancel the appointment, try again later'
+                            ? 'Appointment canceled'
+                            : 'Could not cancel the appointment, try again later'
                         }
                     </h3>
                     <button onClick={()=>
@@ -62,7 +62,7 @@ export function CancelModal({
                         ? navigate('/dashboard')
                         : setShowCancelModal(false)
                     }>
-                        Approve
+                        Back to home page
                     </button>
                 </section>
             }
