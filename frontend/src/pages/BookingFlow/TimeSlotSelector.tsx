@@ -19,7 +19,7 @@ interface TimeSlotSelectorProps {
 export function TimeSlotSelector({ field, doctor, selectedDate, onSelect }: TimeSlotSelectorProps) {
   const unavailableDaysSetRef = useRef<Set<string>>(new Set())
   const unavailableSlotsSetRef = useRef<Set<string>>(new Set())
-  const [isLoaded, setIsLoaded] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [calendarDate, setCalendarDate] = useState<Date | null>(new Date())
   const [availableDaySlots, setAvailableDaySlots] = useState<Date[]>([])
 
@@ -28,7 +28,8 @@ export function TimeSlotSelector({ field, doctor, selectedDate, onSelect }: Time
   }, [])
 
   useEffect(() => {
-    if (calendarDate && isLoaded) {
+    if (calendarDate && !isLoading) {
+      
       const slots = TimeSlotService.getAvailableSlots(
         calendarDate,
         doctor,
@@ -36,7 +37,7 @@ export function TimeSlotSelector({ field, doctor, selectedDate, onSelect }: Time
       )
       setAvailableDaySlots(slots)
     }
-  }, [calendarDate, isLoaded])
+  }, [calendarDate, isLoading])
 
   async function loadUnavailabilities() {
     const result = await AppointmentService.getAllUnavailabilities(field._id, doctor._id)
@@ -54,6 +55,7 @@ export function TimeSlotSelector({ field, doctor, selectedDate, onSelect }: Time
         const potentialTodaySlots = TimeSlotService.getAvailableSlots(now, doctor, slotsSet)
         const futureTodaySlots = potentialTodaySlots.filter(slot => slot > now)
 
+
         if (futureTodaySlots.length === 0) {
           daysSet.add(todayStr)
         }
@@ -67,14 +69,14 @@ export function TimeSlotSelector({ field, doctor, selectedDate, onSelect }: Time
       setCalendarDate(firstAvailable)
     }
 
-    setIsLoaded(false)
+    setIsLoading(false)
   }
 
-  if (isLoaded) return <h2>Loading...</h2>
+  if (isLoading) return <h2>Loading...</h2>
 
   return (
     <section className="time-slot-selector">
-      <h1>Select Time</h1>
+      <h1>Select Time With {doctor.name}</h1>
 
       <div className="time-select-area">
 
@@ -86,7 +88,7 @@ export function TimeSlotSelector({ field, doctor, selectedDate, onSelect }: Time
               if (!newDate) return
               const dateStr = format(newDate, 'yyyy-MM-dd')
               if (!unavailableDaysSetRef.current.has(dateStr)) {
-                setCalendarDate(newDate)
+                setCalendarDate(new Date(newDate))
               }
             }}
             shouldDisableDate={(date) => TimeSlotService.isDayDisable

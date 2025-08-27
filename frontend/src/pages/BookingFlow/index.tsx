@@ -148,13 +148,19 @@ export function BookingFlow() {
             onClick={() => goToStep(stepNumber - 1)}
             disabled={stepNumber < 1}
             style={{ visibility: stepNumber !== 0 ? 'visible' : 'hidden' }}
-          >perv</button>   
+          >
+            <i className="fa-solid fa-angle-left"></i>
+            <span>prev</span>
+          </button>   
 
           <button 
             onClick={() => goToStep(stepNumber + 1)} 
             disabled={isNextDisabled()}
             style={{ visibility: stepNumber !== 3 ? 'visible' : 'hidden' }}
-          >next</button>
+          >
+            <span>next</span>
+            <i className="fa-solid fa-angle-right"></i>
+          </button>
         </section>
       }
     </section>

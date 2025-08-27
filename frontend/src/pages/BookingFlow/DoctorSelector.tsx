@@ -32,14 +32,16 @@ export function DoctorSelector({ field, currantDoctor, onSelect } : DoctorSelect
 
     return(
         <section className="doctor-selection">
-            <h1>Select Doctor From This Field</h1>
-            <Autocomplete
-                options={doctors}
-                value={currantDoctor}
-                getOptionLabel={option => option.name}
-                renderInput={params => <TextField {...params} label="Select Doctor" />}
-                onChange={(_, value) => {if (value) onSelect(value)}}
-            />
+            <h1>Select {field.name} Doctor</h1>
+            <div className='auto-complete'>
+                <Autocomplete
+                    options={doctors}
+                    value={currantDoctor}
+                    getOptionLabel={option => option.name}
+                    renderInput={params => <TextField {...params} label="Select Doctor" />}
+                    onChange={(_, value) => {if (value) onSelect(value)}}
+                />
+            </div>
             {
                 currantDoctor &&
                 <div className='doctor-info'>
@@ -48,9 +50,14 @@ export function DoctorSelector({ field, currantDoctor, onSelect } : DoctorSelect
                         new Date(currantDoctor.experienceSince).getFullYear()}
                     </p>
                     <p> Education: {currantDoctor.educationFrom} </p>
-                    <div>
-                        <p>Rating</p>
-                        <Rating value={currantDoctor.rating} precision={0.1} readOnly/>
+                    <div className='rating'>
+                        <p>Rating: </p>
+                        <Rating 
+                            value={currantDoctor.rating} 
+                            precision={0.1} 
+                            readOnly 
+                            sx={{color: '#00006A'}}
+                        />
                     </div>
                 </div>
             }

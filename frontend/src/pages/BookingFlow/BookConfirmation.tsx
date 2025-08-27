@@ -39,13 +39,21 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, appointm
                 <section className="confirmation-screen">
                     <h1>Final Details</h1>
 
-                    <p>{`Medical Field: ${field.name}`}</p>
-                    <p>{`Doctor: ${doctor.name}`}</p>
-                    <p>{`Date: ${TimeSlotService.formatDateTimeLong(date)}`}</p>
-                    {field.requiredInfo && <p>{`Requirements: ${field.requiredInfo}`}</p>}
-                    {appointmentOnFieldExists}
-                    {appointmentOnFieldExists && <p>can't book appointment - already have one for this field</p>}
-                    <button onClick={onBookAppointment} disabled={isBooking || appointmentOnFieldExists}>
+                    <p> <span>Medical Field:</span> {field.name}</p>
+                    <p> <span>Doctor:</span> {doctor.name}</p>
+                    <p> <span>Date:</span> {TimeSlotService.formatDateTimeLong(date)}</p>
+                    {field.requiredInfo && <p> <span>Requirements:</span> {field.requiredInfo}</p>}
+                    {
+                        appointmentOnFieldExists && 
+                        <p className="overbooking-text">
+                            can't book appointment - already have one for this field
+                        </p>
+                    }
+                    <button 
+                        onClick={onBookAppointment} 
+                        disabled={isBooking || appointmentOnFieldExists} 
+                        style={{visibility: appointmentOnFieldExists ? 'hidden' : 'visible'}}
+                    >
                         {isBooking ? 'Booking...' : 'Book Appointment'}
                     </button>
                 </section>

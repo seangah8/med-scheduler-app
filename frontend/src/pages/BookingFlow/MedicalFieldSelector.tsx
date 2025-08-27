@@ -32,15 +32,21 @@ export function MedicalFieldSelector({ currantField, appointmentOnFieldExists, o
     return(
         <section className="medical-field-selection">
             <h1>Select Medical Field</h1>
-            <Autocomplete
-                options={medicalFields}
-                value={currantField}
-                getOptionLabel={option => option.name}
-                renderInput={params => <TextField {...params} label="Select Medical Field" />}
-                onChange={(_, value) => {if (value) onSelect(value)}}
-            />
+            <div className='auto-complete'>
+                <Autocomplete
+                    options={medicalFields}
+                    value={currantField}
+                    getOptionLabel={option => option.name}
+                    renderInput={params => <TextField {...params} label="Select Medical Field" />}
+                    onChange={(_, value) => {if (value) onSelect(value)}}
+                />
+            </div>
             {currantField && <p>{currantField.details}</p>}
-            {appointmentOnFieldExists && <p>notice: you wont be able book appointment in this field - already have one</p>}
+            {
+                appointmentOnFieldExists && <p className='notice-text'>
+                    <span>notice:</span> you wont be able book appointment in this field - already have one
+                </p>
+            }
         </section>
     )
 }

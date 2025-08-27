@@ -1,4 +1,4 @@
-
+@use '../vars' as var;
 
 .doctor-selection{
     width: 100%;
@@ -6,9 +6,32 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    font-size: 1.2rem;
+
+    .auto-complete{
+    width: 50%;
+
+        button{
+            width: 35px;
+            border-radius: 5px;
+        }
+    }
 
     h1{
         font-size: 2rem;
         margin-bottom: 20px;
+        color: var.$blue;
+    }
+
+    .doctor-info{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .rating{
+            display: flex;
+            gap: 10px;
+        }
     }
 }
