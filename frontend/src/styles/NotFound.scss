@@ -1,0 +1,16 @@
+@use './vars' as var;
+
+.not-found{
+
+    color: var.$blue;
+    
+    h1{
+        font-size: 5rem;
+    }
+
+    p{
+        margin-top: 5vh;
+        font-size: 2rem;
+        font-weight: 500;
+    }
+}

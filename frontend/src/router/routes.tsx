@@ -4,6 +4,7 @@ import { Registration } from '../pages/Registration'
 import { Dashboard } from '../pages/DashBoard'
 import { BookingFlow } from '../pages/BookingFlow'
 import { AppointmentManagement } from '../pages/AppointmentManagement'
+import { NotFound } from '../pages/NotFound'
 
 export const routes: RouteObject[] = [
 
@@ -36,4 +37,9 @@ export const routes: RouteObject[] = [
     path: '/appointment/:id',
     element: <AppointmentManagement />
   },
+
+  {
+    path: '*',
+    element: <NotFound />
+  }
 ]
