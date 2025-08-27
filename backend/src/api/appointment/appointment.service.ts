@@ -105,21 +105,20 @@ async function add(
 ): Promise<AppointmentTSModel> {
 
   try{
+    const now = new Date
     const appointmentDoc = await AppointmentMongoModel.create({
       userId: new ObjectId(userId),
       doctorId: new ObjectId(doctorId),
       medicalFieldId: new ObjectId(fieldId),
       startAt: date,
       status: 'scheduled',
+      createdAt: now
     })
-    const appointment : AppointmentTSModel = {
-      _id: appointmentDoc._id,
-      userId: appointmentDoc.userId,
-      doctorId: appointmentDoc.doctorId,
-      medicalFieldId: appointmentDoc.medicalFieldId,
-      startAt: appointmentDoc.startAt,
-      status: appointmentDoc.status,
-    }
+
+    const appointment = 
+      appointmentDoc.toObject() as AppointmentTSModel
+
+
     return appointment
 
   } catch(err){

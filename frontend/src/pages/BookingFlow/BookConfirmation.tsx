@@ -72,9 +72,9 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, appointm
             {
                 confirmBooking && !isSuccess && 
                 <section className="error-screen">
-                    <h1>Couldn't save Appointment... please try again</h1>
+                    <h1>Couldn't save Appointment... Please try again</h1>
                     <button onClick={() => window.location.href = '/booking-appointment'}>
-                        back booking an appointment</button>
+                        book new appointment</button>
                 </section>
             }
 

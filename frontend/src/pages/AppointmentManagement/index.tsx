@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { AppointmentService } from "../../services/appointment.service"
 import { AppointmentModel } from "../../models/appointment.model"
 import { CancelModal } from "./CancelModal"
@@ -10,6 +10,7 @@ import { TimeSlotService } from "../../services/timeSlot.service"
 
 export function AppointmentManagement(){
 
+    const navigator = useNavigate()
     const { id } = useParams<{ id: string }>()
     const [appointment, setAppointment] = useState<AppointmentModel | null>(null)
     const [wasAppCompleted, setWasAppCompleted] = useState<boolean>(false)
@@ -17,6 +18,8 @@ export function AppointmentManagement(){
     const [medicalField, setMedicalField] = useState<MedicalFieldModel | null>(null)
     const [showCancelModal, setShowCancelModal] = useState<boolean>(false)
     const [showRescheduleModal, setShowRescheduleModal] = useState<boolean>(false)
+    const [wasCanceledSuccessfully, setWasCanceledSuccessfully] = useState<boolean | null>(null)
+    const [wasRescheduledSuccessfully, setWasRescheduledSuccessfully] = useState<boolean | null>(null)
 
     useEffect(()=>{
         if(id)
@@ -67,6 +70,13 @@ export function AppointmentManagement(){
         return null
     }
 
+    function onClickOutsideModal(){
+        if(wasCanceledSuccessfully) navigator('/dashboard')
+        if(wasRescheduledSuccessfully) window.location.href = `/appointment/${appointment?._id}`
+        setShowCancelModal(false)
+        setShowRescheduleModal(false)
+    }
+
     if(!appointment || !medicalField || !doctor) 
         return <h3>Loading...</h3>
 
@@ -87,12 +97,14 @@ export function AppointmentManagement(){
             }
 
             { (showCancelModal || showRescheduleModal) &&
-            <div className="modals-container" onClick={()=> {setShowCancelModal(false); setShowRescheduleModal(false)}}>
+            <div className="modals-container" onClick={onClickOutsideModal}>
                 {
                     showCancelModal && 
                     <CancelModal
                         setShowCancelModal={setShowCancelModal}
                         onCancelAppointment={onCancelAppointment}
+                        wasCanceledSuccessfully={wasCanceledSuccessfully}
+                        setWasCanceledSuccessfully={setWasCanceledSuccessfully}
                     />
                 }
 
@@ -102,8 +114,11 @@ export function AppointmentManagement(){
                         appointmentId={appointment._id}
                         medicalField={medicalField}
                         doctor={doctor}
+                        wasRescheduledSuccessfully={wasRescheduledSuccessfully}
                         setShowRescheduleModal={setShowRescheduleModal}
                         onRescheduleAppointment={onRescheduleAppointment}
+                        setWasRescheduledSuccessfully={setWasRescheduledSuccessfully}
+                        
                     />
                 }
             </div>

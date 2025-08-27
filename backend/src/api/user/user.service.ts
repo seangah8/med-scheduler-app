@@ -39,7 +39,8 @@ async function getById(id: string): Promise<UserTSModel | null> {
 
 async function add(credentials: CredentialsTSModel): Promise<UserTSModel> {
   try {
-    const newUserDoc = await UserMongoModel.create(credentials)
+    const now = new Date
+    const newUserDoc = await UserMongoModel.create({...credentials, createdAt: now})
     const newUser: UserTSModel = 
       { ...newUserDoc.toObject(), _id: newUserDoc._id.toString() }
     logger.info(`User ${newUserDoc._id} added`)

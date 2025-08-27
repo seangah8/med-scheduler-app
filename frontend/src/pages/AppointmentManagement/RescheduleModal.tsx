@@ -10,16 +10,24 @@ interface RescheduleModalProps{
     appointmentId: string
     medicalField: MedicalFieldModel
     doctor: DoctorModel
+    wasRescheduledSuccessfully : boolean | null
     setShowRescheduleModal: (toShow : boolean) => void
     onRescheduleAppointment: (date: Date) => Promise<AppointmentModel | null>
+    setWasRescheduledSuccessfully: (success : boolean) => void
 }
 
-export function RescheduleModal({appointmentId, medicalField, doctor, setShowRescheduleModal, onRescheduleAppointment} 
+export function RescheduleModal({
+    appointmentId, 
+    medicalField, 
+    doctor, 
+    wasRescheduledSuccessfully, 
+    setShowRescheduleModal, 
+    onRescheduleAppointment, 
+    setWasRescheduledSuccessfully
+} 
     : RescheduleModalProps){
 
     const [choosenDate, setChoosenDate] = useState<Date | null>(null)
-    const [wasRescheduledSuccessfully, setWasRescheduledSuccessfully] 
-        = useState<boolean | null>(null)
     const [isRescheduling, setIsRescheduling] = useState(false)
 
     async function onApprove() : Promise<void>{

@@ -4,16 +4,21 @@ import { useState } from "react"
 
 
 interface CancelModalProps{
+    wasCanceledSuccessfully: boolean | null
     setShowCancelModal: (toShow : boolean) => void
+    setWasCanceledSuccessfully: (success : boolean) => void
     onCancelAppointment: () => Promise<AppointmentModel | null>
 }
 
-export function CancelModal({setShowCancelModal, onCancelAppointment} 
+export function CancelModal({
+    wasCanceledSuccessfully,
+    setShowCancelModal, 
+    setWasCanceledSuccessfully,
+    onCancelAppointment
+} 
     : CancelModalProps){
 
     const navigate = useNavigate()
-    const [wasCanceledSuccessfully, setWasCanceledSuccessfully] 
-        = useState<boolean | null>(null)
     const [isCanceling, setIsCanceling] = useState(false)
 
     async function onApprove(){

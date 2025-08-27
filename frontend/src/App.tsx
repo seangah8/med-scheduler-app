@@ -43,7 +43,6 @@ function App() {
 
 export default App
 
-// add createAt to user and appointment
 // when clicking aside the modal make the button work
 // adding 404 page not found
 
