@@ -8,6 +8,7 @@ export interface AppointmentTSModel {
     medicalFieldId: string | ObjectId
     doctorId: string | ObjectId
     startAt: Date
+    createdAt: Date
     status: 'scheduled' | 'completed' | 'cancelled'
 }
 

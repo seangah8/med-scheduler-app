@@ -35,6 +35,11 @@ const appointmentSchema = new mongoose.Schema<AppointmentDocument>({
     default: 'scheduled',
   },
 
+  createdAt:{
+    type: Date,
+    required: true
+  }
+
 }, {versionKey: false})  // disables __v
 
 // optimize queries that fetch a user's appointments

@@ -11,6 +11,11 @@ const userSchema = new mongoose.Schema<UserDocument>({
     required: true,
     unique: true,
   },
+
+  createdAt:{
+    type: Date,
+    required: true
+  }
   
 
 }, {versionKey: false})  // disables __v

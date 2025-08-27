@@ -23,6 +23,8 @@ export async function seedAppointments(
     const medicalFieldId = fieldEntry.medicalFieldId
     const availableDays = fieldEntry.days
 
+    const now = new Date
+
     // generate a valid appointment date within monthsAhead months
     let start: Date
     while (true) {
@@ -46,11 +48,13 @@ export async function seedAppointments(
     if (usedSlots.has(key)) continue
     usedSlots.add(key)
 
+
     appointments.push({
       userId: user._id,
       doctorId: doctor._id,
       medicalFieldId,
       startAt: start,
+      createdAt: now,
       status: faker.helpers.arrayElement(['scheduled', 'completed', 'cancelled']),
     })
   }
