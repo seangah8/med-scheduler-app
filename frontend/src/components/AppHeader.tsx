@@ -26,11 +26,15 @@ export function AppHeader(){
                     disabled={isLogingOut}
                 >Logout</button>
 
-                <button 
-                    className='home-page' 
-                    onClick={()=>navigation('/dashboard')} 
-                    disabled={isLogingOut}
-                >Home Page</button>
+                {
+                    window.location.pathname !== '/dashboard' &&
+                    <button 
+                        className='home-page' 
+                        onClick={()=>navigation('/dashboard')} 
+                        disabled={isLogingOut}
+                    >Home Page</button>
+                }
+
 
             </div>
             <img src={shebaHeaderImage} alt='sheba-connect-image'/>

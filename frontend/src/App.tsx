@@ -43,7 +43,6 @@ function App() {
 
 export default App
 
-// change "cancel" button name im appointment managment
 // in home page remove the home button in app header
 // change name from approve in appointment managment to something like "go home page"
 // fix the misspeling at the end of booking flow
