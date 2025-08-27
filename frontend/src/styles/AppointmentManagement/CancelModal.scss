@@ -1,9 +1,11 @@
+@use '../vars' as var;
 
 
 .cancel-modal{
     background-color: white;
     width: 800px;
     height: 300px;
+    border-radius: 30px;
 
     .cancel-confirmation{
         height: 100%;
@@ -14,7 +16,21 @@
 
         .buttons-area{
             display: flex;
-            gap: 200px;
+            gap: 75px;
+
+            .no-butt{
+                background-color: white;
+                color: var.$blue;
+                border: solid var.$blue 2px;
+
+                &:hover{
+                    background-color: ghostwhite;
+                }
+            }
+        }
+
+        button{
+            width: 100px;
         }
     }
 

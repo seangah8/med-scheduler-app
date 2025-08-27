@@ -33,8 +33,8 @@ export function CancelModal({setShowCancelModal, onCancelAppointment}
                 <section className="cancel-confirmation">
                     <h3>Are you sure you want to cancel your appointment?</h3>
                     <div className="buttons-area">
-                        <button onClick={()=>setShowCancelModal(false)}>No</button>
-                        <button onClick={onApprove} disabled={isCanceling}>
+                        <button className="no-butt" onClick={()=>setShowCancelModal(false)}>No</button>
+                        <button className="yes-butt" onClick={onApprove} disabled={isCanceling}>
                            {isCanceling ? 'Canceling...' : 'Yes'}
                         </button>
                     </div>

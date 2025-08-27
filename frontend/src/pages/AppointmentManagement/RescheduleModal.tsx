@@ -59,8 +59,8 @@ export function RescheduleModal({appointmentId, medicalField, doctor, setShowRes
                     <h3>{`Are you sure you want to reschedule your 
                         appointment to ${TimeSlotService.formatDateTimeLong(choosenDate)}?`}</h3>
                     <div className="buttons-area">
-                        <button onClick={()=>setChoosenDate(null)}>No</button>
-                        <button onClick={onApprove} disabled={isRescheduling}>
+                        <button className="no-butt" onClick={()=>setChoosenDate(null)}>No</button>
+                        <button className="yes-butt" onClick={onApprove} disabled={isRescheduling}>
                             {isRescheduling ? 'Rescheduling...' : 'Yes'}
                         </button>
                     </div>

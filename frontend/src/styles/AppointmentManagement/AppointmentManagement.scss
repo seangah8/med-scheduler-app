@@ -1,24 +1,46 @@
+@use '../vars' as var;
 
 .appointment-management{
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    font-size: 1.2rem;
 
     h1{
         font-size: 1.8rem;
         margin-bottom: 20px;
+        color: var.$blue;
     }
 
     h3{
         font-size: 1.6rem;
+        font-weight: 600;
+        color: var.$blue;
     }
 
+    span{
+        font-weight: 600;
+    }
 
     .action-buttons{
         margin-top: 40px;
         display: flex;
-        gap: 60px;
+        gap: 30px;
+
+        button{
+            width: 150px;
+        }
+
+        .cancel-butt{
+            background-color: white;
+            color: var.$blue;
+            border: solid var.$blue 2px;
+
+            &:hover{
+                background-color: ghostwhite;
+            }
+        }
     }
 
     .modals-container{
@@ -27,9 +49,28 @@
         left: 0px;
         width: 100vw;
         height: 100vh;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(35, 37, 60, 0.5);
         display: flex;
         align-items: center;
         justify-content: center;
+
+        .buttons-area{
+            display: flex;
+            gap: 75px;
+
+            .no-butt{
+                background-color: white;
+                color: var.$blue;
+                border: solid var.$blue 2px;
+
+                &:hover{
+                    background-color: ghostwhite;
+                }
+            }
+
+            button{
+                width: 100px;
+            }
+        }
     }
 }

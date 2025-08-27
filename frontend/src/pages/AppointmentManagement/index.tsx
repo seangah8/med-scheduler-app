@@ -73,16 +73,16 @@ export function AppointmentManagement(){
     return(
         <section className="appointment-management">
             <h1>Appointment Info</h1>
-            <p>Field: {medicalField.name}</p>
-            <p>Doctor: {doctor.name}</p>
-            <p>Date: {TimeSlotService.formatDateTimeLong(appointment.startAt)}</p>
-            {medicalField.requiredInfo && <p>Requirements: {medicalField.requiredInfo}</p>}
+            <p><span>Field:</span> {medicalField.name}</p>
+            <p><span>Doctor:</span> {doctor.name}</p>
+            <p><span>Date:</span> {TimeSlotService.formatDateTimeLong(appointment.startAt)}</p>
+            {medicalField.requiredInfo && <p><span>Requirements:</span> {medicalField.requiredInfo}</p>}
 
             {
                 !wasAppCompleted &&
                 <section className="action-buttons">
-                    <button onClick={()=>setShowCancelModal(true)}>Cancel</button>
-                    <button onClick={()=>setShowRescheduleModal(true)}>Reschedule</button>
+                    <button className="reschedule-butt" onClick={()=>setShowRescheduleModal(true)}>Reschedule</button>
+                    <button className="cancel-butt" onClick={()=>setShowCancelModal(true)}>Cancel</button>
                 </section>
             }
 

@@ -21,6 +21,10 @@
         background-color: white;
         color: var.$blue;
         border: solid var.$blue 2px;
+
+        &:hover{
+            background-color: ghostwhite;
+        }
     }
 
     .filter{
