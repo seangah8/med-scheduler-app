@@ -16,12 +16,15 @@ export function AppointmentPreview({ appointment, doctorName, medicalFieldName  
     return(
         <article className="appointment-preview" 
             onClick={()=>{navigate(`/appointment/${appointment._id}`)}}>
-
-            <div className="appointment-info">
-                <h3>{doctorName}</h3>
-                <p>{medicalFieldName}</p>
-                <p>{TimeSlotService.formatDateTimeLong(appointment.startAt)}</p>
+            <div className="left-part">
+                <div className="vertical-line"/>
+                <div className="appointment-info">
+                    <h3>{doctorName}</h3>
+                    <p>{medicalFieldName}</p>
+                    <p>{TimeSlotService.formatDateTimeLong(appointment.startAt)}</p>
+                </div>
             </div>
+
             <i className="fa-solid fa-angle-right"></i>
 
             

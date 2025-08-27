@@ -1,39 +1,107 @@
-
+@use '../vars' as var;
 
 .dashboard-regular{
     width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 20px;
+
+    h2{
+        font-size: 1.8rem;
+        color: var.$blue;
+    }
 
     .book-appointment-button{
         width: 200px;
+        height: 45px;
+        border-radius: 25px;
         align-self: flex-end;
+        font-weight: 700;
+        font-size: 0.95rem;
+        background-color: white;
+        color: var.$blue;
+        border: solid var.$blue 2px;
+    }
+
+    .filter{
+
+        button{
+            width: 275px;
+            background-color: white;
+            font-size: 1.3rem;
+            font-weight: 500;
+            text-align: start;
+            border: none;
+            color: black;
+
+
+            &:hover{
+                background-color: white;
+            }
+
+            &:disabled{
+                cursor: pointer;
+                font-weight: 700;
+                color: var.$blue;
+                border-bottom: solid var.$blue 3px;
+                border-radius: 0px;
+                opacity: 1;
+            }
+        }
     }
 
     .appointment-list{
 
         list-style-type: none;
         padding: 0px;
+        border-radius: 12px;
+        // border: solid gray 3px;
+        box-shadow: rgba(76, 54, 162, 0.3) 0px 5px 15px;
 
         .appointment-preview{
             cursor: pointer;
-            border: solid gray 1px;
-            padding: 20px;
+            padding: 20px 50px 20px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: solid rgb(212, 212, 212) 1px;
+            color: rgba(0, 0, 0, 0.8);
 
             &:hover{
                 background-color: ghostwhite;
             }
 
+            .left-part{
+                height: 100px;
+                display: flex;
+                align-items: center;
+            }
+
+            .vertical-line{
+                height: 100%;
+                width: 6px;
+                background-color: #9AA4FF;
+            }
+
             .appointment-info{
+                margin-left: 30px;
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
+                font-size: 1.2rem;
+                font-weight: 500;
+            }
+
+            i{
+                font-size: 1.5rem;
+                color: rgba(0, 0, 0, 0.8)
             }
         }
 
+    }
+
+    .on-apps-text{
+        font-size: 1.2rem;
     }
 
 

@@ -19,7 +19,7 @@ function formatTimeShort(date: Date): string {
 function formatDateTimeLong(date: Date): string {
   const dateStr = date.toLocaleDateString('en-CA') // gives "YYYY-MM-DD"
   const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
-  return `${dateStr} ${timeStr}`
+  return `${dateStr} | ${timeStr}`
 }
 
 

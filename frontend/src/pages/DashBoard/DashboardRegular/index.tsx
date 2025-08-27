@@ -28,10 +28,11 @@ export function DashboardRegular({
             <h2>My Appointments</h2>
             <button className="book-appointment-button" 
                 onClick={()=>navigate('/booking-appointment')}>
-                book appointment +
+                <span>New Appointment </span>
+                <i className="fa-solid fa-plus"></i>
             </button>
             <div className="filter">
-                <button onClick={()=>setOnPast(true)} disabled={onPast}>Past Appointments</button>
+                <button onClick={()=>setOnPast(true)} disabled={onPast}>Previous Appointments</button>
                 <button onClick={()=>setOnPast(false)} disabled={!onPast}>Upcoming Appointments</button>
             </div>
             {   loadingApps ?
@@ -46,7 +47,7 @@ export function DashboardRegular({
 
             {
                 appointments.length === 0 &&
-                <p>no appointments found</p>
+                <p className="on-apps-text">no appointments found</p>
             }
         </section>
     )
