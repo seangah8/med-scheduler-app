@@ -13,7 +13,7 @@ export function RegistrationSendOtp({phone, waitingForPassword, setPhone, onGetO
     const [isPhoneValid, setIsPhoneValid] = useState<boolean>(true)
 
     function checkPhoneValidation(phone : string){
-        const phoneRegex = /^0\d{9}$/
+        const phoneRegex = /^05\d{8}$/
         const valid = phoneRegex.test(phone)
         if(valid) onGetOtp()
         setIsPhoneValid(valid)

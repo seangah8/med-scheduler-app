@@ -43,7 +43,6 @@ function App() {
 
 export default App
 
-// make sure phone numbers starts with 05 and not 0
 // make add appointment button in welcome page smaller
 
 // a. fix some things

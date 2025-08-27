@@ -4,8 +4,8 @@ import { asyncLocalStorage } from '../../services/als.service'
 
 export function validatePhone(req: Request, res: Response, next: NextFunction) {
 
-  // accepts 0 followed by 9 digits
-  const phoneRegex = /^0\d{9}$/
+  // accepts 05 followed by 8 digits
+  const phoneRegex = /^05\d{8}$/
   const phone = req.body?.phone || req.params?.phone
 
   if (!phone || !phoneRegex.test(phone)) {
