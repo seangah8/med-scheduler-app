@@ -6,13 +6,11 @@ export function DashboardWelcome() {
 
   return (
     <section className="dashboard-welcome">
-      <h1>Welcome to Shiba Connect!</h1>
+      <h1>Welcome to Shiba <span>Connect</span></h1>
 
       <button onClick={() => navigate("/booking-appointment")}>
-        Book your first appointment here!
+        Book your first appointment here
       </button>
-
-      <h2>Explore Our Medical Specialties</h2>
 
       <FieldSlideShow/>
 

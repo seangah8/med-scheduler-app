@@ -1,14 +1,48 @@
-
+@use '../vars' as var;
 
 .field-slide-show{
     cursor: grab;
-    width: 90vw;
+    width: 100vw;
 
     .field-card{
-        height: 150px;
+        position: relative;
+        height: 160px;
+        padding: 20px;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+        color: white;
+
+        h3{
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        p{
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .card-back{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            background-color: var.$blue;
+            z-index: -2;
+        }
+
+        img{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            opacity: 0.2;
+            z-index: -1;
+        }
     }
 
 }

@@ -5,3 +5,9 @@ export interface MedicalFieldModel {
     details: string
     requiredInfo: string | null
 }
+
+export interface SwipMedicalFieldModal {
+    title: string
+    description: string
+    imageUrl: string
+}

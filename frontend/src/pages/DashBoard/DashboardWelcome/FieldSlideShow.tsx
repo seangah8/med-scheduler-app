@@ -1,29 +1,25 @@
 import { useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay } from 'swiper/modules'
-import { MedicalFieldModel } from '@/models/medicalField.model'
+import { SwipMedicalFieldModal } from '@/models/medicalField.model'
 import { medicalFieldService } from '../../../services/medicalField.service'
 import 'swiper/css';
 
 export function FieldSlideShow(){
 
-    const [medicalFields, setMedicalFields] = useState<MedicalFieldModel[]>([])
-
-    async function loadMedicalFields() {
-        const fields = await medicalFieldService.getMedicalFields()
-        if(fields) setMedicalFields(fields)
-    }
-
+    const [medicalFields, setMedicalFields] = useState<SwipMedicalFieldModal[]>([])
+    
     useEffect(()=>{
-        loadMedicalFields()
+        const fields = medicalFieldService.getMedicalFieldSwipList()
+        if(fields) setMedicalFields(fields)
     },[])
 
     return(
         <section className="field-slide-show">
             <Swiper
+                key={medicalFields.length}
                 modules={[Autoplay]}
                 slidesPerView={3}
-                spaceBetween={20}
                 autoplay={{ delay: 5000 }}
                 loop={true}
                 breakpoints={{
@@ -33,11 +29,15 @@ export function FieldSlideShow(){
                 }}
             >
 
-                {medicalFields.map(field => (
-                    <SwiperSlide key={field._id}>
+                {medicalFields.map((field, index) => (
+                    <SwiperSlide key={field.title}>
                         <div className="field-card">
-                        <h3>{field.name}</h3>
-                        <p>{field.details}</p>
+                            <div className='card-back' 
+                                style={{backgroundColor: index%2 ? '#00006A' : '#FF007A'}}
+                            />
+                            <img src={field.imageUrl}/>
+                            <h3>{field.title}</h3>
+                            <p>{field.description}</p>
                         </div>
                     </SwiperSlide>
                 ))}

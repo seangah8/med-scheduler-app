@@ -42,3 +42,19 @@ function App() {
 }
 
 export default App
+
+
+// make swip component start at entrance + make it look good
+// change "cancel" button name im appointment managment
+// in home page remove the home button in app header
+// when clicking aside the modal make the button work
+// change name from approve in appointment managment to something like "go home page"
+// fix the misspeling at the end of booking flow
+// make sure phone numbers starts with 05 and not 0
+// make add appointment button in welcome page smaller
+// adding 404 page not found
+// add createAt to user and appointment
+
+// a. fix some things
+// b. deploy
+// c. list features i want to add
