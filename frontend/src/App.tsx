@@ -43,8 +43,6 @@ function App() {
 
 export default App
 
-// adding 404 page not found
-
 // change "cancel" button name im appointment managment
 // in home page remove the home button in app header
 // change name from approve in appointment managment to something like "go home page"

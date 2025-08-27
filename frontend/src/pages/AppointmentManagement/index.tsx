@@ -92,7 +92,7 @@ export function AppointmentManagement(){
                 !wasAppCompleted &&
                 <section className="action-buttons">
                     <button className="reschedule-butt" onClick={()=>setShowRescheduleModal(true)}>Reschedule</button>
-                    <button className="cancel-butt" onClick={()=>setShowCancelModal(true)}>Cancel</button>
+                    <button className="cancel-butt" onClick={()=>setShowCancelModal(true)}>Cancel Appointment</button>
                 </section>
             }
 
