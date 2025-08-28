@@ -35,19 +35,15 @@ export function DashboardRegular({
                 <button onClick={()=>setOnPast(false)} disabled={!onPast}>Upcoming Appointments</button>
                 <button onClick={()=>setOnPast(true)} disabled={onPast}>Previous Appointments</button>
             </div>
-            {   loadingApps ?
-                <p>loading appointments...</p>
-                :
-                <AppointmentList 
+            {   loadingApps 
+                ? <p className="fetch-info-txt">loading appointments...</p>
+                : appointments.length === 0 
+                ? <p className="fetch-info-txt">no appointments found</p> 
+                : <AppointmentList 
                 appointments={appointments} 
                 doctorMap={doctorMap}
                 medicalFieldMap={medicalFieldMap}
             />
-            }
-
-            {
-                appointments.length === 0 &&
-                <p className="on-apps-text">no appointments found</p>
             }
         </section>
     )

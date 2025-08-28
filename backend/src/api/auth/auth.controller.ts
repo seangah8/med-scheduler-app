@@ -50,7 +50,7 @@ export async function verifyOTP(req: Request, res: Response): Promise<void> {
       httpOnly: true,
       secure: true,
       sameSite: 'none',     // for production
-      maxAge: 1000 * 60 * 60, // 1 hour existance
+      maxAge: 1000 * 60 * 60 * 2, // 2 hour existance
     })
 
     res.send({user, isUserNew})

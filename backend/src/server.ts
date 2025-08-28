@@ -16,7 +16,10 @@ import { appointmentRoutes } from './api/appointment/appointment.routs'
 const app = express()
 
 const corsOptions: cors.CorsOptions = {
-  origin: 'http://localhost:5173',
+  origin: [
+    'http://localhost:5173', // local
+    'https://med-scheduler-app.vercel.app/' // production
+  ],
   credentials: true, 
 }
 
