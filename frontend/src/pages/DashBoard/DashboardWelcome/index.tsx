@@ -9,7 +9,7 @@ export function DashboardWelcome() {
       <h1>Welcome to Shiba <span>Connect</span></h1>
 
       <button onClick={() => navigate("/booking-appointment")}>
-        Book your first appointment here
+        Create Appointment +
       </button>
 
       <FieldSlideShow/>

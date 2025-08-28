@@ -43,8 +43,5 @@ function App() {
 
 export default App
 
-// make add appointment button in welcome page smaller
-
-// a. fix some things
-// b. deploy
-// c. list features i want to add
+// a. deploy
+// b. list features i want to add
