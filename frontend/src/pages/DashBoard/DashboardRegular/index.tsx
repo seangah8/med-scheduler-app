@@ -32,8 +32,8 @@ export function DashboardRegular({
                 <i className="fa-solid fa-plus"></i>
             </button>
             <div className="filter">
-                <button onClick={()=>setOnPast(true)} disabled={onPast}>Previous Appointments</button>
                 <button onClick={()=>setOnPast(false)} disabled={!onPast}>Upcoming Appointments</button>
+                <button onClick={()=>setOnPast(true)} disabled={onPast}>Previous Appointments</button>
             </div>
             {   loadingApps ?
                 <p>loading appointments...</p>
