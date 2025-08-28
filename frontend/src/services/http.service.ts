@@ -46,10 +46,10 @@ async function ajax<T = any>(
         console.log(`Had issues ${method}ing to the backend, endpoint: ${endpoint}, with data: `, data)
         console.dir(err)
 
-        if (err.response?.status === 401) {
-            sessionStorage.clear()
-            window.location.assign('/')
-        }
+        // if (err.response?.status === 401) {
+        //     sessionStorage.clear()
+        //     window.location.assign('/')
+        // }
 
         throw err
     }

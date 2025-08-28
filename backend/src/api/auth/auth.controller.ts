@@ -48,7 +48,8 @@ export async function verifyOTP(req: Request, res: Response): Promise<void> {
     // send cookie
     res.cookie('loginToken', token, {
       httpOnly: true,
-      secure: true,     
+      secure: true,
+      sameSite: 'none',     // for production
       maxAge: 1000 * 60 * 60, // 1 hour existance
     })
 

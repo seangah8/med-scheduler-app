@@ -20,6 +20,8 @@ const corsOptions: cors.CorsOptions = {
   credentials: true, 
 }
 
+app.set('trust proxy', 1) // secure cookies can be set/recognized in render
+
 // middlewares
 app.use(cors(corsOptions))
 app.use(express.json())
