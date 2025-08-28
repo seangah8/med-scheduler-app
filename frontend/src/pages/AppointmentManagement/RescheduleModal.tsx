@@ -7,23 +7,23 @@ import { TimeSlotService } from "../../services/timeSlot.service"
 
 
 interface RescheduleModalProps{
-    appointmentId: string
     medicalField: MedicalFieldModel
     doctor: DoctorModel
     wasRescheduledSuccessfully : boolean | null
     setShowRescheduleModal: (toShow : boolean) => void
     onRescheduleAppointment: (date: Date) => Promise<AppointmentModel | null>
     setWasRescheduledSuccessfully: (success : boolean) => void
+    handleRefresh: () => void
 }
 
 export function RescheduleModal({
-    appointmentId, 
     medicalField, 
     doctor, 
     wasRescheduledSuccessfully, 
     setShowRescheduleModal, 
     onRescheduleAppointment, 
-    setWasRescheduledSuccessfully
+    setWasRescheduledSuccessfully,
+    handleRefresh
 } 
     : RescheduleModalProps){
 
@@ -89,7 +89,7 @@ export function RescheduleModal({
                     <button onClick={()=>{
                         setShowRescheduleModal(false)
                         if (wasRescheduledSuccessfully)
-                            window.location.href = `/appointment/${appointmentId}`
+                            handleRefresh()
                         }}>
                         Approve
                     </button>

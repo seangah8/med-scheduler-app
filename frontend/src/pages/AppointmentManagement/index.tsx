@@ -20,11 +20,14 @@ export function AppointmentManagement(){
     const [showRescheduleModal, setShowRescheduleModal] = useState<boolean>(false)
     const [wasCanceledSuccessfully, setWasCanceledSuccessfully] = useState<boolean | null>(null)
     const [wasRescheduledSuccessfully, setWasRescheduledSuccessfully] = useState<boolean | null>(null)
+    const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
 
     useEffect(()=>{
+        setWasCanceledSuccessfully(null)
+        setWasRescheduledSuccessfully(null)
         if(id)
             loadAppointment(id)
-    },[id])
+    },[id, refreshTrigger])
 
     useEffect(()=>{
         if(appointment)
@@ -72,9 +75,13 @@ export function AppointmentManagement(){
 
     function onClickOutsideModal(){
         if(wasCanceledSuccessfully) navigator('/dashboard')
-        if(wasRescheduledSuccessfully) window.location.href = `/appointment/${appointment?._id}`
+        if(wasRescheduledSuccessfully) handleRefresh()
         setShowCancelModal(false)
         setShowRescheduleModal(false)
+    }
+
+    function handleRefresh() {
+        setRefreshTrigger(prev => prev + 1)
     }
 
     if(!appointment || !medicalField || !doctor) 
@@ -111,14 +118,13 @@ export function AppointmentManagement(){
                 {
                     showRescheduleModal && 
                     <RescheduleModal
-                        appointmentId={appointment._id}
                         medicalField={medicalField}
                         doctor={doctor}
                         wasRescheduledSuccessfully={wasRescheduledSuccessfully}
                         setShowRescheduleModal={setShowRescheduleModal}
                         onRescheduleAppointment={onRescheduleAppointment}
                         setWasRescheduledSuccessfully={setWasRescheduledSuccessfully}
-                        
+                        handleRefresh={handleRefresh}
                     />
                 }
             </div>
