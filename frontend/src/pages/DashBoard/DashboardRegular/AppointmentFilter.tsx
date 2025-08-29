@@ -51,7 +51,7 @@ export function AppointmentFilter({ filter, medicalFieldMap, setFilter }: Appoin
                 <DatePicker
                     label="From"
                     format="dd/MM/yyyy"
-                    value={filter.startDate}
+                    value={filter.startDate ?? null}
                     maxDate={new Date()}
                     onChange={date => 
                       setFilter({ ...filter, startDate: date ?? undefined })}
@@ -68,7 +68,7 @@ export function AppointmentFilter({ filter, medicalFieldMap, setFilter }: Appoin
                 <DatePicker
                     label="To"
                     format="dd/MM/yyyy"
-                    value={filter.endDate}
+                    value={filter.endDate ?? null}
                     maxDate={new Date()}
                     onChange={date => 
                       setFilter({ ...filter, endDate: date ?? undefined })}
