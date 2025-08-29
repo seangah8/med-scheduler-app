@@ -24,9 +24,9 @@ export interface AppointmentResponseModel {
 }
 
 export interface AppointmentFilterModel{
-    onPast : boolean
-    medicalFieldId: string | null
-    startDate: Date | null
-    endDate: Date | null
+  status: 'scheduled' | 'completed' | 'cancelled'
+  medicalFieldId?: string
+  startDate?: Date
+  endDate?: Date
 }
 

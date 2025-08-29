@@ -20,10 +20,7 @@ export async function getAppointments(req: Request, res: Response){
 
   const status = req.query.status as string
 
-  const medicalFieldStr = req.query.medicalFieldId as string | undefined
-  const medicalFieldId = (medicalFieldStr === 'null' || 
-    medicalFieldStr === 'undefined') ? undefined : medicalFieldStr
-
+  const medicalFieldId = req.query.medicalFieldId as string | undefined
   const startDateStr = req.query.startDate as string | undefined
   const endDateStr = req.query.endDate as string | undefined
 

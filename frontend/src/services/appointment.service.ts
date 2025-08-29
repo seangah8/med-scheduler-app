@@ -24,10 +24,10 @@ export const AppointmentService = {
 async function getAppointmentsData(filter : AppointmentFilterModel)
     : Promise<AppointmentsResponseModel | null>{
     try{
-        let url = `appointment?status=${filter.onPast ? 'completed' : 'scheduled'}`
+        let url = `appointment?status=${filter.status}`
         if (filter.medicalFieldId) url += `&medicalFieldId=${filter.medicalFieldId}`
-        if (filter.startDate) url += `&startDate=${filter.startDate}`
-        if (filter.endDate) url += `&endDate=${filter.endDate}`
+        if (filter.startDate) url += `&startDate=${filter.startDate.toISOString()}`
+        if (filter.endDate) url += `&endDate=${filter.endDate.toISOString()}`
 
         const {appointments, doctorMap, medicalFieldMap} = 
             await httpService.get<AppointmentsResponseModel>(url)
@@ -161,12 +161,8 @@ function deleteLocalBookingFlow() {
 }
 
 function getDefulteAppointmentFilter() : AppointmentFilterModel{
-    const newFilter = {
-        onPast: false,
-        medicalFieldId: null,
-        startDate: null,
-        endDate: null,
+    const newFilter : AppointmentFilterModel = {
+        status: 'scheduled',
     }
-
     return newFilter
 }

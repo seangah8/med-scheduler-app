@@ -21,10 +21,14 @@ export function AppointmentFilter({ filter, medicalFieldMap, setFilter }: Appoin
   return (
     <section className="appointment-filter">
       <div className="button-area">
-        <button onClick={() => setFilter({ ...filter, onPast: false })} disabled={!filter.onPast}>
+        <button onClick={() => 
+          setFilter({ ...filter, status: 'scheduled' })} 
+            disabled={filter.status !== 'completed'}>
           Upcoming Appointments
         </button>
-        <button onClick={() => setFilter({ ...filter, onPast: true })} disabled={filter.onPast}>
+        <button onClick={() => 
+          setFilter({ ...filter, status: 'completed' })} 
+            disabled={filter.status !== 'scheduled'}>
           Previous Appointments
         </button>
       </div>
@@ -37,41 +41,43 @@ export function AppointmentFilter({ filter, medicalFieldMap, setFilter }: Appoin
           getOptionLabel={option => option.name}
           renderInput={params => <TextField {...params} label="Select Medical Field" />}
           onChange={(_, value) => {
-            setFilter({ ...filter, medicalFieldId: value ? value.id : null })
+            setFilter({ ...filter, medicalFieldId: value ? value.id : undefined })
           }}
         />
 
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <div className='date-picker-container' 
-              style={{visibility: filter.onPast ? 'visible' : 'hidden'}}>
+              style={{visibility: filter.status === 'completed' ? 'visible' : 'hidden'}}>
                 <DatePicker
                     label="From"
                     format="dd/MM/yyyy"
                     value={filter.startDate}
                     maxDate={new Date()}
-                    onChange={date => setFilter({ ...filter, startDate: date })}
+                    onChange={date => 
+                      setFilter({ ...filter, startDate: date ?? undefined })}
                     slotProps={{ textField: { fullWidth: true } }}
                 />
                 {
                     filter.startDate && 
                     <i className="fa-solid fa-xmark" onClick={()=>
-                        setFilter({ ...filter, startDate: null })}/>
+                        setFilter({ ...filter, startDate: undefined })}/>
                 }
             </div>
             <div className='date-picker-container'
-              style={{visibility: filter.onPast ? 'visible' : 'hidden'}}>
+              style={{visibility: filter.status === 'completed' ? 'visible' : 'hidden'}}>
                 <DatePicker
                     label="To"
                     format="dd/MM/yyyy"
                     value={filter.endDate}
                     maxDate={new Date()}
-                    onChange={date => setFilter({ ...filter, endDate: date })}
+                    onChange={date => 
+                      setFilter({ ...filter, endDate: date ?? undefined })}
                     slotProps={{ textField: { fullWidth: true } }}
                 />
                 {
                     filter.endDate && 
                     <i className="fa-solid fa-xmark" onClick={()=>
-                        setFilter({ ...filter, endDate: null })}/>
+                        setFilter({ ...filter, endDate: undefined })}/>
                 }
             </div>
         </LocalizationProvider>

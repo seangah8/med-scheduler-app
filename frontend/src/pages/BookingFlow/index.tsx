@@ -77,7 +77,8 @@ export function BookingFlow() {
 
   
   async function loadAppointments(){
-      const data = await AppointmentService.getAppointmentsData('scheduled')
+      const data = await AppointmentService
+        .getAppointmentsData({ status : 'scheduled'})
       if(data) {
           const { appointments } = data
           setAppointments(appointments)
