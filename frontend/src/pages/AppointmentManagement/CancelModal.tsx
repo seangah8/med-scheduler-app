@@ -19,7 +19,7 @@ export function CancelModal({
     : CancelModalProps){
 
     const navigate = useNavigate()
-    const [isCanceling, setIsCanceling] = useState(false)
+    const [isCanceling, setIsCanceling] = useState<boolean>(false)
 
     async function onApprove(){
         setIsCanceling(true)

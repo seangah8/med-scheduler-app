@@ -40,7 +40,7 @@ export async function getAppointments(req: Request, res: Response){
 
 
 export async function addAppointment(req: Request<{}, {}, 
-  {medicalFieldId: string, doctorId: string, date: Date}>, res: Response): Promise<void> {
+  {medicalFieldId: string, doctorId: string, date: Date, virtual:boolean}>, res: Response): Promise<void> {
 
   const store = asyncLocalStorage.getStore()
   if (!store || !store?.loggedinUser) {
@@ -49,9 +49,9 @@ export async function addAppointment(req: Request<{}, {},
   }
 
   try {
-    const { medicalFieldId, doctorId, date } = req.body
+    const { medicalFieldId, doctorId, date, virtual } = req.body
     const appointment = await appointmentService.add
-      (medicalFieldId, doctorId, store.loggedinUser.userId, date)
+      (medicalFieldId, doctorId, store.loggedinUser.userId, date, virtual)
     res.send(appointment)
   } catch (err: any) {
     logger.error(`Failed saving appointment: ${err.message}`)
@@ -75,14 +75,29 @@ export async function rescheduleAppointment(req: Request, res: Response) {
   const { id, date } = req.params
   try{
     const newDate = new Date(date)
-    const canceledAppointment = await appointmentService.reschedule(id, newDate)
-    res.send(canceledAppointment)
+    const rescheduledAppointment = await appointmentService.reschedule(id, newDate)
+    res.send(rescheduledAppointment)
 
   } catch(err){
-    logger.error(`Failed cancel appointment: ${err}`)
-    res.status(400).send(`Couldn't cancel appointment`)
+    logger.error(`Failed reschedule appointment: ${err}`)
+    res.status(400).send(`Couldn't reschedule appointment`)
   }
 }
+
+export async function changeAppointmentMethod(req: Request, res: Response) {
+  const { id, isVirtual } = req.params
+  try{
+    const updatedAppointment = 
+      await appointmentService.changeMethod(id, isVirtual === "true")
+    res.send(updatedAppointment)
+
+  } catch(err){
+    logger.error(`Failed change visit method appointment: ${err}`)
+    res.status(400).send(`Couldn't change visit method`)
+  }
+}
+
+
 
 
 export async function getAllUnavailability(req: Request, res: Response): Promise<void> {

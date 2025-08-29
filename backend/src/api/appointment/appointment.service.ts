@@ -12,6 +12,7 @@ export const appointmentService = {
   add,
   cancel,
   reschedule,
+  changeMethod,
   unavailableDates,
   isAppointmentExists,
 }
@@ -101,7 +102,8 @@ async function add(
   fieldId: string,
   doctorId: string,
   userId: string,
-  date: Date
+  date: Date,
+  virtual: boolean
 ): Promise<AppointmentTSModel> {
 
   try{
@@ -112,7 +114,8 @@ async function add(
       medicalFieldId: new ObjectId(fieldId),
       startAt: date,
       status: 'scheduled',
-      createdAt: now
+      createdAt: now,
+      virtual
     })
 
     const appointment = 
@@ -177,6 +180,32 @@ async function reschedule(id: string, date: Date): Promise<AppointmentTSModel> {
 
   } catch (err) {
     logger.error(`Failed to reschedule appointment: ${err}`)
+    throw err
+  }
+}
+
+async function changeMethod(id: string, isVirtual: boolean): Promise<AppointmentTSModel> {
+  try {
+    const updated = await AppointmentMongoModel.findByIdAndUpdate
+      (id, { $set: { virtual: isVirtual } }, { new: true })
+      .lean()
+
+    if (!updated) {
+      throw new Error('Appointment not found')
+    }
+
+    const appointment : AppointmentTSModel ={
+      ...updated,
+      _id: updated._id.toString(),
+      userId: updated.userId.toString(),
+      doctorId: updated.doctorId.toString(),
+      medicalFieldId: updated.medicalFieldId.toString(),
+    }
+
+    return appointment
+
+  } catch (err) {
+    logger.error(`Failed to change appointment visit method: ${err}`)
     throw err
   }
 }

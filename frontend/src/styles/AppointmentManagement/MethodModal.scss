@@ -1,0 +1,44 @@
+@use '../vars' as var;
+
+
+.method-modal{
+    background-color: white;
+    width: 800px;
+    height: 300px;
+    border-radius: 30px;
+
+    .method-confirmation{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+
+        .buttons-area{
+            display: flex;
+            gap: 75px;
+
+            .no-butt{
+                background-color: white;
+                color: var.$blue;
+                border: solid var.$blue 2px;
+
+                &:hover{
+                    background-color: ghostwhite;
+                }
+            }
+        }
+
+        button{
+            width: 100px;
+        }
+    }
+
+    .method-status{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+    }
+}

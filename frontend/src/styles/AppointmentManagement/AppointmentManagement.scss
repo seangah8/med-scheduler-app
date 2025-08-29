@@ -42,6 +42,24 @@
                 background-color: ghostwhite;
             }
         }
+
+        .virtual-butt{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 100;
+            background-color: var.$green;
+            color: white;
+
+            span{
+                font-weight: 400;
+            }
+
+            &:not(:disabled):hover{
+                background-color: #43ceb2;
+            }
+        }
     }
 
     .modals-container{
@@ -72,6 +90,33 @@
             button{
                 width: 100px;
             }
+        }
+    }
+
+    .switch{
+        position: relative;
+        left: -10px;
+
+        .MuiSwitch-switchBase{
+            color: var.$blue;
+        }
+
+        .MuiSwitch-track {
+        background-color: var.$blue;
+        }
+
+        .MuiSwitch-switchBase.Mui-checked{
+            color: var.$green;
+        }
+
+        .Mui-checked + .MuiSwitch-track{
+            background-color: var.$green;
+        }
+
+        .switch-label{
+            font-family: "Raleway", sans-serif;
+            font-size: 1.2rem;
+            font-weight: 400;
         }
     }
 }

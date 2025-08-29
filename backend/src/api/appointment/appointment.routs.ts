@@ -5,6 +5,7 @@ import { addAppointment,
     getAppointment,
     cancelAppointment,
     rescheduleAppointment,
+    changeAppointmentMethod,
 } from './appointment.controller'
 import { requireAuth } from '../user/user.validations'
 import { validateBooking } from './appointment.validation'
@@ -16,6 +17,7 @@ router.get('/', requireAuth, getAppointments)
 router.get('/:id', requireAuth, getAppointment)
 router.patch('/cancel/:id', requireAuth, cancelAppointment)
 router.patch('/reschedule/:id/:date', requireAuth, rescheduleAppointment)
+router.patch('/virtual/:id/:isVirtual', requireAuth, changeAppointmentMethod)
 router.get('/unavailable-dates/:fieldId/:doctorId', requireAuth, getAllUnavailability)
 router.post('/', log, requireAuth, validateBooking, addAppointment)
 

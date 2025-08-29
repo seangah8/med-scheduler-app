@@ -55,6 +55,7 @@ export async function seedAppointments(
       medicalFieldId,
       startAt: start,
       createdAt: now,
+      virtual: Math.random() < 0.5, // 50% virtual
       status: faker.helpers.arrayElement(['scheduled', 'completed', 'cancelled']),
     })
   }

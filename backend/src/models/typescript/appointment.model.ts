@@ -9,6 +9,7 @@ export interface AppointmentTSModel {
     doctorId: string | ObjectId
     startAt: Date
     createdAt: Date
+    virtual: boolean
     status: 'scheduled' | 'completed' | 'cancelled'
 }
 

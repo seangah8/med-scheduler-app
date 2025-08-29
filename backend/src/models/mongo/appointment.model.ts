@@ -38,7 +38,15 @@ const appointmentSchema = new mongoose.Schema<AppointmentDocument>({
   createdAt:{
     type: Date,
     required: true
+  },
+
+  virtual: {
+    type: Boolean,
+    default: false,
+    required: true
   }
+
+  
 
 }, {versionKey: false})  // disables __v
 

@@ -1,9 +1,11 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { Switch } from '@mui/material'
 import { DoctorModel } from "@/models/doctor.model"
 import { MedicalFieldModel } from "@/models/medicalField.model"
 import { AppointmentService } from "../../services/appointment.service"
 import { TimeSlotService } from "../../services/timeSlot.service"
+
 
 interface BookConfirmationProps{
     field: MedicalFieldModel
@@ -19,11 +21,12 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, appointm
     const navigate = useNavigate()
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
     const [isBooking, setIsBooking] = useState(false)
+    const [isVirtual, setIsVirtual] = useState(false)
 
     async function onBookAppointment() {
         setIsBooking(true)
         const appointment = await AppointmentService
-            .createAppointment(field._id, doctor._id, date)
+            .createAppointment(field._id, doctor._id, date, isVirtual)
         AppointmentService.deleteLocalBookingFlow()
         setIsSuccess(!!appointment)
         setConfirmBooking(true)
@@ -43,12 +46,26 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, appointm
                     <p> <span>Doctor:</span> {doctor.name}</p>
                     <p> <span>Date:</span> {TimeSlotService.formatDateTimeLong(date)}</p>
                     {field.requiredInfo && <p> <span>Requirements:</span> {field.requiredInfo}</p>}
+
+                    {
+                        !appointmentOnFieldExists &&
+                        <div className="switch">
+                            <Switch
+                                checked={isVirtual}
+                                onChange={e => setIsVirtual(e.target.checked)}
+                            />
+                            <span className="switch-label">{isVirtual ? "Virtual" : "In-Person"}</span>
+                        </div>
+                    }
+
+
                     {
                         appointmentOnFieldExists && 
                         <p className="overbooking-text">
                             can't book appointment - already have one for this field.
                         </p>
                     }
+
                     <button 
                         onClick={onBookAppointment} 
                         disabled={isBooking || appointmentOnFieldExists} 

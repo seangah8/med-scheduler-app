@@ -13,6 +13,7 @@ export const AppointmentService = {
     saveLocalBookingFlow,
     getLocalBookingFlow,
     deleteLocalBookingFlow,
+    changeAppointmentMethod,
 }
 
 async function getAppointmentsData(status : string)
@@ -47,11 +48,15 @@ async function getAppointmentData(id : string)
     }
 }
 
-async function createAppointment(medicalFieldId: string, doctorId: string, date: Date)
-    : Promise<AppointmentModel | null>{
+async function createAppointment(
+    medicalFieldId: string, 
+    doctorId: string, 
+    date: Date, 
+    virtual: boolean
+) : Promise<AppointmentModel | null>{
     try{
         const appointment = await httpService.post<AppointmentModel>
-            ('appointment/', {medicalFieldId, doctorId, date})
+            ('appointment/', {medicalFieldId, doctorId, date, virtual})
         return appointment
 
     } catch(err){
@@ -80,6 +85,18 @@ async function rescheduleAppointment(id: string, date: Date) : Promise<Appointme
 
     } catch(err){
         console.error('Could not reschedule the appointment:', err)
+        return null
+    }
+}
+
+async function changeAppointmentMethod(id: string, isVirtual: boolean) : Promise<AppointmentModel | null>{
+    try{
+        const appointment = await httpService.patch<AppointmentModel>
+            (`appointment/virtual/${id}/${isVirtual}`)
+        return appointment
+
+    } catch(err){
+        console.error('Could not change appointment visit method:', err)
         return null
     }
 }

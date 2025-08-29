@@ -43,5 +43,23 @@ function App() {
 
 export default App
 
-// a. deploy
-// b. list features i want to add
+// extra features
+
+// 1. Book Appointments for Family Members
+  // add to users idNumber value
+  // add in seeding idNumber
+  // when user register and id input and make sure in front and back its valid
+  // add membersId[] into user schema
+  // make phone number optional
+  // add page for adding members and at the end of form create user without number
+  // if user register and he doesnt has number update add the phone
+  // in booking flow add so you can appoint for one of your members
+  // in dashboard update filter to choose member
+  // update seeding with members[] 
+
+// 2. Symptom-to-Field Helper (Open AI)
+// 3. Advanced Appointment Filtering & Search
+
+// 4. Add to Calendar Button (Google) on appointment confirmation
+// 5. Button on header navigate to goole map hospital location 
+// 6. replace loading text with centered icon

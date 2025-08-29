@@ -7,6 +7,7 @@ export interface AppointmentModel {
     medicalFieldId: string
     doctorId: string
     startAt: Date
+    virtual: boolean
     status: 'scheduled' | 'completed' | 'cancelled'
 }
 
