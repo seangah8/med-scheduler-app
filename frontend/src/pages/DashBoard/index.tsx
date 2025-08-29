@@ -56,6 +56,13 @@ export function Dashboard(){
     function validateStartEndDates(filter: AppointmentFilterModel)
         : AppointmentFilterModel {
 
+        // make sure endDate include appointments within the same day
+        if(filter.endDate){
+            const endOfDay = new Date(filter.endDate)
+            endOfDay.setHours(23, 59, 59, 999)
+            filter.endDate = endOfDay
+        }
+
         if (filter.startDate && filter.endDate && 
             filter.startDate > filter.endDate) 
             return { ...filter, endDate: filter.startDate }

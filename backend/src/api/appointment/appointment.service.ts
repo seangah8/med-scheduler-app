@@ -43,8 +43,10 @@ async function query(
       if (endDate) filter.startAt.$lte = endDate
     }
 
+    const sortOrder = status === 'scheduled' ? 1 : -1
+
     const appointmentsDoc = await AppointmentMongoModel.find(filter)
-      .sort({ startAt: 1 })
+      .sort({ startAt: sortOrder })
       .populate('doctorId', 'name')
       .populate('medicalFieldId', 'name')
       .lean<NamePopulatedAppointment[]>()
