@@ -1,24 +1,25 @@
 import { useNavigate } from "react-router-dom"
 import { AppointmentList } from "./AppointmentList"
-import { AppointmentModel } from "@/models/appointment.model"
+import { AppointmentFilterModel, AppointmentModel } from "@/models/appointment.model"
+import { AppointmentFilter } from "./AppointmentFilter"
 
 
 interface DashboardRegularProps{
     appointments: AppointmentModel[]
     doctorMap: Record<string, string>
     medicalFieldMap: Record<string, string>
-    onPast: boolean
+    filter: AppointmentFilterModel
     loadingApps: boolean
-    setOnPast : (boolean : boolean) => void
+    setFilter : (updatedFilter : AppointmentFilterModel) => void
 }
 
 export function DashboardRegular({
     appointments, 
     doctorMap, 
     medicalFieldMap, 
-    onPast, 
+    filter, 
     loadingApps, 
-    setOnPast
+    setFilter
     } : DashboardRegularProps){
 
     const navigate = useNavigate()
@@ -31,10 +32,13 @@ export function DashboardRegular({
                 <span>New Appointment </span>
                 <i className="fa-solid fa-plus"></i>
             </button>
-            <div className="filter">
-                <button onClick={()=>setOnPast(false)} disabled={!onPast}>Upcoming Appointments</button>
-                <button onClick={()=>setOnPast(true)} disabled={onPast}>Previous Appointments</button>
-            </div>
+
+            <AppointmentFilter
+                filter={filter}
+                medicalFieldMap={medicalFieldMap}
+                setFilter={setFilter}
+            />
+
             {   loadingApps 
                 ? <p className="fetch-info-txt">loading appointments...</p>
                 : appointments.length === 0 

@@ -18,7 +18,17 @@ export async function getAppointment(req: Request, res: Response){
 
 export async function getAppointments(req: Request, res: Response){
 
-   const status = req.query.status as string
+  const status = req.query.status as string
+
+  const medicalFieldStr = req.query.medicalFieldId as string | undefined
+  const medicalFieldId = (medicalFieldStr === 'null' || 
+    medicalFieldStr === 'undefined') ? undefined : medicalFieldStr
+
+  const startDateStr = req.query.startDate as string | undefined
+  const endDateStr = req.query.endDate as string | undefined
+
+  const startDate = startDateStr ? new Date(startDateStr) : undefined
+  const endDate = endDateStr ? new Date(endDateStr) : undefined
 
   const store = asyncLocalStorage.getStore()
   if (!store || !store?.loggedinUser) {
@@ -28,7 +38,8 @@ export async function getAppointments(req: Request, res: Response){
 
   try{
     const {appointments, doctorMap, medicalFieldMap} = 
-      await appointmentService.query(store.loggedinUser.userId, status)
+      await appointmentService.query(store.loggedinUser.userId, 
+        status, medicalFieldId, startDate, endDate)
     res.send({appointments, doctorMap, medicalFieldMap})
 
   } catch(err){

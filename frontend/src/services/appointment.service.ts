@@ -1,6 +1,10 @@
 import { DoctorModel } from "../models/doctor.model"
 import { httpService } from "./http.service"
-import { AppointmentModel, AppointmentsResponse, AppointmentResponse } from "../models/appointment.model"
+import { AppointmentModel, 
+         AppointmentsResponseModel, 
+         AppointmentResponseModel, 
+         AppointmentFilterModel 
+} from "../models/appointment.model"
 import { MedicalFieldModel } from "../models/medicalField.model"
 
 export const AppointmentService = {
@@ -14,16 +18,24 @@ export const AppointmentService = {
     getLocalBookingFlow,
     deleteLocalBookingFlow,
     changeAppointmentMethod,
+    getDefulteAppointmentFilter,
 }
 
-async function getAppointmentsData(status : string)
-    : Promise<AppointmentsResponse | null>{
+async function getAppointmentsData(filter : AppointmentFilterModel)
+    : Promise<AppointmentsResponseModel | null>{
     try{
+        let url = `appointment?status=${filter.onPast ? 'completed' : 'scheduled'}`
+        if (filter.medicalFieldId) url += `&medicalFieldId=${filter.medicalFieldId}`
+        if (filter.startDate) url += `&startDate=${filter.startDate}`
+        if (filter.endDate) url += `&endDate=${filter.endDate}`
+
         const {appointments, doctorMap, medicalFieldMap} = 
-            await httpService.get<AppointmentsResponse>(`appointment?status=${status}`)
+            await httpService.get<AppointmentsResponseModel>(url)
+
         // converting date string into Date type
         const finalAppointments: AppointmentModel[] = appointments.map(app => 
             ({...app, startAt: new Date(app.startAt)}))
+
         return {appointments: finalAppointments, doctorMap, medicalFieldMap}
 
     } catch(err){
@@ -33,10 +45,10 @@ async function getAppointmentsData(status : string)
 }
 
 async function getAppointmentData(id : string)
-    : Promise<AppointmentResponse | null>{
+    : Promise<AppointmentResponseModel | null>{
     try{
         const { appointment, doctor, medicalField } = 
-            await httpService.get<AppointmentResponse>(`appointment/${id}`)
+            await httpService.get<AppointmentResponseModel>(`appointment/${id}`)
         // converting date string into Date type
         const finalAppointment: AppointmentModel = 
             {...appointment, startAt: new Date(appointment.startAt)}
@@ -144,9 +156,17 @@ function getLocalBookingFlow() : {
 }
 
 
-
-
-
 function deleteLocalBookingFlow() {
   sessionStorage.removeItem("bookingFlow")
+}
+
+function getDefulteAppointmentFilter() : AppointmentFilterModel{
+    const newFilter = {
+        onPast: false,
+        medicalFieldId: null,
+        startDate: null,
+        endDate: null,
+    }
+
+    return newFilter
 }

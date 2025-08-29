@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react"
-import { AppointmentModel } from "../../models/appointment.model"
+import { AppointmentModel, AppointmentFilterModel } from "../../models/appointment.model"
 import { AppointmentService } from "../../services/appointment.service"
 import { authService } from "../../services/auth.service"
 import { DashboardRegular } from "./DashboardRegular"
 import { DashboardWelcome } from "./DashboardWelcome"
-
 
 
 export function Dashboard(){
@@ -13,7 +12,7 @@ export function Dashboard(){
     const [loadingApps, setLoadingApps] = useState<boolean>(true)
     const [doctorMap, setDoctorMap] = useState<Record<string, string>>({})
     const [medicalFieldMap, setMedicalFieldMap] = useState<Record<string, string>>({})
-    const [onPast, setOnPast] = useState<boolean>(false)
+    const [filter, setFilter] = useState<AppointmentFilterModel>(AppointmentService.getDefulteAppointmentFilter)
     const [isUserNew, setIsUserNew] = useState<boolean>(false)
     const [loadingUserStat, setLoadingUserStat] = useState<boolean>(true)
 
@@ -33,14 +32,17 @@ export function Dashboard(){
 
     useEffect(()=>{
         loadAppointments()
-    },[onPast])
+    },[filter])
 
 
 
     async function loadAppointments(){
+
+        const validatedFilter = validateStartEndDates(filter)
+        setFilter(validatedFilter)
+
         setLoadingApps(true)
-        const status = onPast ? 'completed' : 'scheduled'
-        const data = await AppointmentService.getAppointmentsData(status)
+        const data = await AppointmentService.getAppointmentsData(validatedFilter)
         if(data) {
             const { appointments: aps, doctorMap: drMap, 
                 medicalFieldMap: fieldMap } = data
@@ -49,6 +51,15 @@ export function Dashboard(){
             setMedicalFieldMap(fieldMap)
         }
         setLoadingApps(false)
+    }
+
+    function validateStartEndDates(filter: AppointmentFilterModel)
+        : AppointmentFilterModel {
+
+        if (filter.startDate && filter.endDate && 
+            filter.startDate > filter.endDate) 
+            return { ...filter, endDate: filter.startDate }
+        return filter
     }
 
     if(loadingUserStat) return <h3>Loading...</h3>
@@ -65,9 +76,9 @@ export function Dashboard(){
                     appointments={appointments} 
                     doctorMap={doctorMap}
                     medicalFieldMap={medicalFieldMap}
-                    onPast={onPast}
+                    filter={filter}
                     loadingApps={loadingApps}
-                    setOnPast={setOnPast}
+                    setFilter={setFilter}
                 />
             }
 

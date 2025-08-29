@@ -17,14 +17,33 @@ export const appointmentService = {
   isAppointmentExists,
 }
 
-async function query(userId: string, status: string): Promise<{
+async function query(
+  userId: string, 
+  status: string, 
+  medicalFieldId?: string,
+  startDate?: Date,
+  endDate?: Date
+): Promise<{
+
   appointments: AppointmentTSModel[]
   doctorMap: Record<string, string>
   medicalFieldMap: Record<string, string>
 }> {
 
   try {
-    const appointmentsDoc = await AppointmentMongoModel.find({ userId, status })
+
+    const filter: any = { userId, status }
+    
+    if (medicalFieldId) 
+      filter.medicalFieldId = medicalFieldId
+
+    if (startDate || endDate) {
+      filter.startAt = {}
+      if (startDate) filter.startAt.$gte = startDate
+      if (endDate) filter.startAt.$lte = endDate
+    }
+
+    const appointmentsDoc = await AppointmentMongoModel.find(filter)
       .sort({ startAt: 1 })
       .populate('doctorId', 'name')
       .populate('medicalFieldId', 'name')

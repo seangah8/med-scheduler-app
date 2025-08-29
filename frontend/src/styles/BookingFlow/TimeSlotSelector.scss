@@ -17,31 +17,6 @@
         justify-content: center;
         gap: 50px;
 
-        .MuiDateCalendar-root{
-            margin: 0px;
-            height: 330px;
-
-            button{
-                width: 35px;
-            }
-
-            .Mui-selected {
-                background-color: var.$blue !important;
-                color: white !important;
-            }
-
-            .MuiPickersCalendarHeader-label{
-                color: var.$blue;
-                font-family: "Raleway", sans-serif;
-                font-weight: 600;
-            }
-
-            .MuiPickersArrowSwitcher-previousIconButton ,
-            .MuiPickersArrowSwitcher-nextIconButton{
-                color: var.$blue;
-            }
-        }
-
         ul{
             margin: 0px;
             margin-top: 20px;

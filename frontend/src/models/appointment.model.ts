@@ -11,15 +11,22 @@ export interface AppointmentModel {
     status: 'scheduled' | 'completed' | 'cancelled'
 }
 
-export interface AppointmentsResponse {
+export interface AppointmentsResponseModel {
     appointments: AppointmentModel[]
     doctorMap: Record<string, string>      
     medicalFieldMap: Record<string, string>
 }
 
-export interface AppointmentResponse {
+export interface AppointmentResponseModel {
     appointment: AppointmentModel
     doctor: DoctorModel   
     medicalField: MedicalFieldModel
+}
+
+export interface AppointmentFilterModel{
+    onPast : boolean
+    medicalFieldId: string | null
+    startDate: Date | null
+    endDate: Date | null
 }
 

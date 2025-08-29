@@ -58,7 +58,11 @@ export default App
   // update seeding with members[] 
 
 // 2. Symptom-to-Field Helper (Open AI)
+
 // 3. Advanced Appointment Filtering & Search
+  // filter with medical field
+  // filter by date range
+  // (mabye) button for expand appointments
 
 // 4. Add to Calendar Button (Google) on appointment confirmation
 // 5. Button on header navigate to goole map hospital location 
