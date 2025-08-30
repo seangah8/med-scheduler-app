@@ -40,6 +40,26 @@
         background-color: aqua;
     }
 
+}
 
-// <li tabindex="-1" role="option" id="«r0»-option-0" data-option-index="0" aria-disabled="false" aria-selected="false" class="MuiAutocomplete-option Mui-focused" style="display: flex; align-items: center; justify-content: space-between;"><p>Leroy Walter</p></li>
+
+.MuiAutocomplete-option
+{
+    p{
+        width: 100%;
+    }
+    
+    .unique{
+        margin-left: 5px;
+        display: flex; 
+        align-items: center; 
+        gap: 5px;
+        color: var.$blue;
+
+        i{
+            color: var.$blue;
+        }
+    }
+
+
 }

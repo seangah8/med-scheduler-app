@@ -17,41 +17,46 @@ export function DoctorSelector({ field, currantDoctor, onSelect } : DoctorSelect
     const [doctors, setDoctors] = useState<DoctorModel[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [favoritId, setFavoritId] = useState<string>('')
+    const [soonestId, setSoonestId] = useState<string>('')
+
 
     useEffect(()=>{
         loadDoctors()
     },[])
 
 
-    async function loadDoctors(){
-        const doctors = await DoctorService.getDoctors(field._id)
-        
-        if(doctors) {
-            // find favorite doctor before setting
-            const ratedDoctors = doctors.filter(
-                (doc): doc is DoctorModel & { rating: number } => 
-                    doc.rating !== null && doc.rating !== undefined
-            )
+async function loadDoctors() {
+  const doctors = await DoctorService.getDoctors(field._id)
 
-            if (ratedDoctors.length === 0) {
-            setDoctors(doctors)
-                setIsLoading(false)
-                return
-            }
-            
-            const favoriteDoc = ratedDoctors.reduce((acc, doc) => 
-                doc.rating > acc.rating ? doc : acc, ratedDoctors[0])
+  if (doctors) {
 
-            setFavoritId(favoriteDoc._id)
+    // find favorite
+    const ratedDoctors = doctors.filter(
+      (doc): doc is DoctorModel & { rating: number } =>
+        doc.rating !== null && doc.rating !== undefined
+    )
 
-            // move favorite doctor to the top
-            const sortedDoctors = [favoriteDoc, ...doctors.filter(doc => 
-                doc._id !== favoriteDoc._id)]
-
-            setDoctors(sortedDoctors)
-            setIsLoading(false)
-        }
+    let favoriteDoc: DoctorModel | null = null
+    if (ratedDoctors.length > 0) {
+      favoriteDoc = ratedDoctors.reduce((acc, doc) =>
+        doc.rating > acc.rating ? doc : acc, ratedDoctors[0])
+      setFavoritId(favoriteDoc._id)
     }
+
+    // find soonest available
+    const soonestDoctorId= await DoctorService.getSoonestAvailableDoctor(
+      doctors.map(d => d._id), field._id)
+    if (soonestDoctorId) {
+      setSoonestId(soonestDoctorId)
+    }
+
+    const sortedDoctors = DoctorService.reorderDoctors
+        (doctors, favoriteDoc, soonestDoctorId)
+
+    setDoctors(sortedDoctors)
+    setIsLoading(false)
+  }
+}
 
 
 
@@ -71,13 +76,23 @@ export function DoctorSelector({ field, currantDoctor, onSelect } : DoctorSelect
                         const { key, ...rest } = props
                         return (
                         <li key={key} {...rest}>
+
                             <p>{option.name}</p>
+
                             {option._id === favoritId && 
                             <div className='unique'>
                                 <p>Favorit</p>
                                 <i className="fa-solid fa-star"/>
                             </div>
                             }
+
+                            {option._id === soonestId && 
+                            <div className='unique'>
+                                <p>Soonest</p>
+                                <i className="fa-solid fa-clock"></i>
+                            </div>
+                            }
+
                         </li>
                         )
                     }}
