@@ -4,6 +4,7 @@ import { DoctorService } from '../../services/docor.service'
 import { DoctorModel } from '../../models/doctor.model'
 import { MedicalFieldModel } from '../../models/medicalField.model'
 import { Rating } from '@mui/material'
+import { LoadingSpinner } from '../../components/LoadingSpinner'
 
 interface DoctorSelectorProps{
     currantDoctor: DoctorModel | null
@@ -28,7 +29,7 @@ export function DoctorSelector({ field, currantDoctor, onSelect } : DoctorSelect
         }
     }
 
-    if(isLoading) return <h3>Loading...</h3>
+    if(isLoading) return <LoadingSpinner />
 
     return(
         <section className="doctor-selection">

@@ -9,6 +9,7 @@ import { DoctorModel } from "@/models/doctor.model"
 import { MedicalFieldModel } from "@/models/medicalField.model"
 import { TimeSlotService } from "../../services/timeSlot.service"
 import { MethodModal } from "./MethodModal"
+import { LoadingSpinner } from "../../components/LoadingSpinner"
 
 export function AppointmentManagement(){
 
@@ -107,7 +108,7 @@ export function AppointmentManagement(){
     }
 
     if(!appointment || !medicalField || !doctor) 
-        return <h3>Loading...</h3>
+        return <LoadingSpinner />
 
     return(
         <section className="appointment-management">

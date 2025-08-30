@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Autocomplete, TextField } from '@mui/material'
 import { medicalFieldService } from '../../services/medicalField.service'
 import { MedicalFieldModel } from "../../models/medicalField.model"
+import { LoadingSpinner } from '../../components/LoadingSpinner'
 
 interface MedicalFieldSelectorProps{
     currantField: MedicalFieldModel | null
@@ -27,7 +28,7 @@ export function MedicalFieldSelector({ currantField, appointmentOnFieldExists, o
         
     }
 
-    if(isLoading) return <h3>Loading...</h3>
+    if(isLoading) return <LoadingSpinner />
 
     return(
         <section className="medical-field-selection">

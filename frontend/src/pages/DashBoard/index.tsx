@@ -4,6 +4,7 @@ import { AppointmentService } from "../../services/appointment.service"
 import { authService } from "../../services/auth.service"
 import { DashboardRegular } from "./DashboardRegular"
 import { DashboardWelcome } from "./DashboardWelcome"
+import { LoadingSpinner } from "../../components/LoadingSpinner"
 
 
 export function Dashboard(){
@@ -69,12 +70,10 @@ export function Dashboard(){
         return filter
     }
 
-    if(loadingUserStat) return <h3>Loading...</h3>
+    if(loadingUserStat) return <LoadingSpinner />
 
     return(
         <section className="dashboard">
-
-            
 
             {/* for regular users */}
             {

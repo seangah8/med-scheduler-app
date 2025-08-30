@@ -7,6 +7,7 @@ import { DoctorModel } from "@/models/doctor.model"
 import { MedicalFieldModel } from "@/models/medicalField.model"
 import { AppointmentService } from "../../services/appointment.service"
 import { TimeSlotService } from "../../services/timeSlot.service"
+import { LoadingSpinner } from "../../components/LoadingSpinner"
 
 
 interface TimeSlotSelectorProps {
@@ -72,7 +73,7 @@ export function TimeSlotSelector({ field, doctor, selectedDate, onSelect }: Time
     setIsLoading(false)
   }
 
-  if (isLoading) return <h2>Loading...</h2>
+  if (isLoading) return <LoadingSpinner />
 
   return (
     <section className="time-slot-selector">
