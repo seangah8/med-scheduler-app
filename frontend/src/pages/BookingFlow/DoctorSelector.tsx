@@ -16,18 +16,44 @@ export function DoctorSelector({ field, currantDoctor, onSelect } : DoctorSelect
 
     const [doctors, setDoctors] = useState<DoctorModel[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [favoritId, setFavoritId] = useState<string>('')
 
     useEffect(()=>{
         loadDoctors()
     },[])
 
+
     async function loadDoctors(){
         const doctors = await DoctorService.getDoctors(field._id)
+        
         if(doctors) {
+            // find favorite doctor before setting
+            const ratedDoctors = doctors.filter(
+                (doc): doc is DoctorModel & { rating: number } => 
+                    doc.rating !== null && doc.rating !== undefined
+            )
+
+            if (ratedDoctors.length === 0) {
             setDoctors(doctors)
+                setIsLoading(false)
+                return
+            }
+            
+            const favoriteDoc = ratedDoctors.reduce((acc, doc) => 
+                doc.rating > acc.rating ? doc : acc, ratedDoctors[0])
+
+            setFavoritId(favoriteDoc._id)
+
+            // move favorite doctor to the top
+            const sortedDoctors = [favoriteDoc, ...doctors.filter(doc => 
+                doc._id !== favoriteDoc._id)]
+
+            setDoctors(sortedDoctors)
             setIsLoading(false)
         }
     }
+
+
 
     if(isLoading) return <LoadingSpinner />
 
@@ -40,7 +66,21 @@ export function DoctorSelector({ field, currantDoctor, onSelect } : DoctorSelect
                     value={currantDoctor}
                     getOptionLabel={option => option.name}
                     renderInput={params => <TextField {...params} label="Select Doctor" />}
-                    onChange={(_, value) => {if (value) onSelect(value)}}
+                    onChange={(_, value) => { if (value) onSelect(value) }}
+                    renderOption={(props, option) => {
+                        const { key, ...rest } = props
+                        return (
+                        <li key={key} {...rest}>
+                            <p>{option.name}</p>
+                            {option._id === favoritId && 
+                            <div className='unique'>
+                                <p>Favorit</p>
+                                <i className="fa-solid fa-star"/>
+                            </div>
+                            }
+                        </li>
+                        )
+                    }}
                 />
             </div>
             {

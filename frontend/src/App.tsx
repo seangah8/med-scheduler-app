@@ -45,7 +45,6 @@ export default App
 
 // extra features
 
-// 0. change web header in html (name + icon) 
 // 1. show "most rated" and "closest appointment" next to doctors smart search
 // 2. create doctors info pages
 // 3. add documents in completed appointments
