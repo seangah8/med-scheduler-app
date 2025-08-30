@@ -1,3 +1,4 @@
+import axios from "axios"
 import { DoctorModel } from "../models/doctor.model"
 import { httpService } from "./http.service"
 import { AppointmentModel, 
@@ -19,6 +20,7 @@ export const AppointmentService = {
     deleteLocalBookingFlow,
     changeAppointmentMethod,
     getDefulteAppointmentFilter,
+    getPdf,
 }
 
 async function getAppointmentsData(filter : AppointmentFilterModel)
@@ -131,6 +133,15 @@ async function getAllUnavailabilities(medicalFieldId: string, doctorId: string)
 }
 
 
+async function getPdf(id: string): Promise<Blob> {
+  const response = await axios.get(
+    `${import.meta.env.VITE_API_BASE_URL}appointment/pdf/${id}`,
+    { responseType: "blob", withCredentials: true }
+  )
+
+  // returns blob
+  return response.data
+}
 
 
 function saveLocalBookingFlow(

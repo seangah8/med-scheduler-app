@@ -107,6 +107,24 @@ export function AppointmentManagement(){
         setRefreshTrigger(prev => prev + 1)
     }
 
+    async function onDownloadPdf() {
+        if (!appointment) return
+        try {
+            const blob = await AppointmentService.getPdf(appointment._id)
+            const url = URL.createObjectURL(blob)
+
+            const link = document.createElement("a")
+            link.href = url
+            link.download = `appointment_${appointment._id}.pdf`
+            link.click()
+
+            URL.revokeObjectURL(url)
+        } catch (err) {
+            console.error("Failed to download PDF", err)
+        }
+    }
+
+
     if(!appointment || !medicalField || !doctor) 
         return <LoadingSpinner />
 
@@ -118,7 +136,7 @@ export function AppointmentManagement(){
             <p><span>Date:</span> {TimeSlotService.formatDateTimeLong(appointment.startAt)}</p>
             {medicalField.requiredInfo && <p><span>Requirements:</span> {medicalField.requiredInfo}</p>}
             {
-            !isTenMinutsBeforeApp &&
+            !isTenMinutsBeforeApp && !wasAppCompleted &&
                 <div className="switch">
                     <Switch
                         checked={appointment.virtual}
@@ -129,7 +147,7 @@ export function AppointmentManagement(){
             }
 
             {
-                !wasAppCompleted &&
+                !isTenMinutsBeforeApp && !wasAppCompleted &&
                 <section className="action-buttons">
                     <button className="reschedule-butt" onClick={()=>setShowRescheduleModal(true)}>Reschedule</button>
                     <button className="cancel-butt" onClick={()=>setShowCancelModal(true)}>Cancel Appointment</button>
@@ -139,6 +157,16 @@ export function AppointmentManagement(){
                         <i className="fa-solid fa-link"/>
                     </button>}
                 </section>
+            }
+
+            {
+                wasAppCompleted && 
+                <section className="action-buttons">
+                    <button className="download-butt" onClick={onDownloadPdf}>
+                        Download Summary
+                        <i className="fa-solid fa-file-pdf"/>
+                    </button>
+                </section>  
             }
 
             { (showCancelModal || showRescheduleModal || showMethodModal) &&

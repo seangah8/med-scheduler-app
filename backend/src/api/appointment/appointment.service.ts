@@ -1,3 +1,4 @@
+import PDFDocument from "pdfkit"
 import { ObjectId } from "mongodb"
 import { AppointmentMongoModel } from "../../models/mongo/appointment.model"
 import { DoctorMongoModel } from "../../models/mongo/doctor.model"
@@ -5,6 +6,8 @@ import { AppointmentTSModel, PopulatedAppointment, NamePopulatedAppointment } fr
 import { DoctorTSModel } from "../../models/typescript/doctor.model"
 import { logger } from "../../services/logger.service"
 import { MedicalFieldTSModel } from "../../models/typescript/medicalField.model"
+import { UserMongoModel } from "../../models/mongo/user.model"
+import { MedicalFieldMongoModel } from "../../models/mongo/medicalField.model"
 
 export const appointmentService = {
   query,
@@ -15,6 +18,7 @@ export const appointmentService = {
   changeMethod,
   unavailableDates,
   isAppointmentExists,
+  streamAppointmentPdf,
 }
 
 async function query(
@@ -290,7 +294,7 @@ async function unavailableDates( fieldId: string, doctorId: string
   }
 }
 
-export async function isAppointmentExists(
+async function isAppointmentExists(
   doctorId: string,
   date: Date
 ): Promise<boolean> {
@@ -307,6 +311,57 @@ export async function isAppointmentExists(
     console.error("Failed to check appointment existence:", err)
     throw err
   }
+}
+
+
+async function streamAppointmentPdf(id: string): Promise<Buffer> {
+
+  const appointment = await AppointmentMongoModel.findById(id).lean()
+  if (!appointment) throw new Error("Appointment not found")
+
+  if (appointment.status !== "completed")
+    throw new Error("PDF only available for completed appointments")
+
+  const user = await UserMongoModel.findById(appointment.userId).lean()
+  if (!user) throw new Error("User not found")
+
+  const doctor = await DoctorMongoModel.findById(appointment.doctorId).lean()
+  if (!doctor) throw new Error("Doctor not found")
+
+  const field = await MedicalFieldMongoModel.findById(appointment.medicalFieldId).lean()
+  if (!field) throw new Error("Medical field not found")
+
+  return new Promise<Buffer>((resolve, reject) => {
+    const doc = new PDFDocument({ size: "A4", margin: 50 })
+    const chunks: Buffer[] = []
+
+    doc.on("data", (chunk) => chunks.push(chunk))
+    doc.on("end", () => resolve(Buffer.concat(chunks)))
+    doc.on("error", reject)
+
+    // Title
+    doc.fontSize(20).text("Appointment Summary", { align: "center" })
+    doc.moveDown()
+
+    // Details
+    doc.fontSize(12)
+    doc.text(`Patient: ${user.phone}`)
+    doc.text(`Doctor: ${doctor.name}`)
+    doc.text(`Field: ${field.name}`)
+    doc.text(
+      `Date: ${new Date(appointment.startAt).toLocaleString("en-GB", {
+        dateStyle: "full", timeStyle: "short"})}`
+    )
+    doc.text(`Mode: ${appointment.virtual ? "Virtual" : "In-person"}`)
+    doc.text(`Status: ${appointment.status}`)
+    doc.moveDown()
+
+    doc.text("Notes: This is a demo PDF generated on demand.", {
+      align: "left",
+    })
+
+    doc.end()
+  })
 }
 
 
@@ -337,3 +392,6 @@ function _maxDailySlots( doctor: DoctorTSModel ) : number {
     const effectiveMinutes = totalMinutes - breakMinutes
     return Math.floor(effectiveMinutes / interval)
 }
+
+
+

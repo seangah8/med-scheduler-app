@@ -60,6 +60,22 @@
                 background-color: #43ceb2;
             }
         }
+
+        .download-butt{
+            width: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: solid var.$blue 2px;
+            background-color: white;
+            color: var.$blue;
+            font-weight: 600;
+
+            &:hover{
+                background-color: ghostwhite;
+            }
+        }
     }
 
     .modals-container{

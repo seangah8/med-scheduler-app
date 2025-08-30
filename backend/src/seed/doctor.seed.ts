@@ -32,6 +32,7 @@ export async function seedDoctors( medicalFields  : MedicalFieldTSModel[], amoun
         // doctor's fileds
         const numFields = faker.number.int({ min: 1, max: 3 })
         const fieldDocs = faker.helpers.arrayElements(medicalFields, numFields)
+
         const fieldIds = fieldDocs.map(f => f._id)
 
         // schedule layout (moke -> all work from 8:00 to 16:00, 
@@ -66,7 +67,7 @@ export async function seedDoctors( medicalFields  : MedicalFieldTSModel[], amoun
         const educationFrom = faker.helpers.arrayElement(medicalSchools)
 
         // random experienceSince date in past 0–30 years
-        const experienceYearsAgo = faker.number.int({ min: 0, max: 30 })
+        const experienceYearsAgo = faker.number.int({ min: 1, max: 30 })
         const experienceSince = faker.date.past({ years: experienceYearsAgo })
 
         // random rating between 3.0 and 5.0 (1 decimal)

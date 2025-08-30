@@ -121,3 +121,26 @@ export async function getAllUnavailability(req: Request, res: Response): Promise
     res.status(400).send(`Couldn't get unavailable dates`)
   }
 }
+
+
+export async function getAppointmentPdf(req: Request, res: Response) {
+  const { id } = req.params
+
+  try {
+    const buff = await appointmentService.streamAppointmentPdf(id)
+
+    // telling the browser what kind of file it’s about to receive 
+    // and how it should handle it.
+    res.setHeader("Content-Type", "application/pdf")
+    res.setHeader(
+      "Content-Disposition",
+      `inline; filename=appointment_${id}.pdf`
+    )
+
+    res.send(buff)
+
+  } catch (err: any) {
+    logger.error(`Failed to generate PDF: ${err}`)
+    res.status(404).send('Failed to generate PDF')
+  }
+}

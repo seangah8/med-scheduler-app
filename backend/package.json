@@ -19,6 +19,7 @@
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.2.1",
+    "@types/pdfkit": "^0.17.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.2"
   },
@@ -32,6 +33,7 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.17.1",
+    "pdfkit": "^0.17.2",
     "pino": "^9.8.0",
     "pino-pretty": "^13.1.1"
   }
