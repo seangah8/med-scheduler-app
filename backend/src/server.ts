@@ -10,8 +10,7 @@ import { authRoutes } from './api/auth/auth.routes'
 import { medicalFieldRoutes } from './api/medicalField/medicalField.routes'
 import { doctorRoutes } from './api/doctor/doctor.routs'
 import { appointmentRoutes } from './api/appointment/appointment.routes'
-
-
+import { errorHandler } from './middlewares/error.middleware'
 
 const app = express()
 
@@ -23,7 +22,8 @@ const corsOptions: cors.CorsOptions = {
   credentials: true, 
 }
 
-app.set('trust proxy', 1) // secure cookies can be set/recognized in render
+// secure cookies can be set/recognized in render
+app.set('trust proxy', 1) 
 
 // middlewares
 app.use(cors(corsOptions))
@@ -31,12 +31,16 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(setupAsyncLocalStorage)
 
-//* Routes
+// routes
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/medical-field', medicalFieldRoutes)
 app.use('/api/doctor', doctorRoutes)
 app.use('/api/appointment', appointmentRoutes)
+
+// error habdler
+app.use(errorHandler)
+
 
 
 // start server after DB connects

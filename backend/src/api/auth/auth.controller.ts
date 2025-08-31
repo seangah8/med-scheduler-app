@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { authService } from './auth.service'
 import { logger } from '../../services/logger.service'
 import { CredentialsTSModel } from '../../models/typescript/credentials.model'
@@ -8,7 +8,7 @@ import { ENV } from '../../config/env'
 import { asyncLocalStorage } from '../../services/als.service'
 
 
-export async function sendOTP(req: Request, res: Response): Promise<void> {
+export async function sendOTP(req: Request, res: Response, next: NextFunction): Promise<void> {
 
   const { phone } = req.body
 
@@ -25,11 +25,11 @@ export async function sendOTP(req: Request, res: Response): Promise<void> {
 
   } catch (err: any) {
     logger.error(`failed to send OTP: ${err.message}`)
-    res.status(500).json({ error: "Failed to send OTP", details: err })
+    next({ status: 500, message: "Failed to send OTP", details: err })
   }
 }
 
-export async function verifyOTP(req: Request, res: Response): Promise<void> {
+export async function verifyOTP(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { phone, password } = req.body
 
   try {
@@ -57,11 +57,11 @@ export async function verifyOTP(req: Request, res: Response): Promise<void> {
 
   } catch (err: any) {
     logger.error(`OTP verification failed: ${err.message}`)
-    res.status(500).json({ error: "Failed to verify OTP", details: err })
+    next({ status: 500, message: "Failed to verify OTP", details: err })
   }
 }
 
-export async function logout(req: Request, res: Response): Promise<void> {
+export async function logout(req: Request, res: Response, next: NextFunction): Promise<void> {
   const store = asyncLocalStorage.getStore()
   const userId = store?.loggedinUser?.userId
 
@@ -77,11 +77,11 @@ export async function logout(req: Request, res: Response): Promise<void> {
 
   } catch (err: any) {
     logger.error(`Logout failed: ${err.message}`)
-    res.status(400).json({ error: "Logout failed", details: err })
+    next({ status: 400, message: "Logout failed", details: err })
   }
 }
 
-export async function getLoggedInUser(req: Request, res: Response): Promise<void> {
+export async function getLoggedInUser(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const userId = asyncLocalStorage.getStore()?.loggedinUser?.userId
     if (!userId) throw new Error('Not logged in')
@@ -92,7 +92,7 @@ export async function getLoggedInUser(req: Request, res: Response): Promise<void
     res.send(user)
 
   } catch (err: any) {
-    res.status(500).json({ error: "Failed to get user", details: err })
+    next({ status: 500, message: "Failed to get user", details: err })
   }
 }
 

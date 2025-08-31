@@ -8,9 +8,8 @@ export function validatePhone(req: Request, res: Response, next: NextFunction) {
   const phoneRegex = /^05\d{8}$/
   const phone = req.body?.phone || req.params?.phone
 
-  if (!phone || !phoneRegex.test(phone)) {
-    return res.status(400).json({ err: 'invalid phone number'})
-  }
+  if (!phone || !phoneRegex.test(phone)) 
+    return next({ status: 400, message: "Invalid phone number"})
 
   next()
 }
@@ -19,10 +18,8 @@ export function validatePhone(req: Request, res: Response, next: NextFunction) {
 export function requireAuth(req: Request, res: Response, next: NextFunction): void {
   const store = asyncLocalStorage.getStore()
 
-  if (!store?.loggedinUser) {
-    res.status(401).json({ error: "Unauthorized: login required"})
-    return
-  }
-
+  if (!store?.loggedinUser) 
+    return next({ status: 401, message: "Unauthorized: login required"})
+  
   next()
 }

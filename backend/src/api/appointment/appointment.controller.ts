@@ -1,9 +1,9 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { appointmentService } from './appointment.service'
 import { logger } from '../../services/logger.service'
 import { asyncLocalStorage } from '../../services/als.service'  
 
-export async function getAppointment(req: Request, res: Response){
+export async function getAppointment(req: Request, res: Response, next: NextFunction){
   const { id } = req.params
   try{
     const { appointment, doctor, medicalField } = 
@@ -12,11 +12,11 @@ export async function getAppointment(req: Request, res: Response){
 
   } catch(err){
     logger.error(`Failed getting appointment: ${err}`)
-    res.status(400).json({ error: "Failed to retrieve appointment", details: err})
+    next({ status: 400, message: "Failed to retrieve appointment", details: err })
   }
 }
 
-export async function getAppointments(req: Request, res: Response){
+export async function getAppointments(req: Request, res: Response, next: NextFunction){
 
   const status = req.query.status as string
 
@@ -29,7 +29,7 @@ export async function getAppointments(req: Request, res: Response){
 
   const store = asyncLocalStorage.getStore()
   if (!store || !store?.loggedinUser) {
-    res.status(401).json({ error: "Unauthorized"})
+    next({ status: 401, message: "Unauthorized" })
     return
   }
 
@@ -41,18 +41,19 @@ export async function getAppointments(req: Request, res: Response){
 
   } catch(err){
     logger.error(`Failed getting appointments: ${err}`)
-    res.status(400).json({ error: 'Failed to retrieve appointments', details: err })
+    next({ status: 400, message: "Failed to retrieve appointments", details: err })
   }
 }
 
 
 
 export async function addAppointment(req: Request<{}, {}, 
-  {medicalFieldId: string, doctorId: string, date: Date, virtual:boolean}>, res: Response): Promise<void> {
+  {medicalFieldId: string, doctorId: string, date: Date, virtual:boolean}>, 
+  res: Response , next: NextFunction): Promise<void> {
 
   const store = asyncLocalStorage.getStore()
   if (!store || !store?.loggedinUser) {
-    res.status(401).json({err: 'Unauthorized'})
+    next({ status: 401, message: "Unauthorized"})
     return
   }
 
@@ -63,11 +64,11 @@ export async function addAppointment(req: Request<{}, {},
     res.send(appointment)
   } catch (err: any) {
     logger.error(`Failed saving appointment: ${err.message}`)
-    res.status(400).json({ error: "Failed to save appointment", details: err})
+    next({ status: 400, message: "Failed to save appointment", details: err })
   }
 }
 
-export async function cancelAppointment(req: Request, res: Response) {
+export async function cancelAppointment(req: Request, res: Response, next: NextFunction) {
   const { id } = req.params
   try{
     const canceledAppointment = await appointmentService.cancel(id)
@@ -75,11 +76,11 @@ export async function cancelAppointment(req: Request, res: Response) {
 
   } catch(err){
     logger.error(`Failed cancel appointment: ${err}`)
-    res.status(400).json({ error: "Failed to cancel appointment", details: err })
+    next({ status: 400, message: "Failed to cancel appointment", details: err })
   }
 }
 
-export async function rescheduleAppointment(req: Request, res: Response) {
+export async function rescheduleAppointment(req: Request, res: Response, next: NextFunction) {
   const { id, date } = req.params
   try{
     const newDate = new Date(date)
@@ -88,11 +89,11 @@ export async function rescheduleAppointment(req: Request, res: Response) {
 
   } catch(err){
     logger.error(`Failed reschedule appointment: ${err}`)
-    res.status(400).json({ error: "Failed to reschedule appointment", details: err })
+    next({ status: 400, message: "Failed to reschedule appointment", details: err })
   }
 }
 
-export async function changeAppointmentMethod(req: Request, res: Response) {
+export async function changeAppointmentMethod(req: Request, res: Response, next: NextFunction) {
   const { id, isVirtual } = req.params
   try{
     const updatedAppointment = 
@@ -101,14 +102,14 @@ export async function changeAppointmentMethod(req: Request, res: Response) {
 
   } catch(err){
     logger.error(`Failed change visit method appointment: ${err}`)
-    res.status(400).json({ error: "Failed to change visit method", details: err })
+    next({ status: 400, message: "Failed to change visit method", details: err })
   }
 }
 
 
 
 
-export async function getAllUnavailability(req: Request, res: Response): Promise<void> {
+export async function getAllUnavailability(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { fieldId, doctorId } = req.params
 
   try {
@@ -118,12 +119,12 @@ export async function getAllUnavailability(req: Request, res: Response): Promise
 
   } catch (err: any) {
     logger.error(`Error getting unavailable dates: ${err.message}`)
-    res.status(400).json({ error: "Failed to get unavailable dates", details: err })
+    next({ status: 400, message: "Failed to change visit method", details: err })
   }
 }
 
 
-export async function getAppointmentPdf(req: Request, res: Response) {
+export async function getAppointmentPdf(req: Request, res: Response, next: NextFunction) {
   const { id } = req.params
 
   try {
@@ -141,6 +142,6 @@ export async function getAppointmentPdf(req: Request, res: Response) {
 
   } catch (err: any) {
     logger.error(`Failed to generate PDF: ${err}`)
-    res.status(404).json({ error: "Failed to generate PDF", details: err })
+    next({ status: 404, message: "Failed to generate PDF", details: err })
   }
 }
