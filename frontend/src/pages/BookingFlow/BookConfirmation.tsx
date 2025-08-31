@@ -5,6 +5,7 @@ import { DoctorModel } from "@/models/doctor.model"
 import { MedicalFieldModel } from "@/models/medicalField.model"
 import { AppointmentService } from "../../services/appointment.service"
 import { TimeSlotService } from "../../services/timeSlot.service"
+import { LoadingSpinner } from "../../components/LoadingSpinner"
 
 
 interface BookConfirmationProps{
@@ -35,6 +36,8 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, appointm
 
     return(
         <section className="book-confirmation">
+
+            {isBooking && <LoadingSpinner/>}
 
             {/* Confirmation Screen */}
             { 

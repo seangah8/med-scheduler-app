@@ -48,5 +48,6 @@ export default App
 // if downloading pdf goes wrong show message on page for the user
 // in registration if the user ask for another otp and its new, keep it that way
 // change soonest doctor to another word
+// in appointment managment if something goes wrong with action buttons make sure user can try again
 
 

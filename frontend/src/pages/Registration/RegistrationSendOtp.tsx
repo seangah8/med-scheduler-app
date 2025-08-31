@@ -1,3 +1,4 @@
+import { LoadingSpinner } from "../../components/LoadingSpinner"
 import { useState } from "react"
 
 interface RegistrationSendOtpProps{
@@ -12,7 +13,7 @@ export function RegistrationSendOtp({phone, waitingForPassword, setPhone, onGetO
 
     const [isPhoneValid, setIsPhoneValid] = useState<boolean>(true)
 
-    function checkPhoneValidation(phone : string){
+    function onRequstOtp(phone : string){
         const phoneRegex = /^05\d{8}$/
         const valid = phoneRegex.test(phone)
         if(valid) onGetOtp()
@@ -21,6 +22,9 @@ export function RegistrationSendOtp({phone, waitingForPassword, setPhone, onGetO
 
     return(
         <section className="registration-send-otp">
+            
+            { waitingForPassword && <LoadingSpinner/> }
+
             <label htmlFor="phone">Login to your personal area</label>
             <input
                 id="phone"
@@ -37,7 +41,8 @@ export function RegistrationSendOtp({phone, waitingForPassword, setPhone, onGetO
             }
             <p>To identify who we have the honor of dealing with, 
                 we will send you a one-time identification code</p>
-            <button onClick={()=>checkPhoneValidation(phone)} disabled={waitingForPassword}>
+
+            <button onClick={()=>onRequstOtp(phone)} disabled={waitingForPassword}>
                 {waitingForPassword ? 'Sending...' : 'Approve'}
             </button>
         </section>

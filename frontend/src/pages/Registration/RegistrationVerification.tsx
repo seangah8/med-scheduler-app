@@ -1,3 +1,4 @@
+import { LoadingSpinner } from "../../components/LoadingSpinner"
 
 interface RegistrationVerificationProps{
     password: string
@@ -13,7 +14,11 @@ export function RegistrationVerification({password, isVerifying, showInvalidPass
     : RegistrationVerificationProps){
 
     return(
+
         <section className="registration-verification">
+
+            { isVerifying && <LoadingSpinner/> }
+
             <label htmlFor="password">What you received?</label>
             <input
                 id="password"
