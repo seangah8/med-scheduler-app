@@ -25,9 +25,6 @@ export async function getSoonestAvailableDoctor(
   try {
     const { doctorsId, fieldId } = req.body
 
-    if (!doctorsId?.length || !fieldId) 
-      return next({ status: 400, message: "Missing doctorsId or fieldId"})
-
     const soonestDoctorId = await doctorService.getSoonestId(doctorsId, fieldId)
 
     if (!soonestDoctorId) 

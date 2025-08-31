@@ -1,11 +1,12 @@
 import express, { Router } from 'express'
-import { addUser, getUser } from './user.controller'
 import { log } from '../../middlewares/log.middleware'
-import { validatePhone } from './user.validations'
+import { addUser, getUser } from './user.controller'
+import { getUserSchema, addUserSchema } from '../../models/schemas/user.schema'
+import { validateRequest } from '../../middlewares/validate.middleware'
 
 const router : Router = express.Router()
 
-router.get('/:phone', validatePhone, getUser)
-router.post('/', log, validatePhone, addUser)
+router.get("/:phone", validateRequest(getUserSchema), getUser)
+router.post('/', log, validateRequest(addUserSchema), addUser)
 
 export const userRoutes : Router = router

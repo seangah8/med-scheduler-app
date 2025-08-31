@@ -49,5 +49,10 @@ export default App
 // in registration if the user ask for another otp and its new, keep it that way
 // change soonest doctor to another word
 // in appointment managment if something goes wrong with action buttons make sure user can try again
+// make log middleware only be in necceray routs
+// when loogink at upcoming appointments, remove the startDate and endDate at filter
+// make sure its ok from backend to not having doctors in medical field (dont throw error)
+
+
 
 

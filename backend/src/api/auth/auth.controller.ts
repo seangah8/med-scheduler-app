@@ -33,9 +33,6 @@ export async function verifyOTP(req: Request, res: Response, next: NextFunction)
   const { phone, password } = req.body
 
   try {
-    if (!phone || !password) 
-      throw new Error('Phone and OTP are required')
-
     const user = await userService.getByPhone(phone)
     if (!user) throw Error('User not found')
 

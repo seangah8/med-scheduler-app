@@ -1,6 +1,6 @@
 import express, { Router } from 'express'
 import { getMedicalFields } from './medicalField.controller'
-import { requireAuth } from '../user/user.validations'
+import { requireAuth } from '../../middlewares/auth.middleware'
 
 const router : Router = express.Router()
 

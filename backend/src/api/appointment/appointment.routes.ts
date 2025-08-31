@@ -1,5 +1,7 @@
 import express, { Router } from 'express'
-import { addAppointment, 
+import { log } from '../../middlewares/log.middleware'
+import { 
+    addAppointment, 
     getAllUnavailability, 
     getAppointments, 
     getAppointment,
@@ -8,19 +10,29 @@ import { addAppointment,
     changeAppointmentMethod,
     getAppointmentPdf,
 } from './appointment.controller'
-import { requireAuth } from '../user/user.validations'
+import { 
+    getAppointmentSchema, 
+    getAppointmentsSchema, 
+    addAppointmentSchema, 
+    cancelAppointmentSchema,
+    rescheduleAppointmentSchema,
+    changeAppointmentMethodSchema,
+    getAllUnavailabilitySchema,
+    getAppointmentPdfSchema,
+} from '../../models/schemas/appointment.schema'
+import { requireAuth } from '../../middlewares/auth.middleware'
 import { validateBooking } from './appointment.validation'
-import { log } from '../../middlewares/log.middleware'
+import { validateRequest } from '../../middlewares/validate.middleware'
 
 const router : Router = express.Router()
 
-router.get('/', log, requireAuth, getAppointments)
-router.get('/:id', log, requireAuth, getAppointment)
-router.get('/unavailable-dates/:fieldId/:doctorId', log, requireAuth, getAllUnavailability)
-router.get('/pdf/:id', log, requireAuth, getAppointmentPdf)
-router.post('/', log, requireAuth, validateBooking, addAppointment)
-router.patch('/cancel/:id', log, requireAuth, cancelAppointment)
-router.patch('/reschedule/:id/:date', log, requireAuth, rescheduleAppointment)
-router.patch('/virtual/:id/:isVirtual', log, requireAuth, changeAppointmentMethod)
+router.get('/', log, requireAuth, validateRequest(getAppointmentsSchema), getAppointments)
+router.get('/:id', log, requireAuth, validateRequest(getAppointmentSchema), getAppointment)
+router.get('/unavailable-dates/:fieldId/:doctorId', log, requireAuth, validateRequest(getAllUnavailabilitySchema), getAllUnavailability)
+router.get('/pdf/:id', log, requireAuth, validateRequest(getAppointmentPdfSchema), getAppointmentPdf)
+router.post('/', log, requireAuth, validateBooking, validateRequest(addAppointmentSchema), addAppointment)
+router.patch('/cancel/:id', log, requireAuth, validateRequest(cancelAppointmentSchema), cancelAppointment)
+router.patch('/reschedule/:id/:date', log, requireAuth, validateRequest(rescheduleAppointmentSchema), rescheduleAppointment)
+router.patch('/virtual/:id/:isVirtual', log, requireAuth, validateRequest(changeAppointmentMethodSchema), changeAppointmentMethod)
 
 export const appointmentRoutes : Router = router

@@ -70,3 +70,19 @@ doctorSchema.index({ "schedule.fieldWorkdays.medicalFieldId": 1 })
 
 const DoctorMongoModel = mongoose.model<DoctorDocument>('doctor', doctorSchema)
 export { DoctorMongoModel }
+
+
+
+export const getDoctorsSchema = {
+  validate: (_body: any, params: any) => {
+    const errors: string[] = []
+
+    // params.medicalFieldId must exist and be a non-empty string
+    if (!params.medicalFieldId || typeof params.medicalFieldId !== "string") {
+      errors.push("medicalFieldId must be a non-empty string")
+    }
+
+    return errors.length ? { error: { details: errors } } : { error: null }
+  }
+}
+
