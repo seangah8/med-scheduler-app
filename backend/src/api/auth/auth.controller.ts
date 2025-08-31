@@ -61,7 +61,7 @@ export async function verifyOTP(req: Request, res: Response, next: NextFunction)
   }
 }
 
-export async function logout(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function logout(_req: Request, res: Response, next: NextFunction): Promise<void> {
   const store = asyncLocalStorage.getStore()
   const userId = store?.loggedinUser?.userId
 
@@ -81,7 +81,7 @@ export async function logout(req: Request, res: Response, next: NextFunction): P
   }
 }
 
-export async function getLoggedInUser(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function getLoggedInUser(_req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const userId = asyncLocalStorage.getStore()?.loggedinUser?.userId
     if (!userId) throw new Error('Not logged in')

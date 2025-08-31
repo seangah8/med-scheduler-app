@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { medicalFieldService } from "./medicalField.service"
 import { logger } from '../../services/logger.service'
 
-export async function getMedicalFields(req: Request, res: Response, next: NextFunction) 
+export async function getMedicalFields(_req: Request, res: Response, next: NextFunction) 
   : Promise<void>{
 
   try {

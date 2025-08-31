@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { asyncLocalStorage } from '../../services/als.service'
 
 
-export function validatePhone(req: Request, res: Response, next: NextFunction) {
+export function validatePhone(req: Request, _res: Response, next: NextFunction) {
 
   // accepts 05 followed by 8 digits
   const phoneRegex = /^05\d{8}$/
@@ -15,7 +15,7 @@ export function validatePhone(req: Request, res: Response, next: NextFunction) {
 }
 
 
-export function requireAuth(req: Request, res: Response, next: NextFunction): void {
+export function requireAuth(_req: Request, _res: Response, next: NextFunction): void {
   const store = asyncLocalStorage.getStore()
 
   if (!store?.loggedinUser) 
