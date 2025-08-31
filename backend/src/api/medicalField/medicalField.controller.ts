@@ -8,6 +8,6 @@ export async function getMedicalFields(req: Request, res: Response) : Promise<vo
     res.send(medicalFields)
   } catch (err: any) {
     logger.error(err.message)
-    res.status(400).send(`Couldn't get medical fields`)
+    res.status(400).json({ error: "Failed to get medical fields", details: err })
   }
 }

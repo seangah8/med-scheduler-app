@@ -25,7 +25,7 @@ export async function sendOTP(req: Request, res: Response): Promise<void> {
 
   } catch (err: any) {
     logger.error(`failed to send OTP: ${err.message}`)
-    res.status(500).send('Failed to send OTP')
+    res.status(500).json({ error: "Failed to send OTP", details: err })
   }
 }
 
@@ -57,7 +57,7 @@ export async function verifyOTP(req: Request, res: Response): Promise<void> {
 
   } catch (err: any) {
     logger.error(`OTP verification failed: ${err.message}`)
-    res.status(500).send('Failed to verify OTP')
+    res.status(500).json({ error: "Failed to verify OTP", details: err })
   }
 }
 
@@ -77,7 +77,7 @@ export async function logout(req: Request, res: Response): Promise<void> {
 
   } catch (err: any) {
     logger.error(`Logout failed: ${err.message}`)
-    res.status(400).send({ error: 'Logout failed' })
+    res.status(400).json({ error: "Logout failed", details: err })
   }
 }
 
@@ -90,8 +90,9 @@ export async function getLoggedInUser(req: Request, res: Response): Promise<void
     if (!user) throw new Error('User not found')
 
     res.send(user)
+
   } catch (err: any) {
-    res.status(500).send({ error: 'Failed to get user' })
+    res.status(500).json({ error: "Failed to get user", details: err })
   }
 }
 

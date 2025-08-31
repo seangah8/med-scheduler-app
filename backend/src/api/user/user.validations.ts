@@ -9,7 +9,7 @@ export function validatePhone(req: Request, res: Response, next: NextFunction) {
   const phone = req.body?.phone || req.params?.phone
 
   if (!phone || !phoneRegex.test(phone)) {
-    return res.status(400).send('invalid phone number')
+    return res.status(400).json({ err: 'invalid phone number'})
   }
 
   next()
@@ -20,7 +20,7 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
   const store = asyncLocalStorage.getStore()
 
   if (!store?.loggedinUser) {
-    res.status(401).send('Unauthorized: login required')
+    res.status(401).json({ error: "Unauthorized: login required"})
     return
   }
 

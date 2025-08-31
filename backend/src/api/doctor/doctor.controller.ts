@@ -12,7 +12,7 @@ export async function getDoctors(req: Request, res: Response) : Promise<void>{
     
   } catch (err: any) {
     logger.error(err.message)
-    res.status(400).send(`Couldn't get doctors`)
+    res.status(400).json({ error: "Failed to get doctors", details: err })
   }
 }
 
@@ -26,18 +26,20 @@ export async function getSoonestAvailableDoctor(
     const { doctorsId, fieldId } = req.body
 
     if (!doctorsId?.length || !fieldId) 
-      return res.status(400).send("Missing doctorsId or fieldId")
+      return res.status(400).json({ error: "Missing doctorsId or fieldId"})
+
 
     const soonestDoctorId = await doctorService.getSoonestId(doctorsId, fieldId)
 
     if (!soonestDoctorId) 
-      return res.status(404).send("No available doctor found")
+      return res.status(404).json({ error: "No available doctor found"})
     
     res.send(soonestDoctorId)
 
   } catch (err: any) {
     logger.error(`Error finding soonest available doctor: ${err.message}`)
-    res.status(500).send("Server error while finding soonest available doctor")
+    res.status(500).json({ error: "Server error while finding soonest available doctor", 
+      details: err })
   }
 }
 

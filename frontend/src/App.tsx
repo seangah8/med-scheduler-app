@@ -47,5 +47,6 @@ export default App
 
 // if downloading pdf goes wrong show message on page for the user
 // in registration if the user ask for another otp and its new, keep it that way
+// change soonest doctor to another word
 
 

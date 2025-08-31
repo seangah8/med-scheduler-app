@@ -12,7 +12,7 @@ export async function getAppointment(req: Request, res: Response){
 
   } catch(err){
     logger.error(`Failed getting appointment: ${err}`)
-    res.status(400).send(`Couldn't get appointment`)
+    res.status(400).json({ error: "Failed to retrieve appointment", details: err})
   }
 }
 
@@ -29,7 +29,7 @@ export async function getAppointments(req: Request, res: Response){
 
   const store = asyncLocalStorage.getStore()
   if (!store || !store?.loggedinUser) {
-    res.status(401).send('Unauthorized')
+    res.status(401).json({ error: "Unauthorized"})
     return
   }
 
@@ -41,7 +41,7 @@ export async function getAppointments(req: Request, res: Response){
 
   } catch(err){
     logger.error(`Failed getting appointments: ${err}`)
-    res.status(400).send(`Couldn't get appointments`)
+    res.status(400).json({ error: 'Failed to retrieve appointments', details: err })
   }
 }
 
@@ -52,7 +52,7 @@ export async function addAppointment(req: Request<{}, {},
 
   const store = asyncLocalStorage.getStore()
   if (!store || !store?.loggedinUser) {
-    res.status(401).send('Unauthorized')
+    res.status(401).json({err: 'Unauthorized'})
     return
   }
 
@@ -63,7 +63,7 @@ export async function addAppointment(req: Request<{}, {},
     res.send(appointment)
   } catch (err: any) {
     logger.error(`Failed saving appointment: ${err.message}`)
-    res.status(400).send(`Couldn't save appointment`)
+    res.status(400).json({ error: "Failed to save appointment", details: err})
   }
 }
 
@@ -75,7 +75,7 @@ export async function cancelAppointment(req: Request, res: Response) {
 
   } catch(err){
     logger.error(`Failed cancel appointment: ${err}`)
-    res.status(400).send(`Couldn't cancel appointment`)
+    res.status(400).json({ error: "Failed to cancel appointment", details: err })
   }
 }
 
@@ -88,7 +88,7 @@ export async function rescheduleAppointment(req: Request, res: Response) {
 
   } catch(err){
     logger.error(`Failed reschedule appointment: ${err}`)
-    res.status(400).send(`Couldn't reschedule appointment`)
+    res.status(400).json({ error: "Failed to reschedule appointment", details: err })
   }
 }
 
@@ -101,7 +101,7 @@ export async function changeAppointmentMethod(req: Request, res: Response) {
 
   } catch(err){
     logger.error(`Failed change visit method appointment: ${err}`)
-    res.status(400).send(`Couldn't change visit method`)
+    res.status(400).json({ error: "Failed to change visit method", details: err })
   }
 }
 
@@ -118,7 +118,7 @@ export async function getAllUnavailability(req: Request, res: Response): Promise
 
   } catch (err: any) {
     logger.error(`Error getting unavailable dates: ${err.message}`)
-    res.status(400).send(`Couldn't get unavailable dates`)
+    res.status(400).json({ error: "Failed to get unavailable dates", details: err })
   }
 }
 
@@ -141,6 +141,6 @@ export async function getAppointmentPdf(req: Request, res: Response) {
 
   } catch (err: any) {
     logger.error(`Failed to generate PDF: ${err}`)
-    res.status(404).send('Failed to generate PDF')
+    res.status(404).json({ error: "Failed to generate PDF", details: err })
   }
 }
