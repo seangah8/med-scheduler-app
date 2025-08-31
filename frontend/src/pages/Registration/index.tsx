@@ -28,7 +28,7 @@ export function Registration(){
         setWaitingForPassword(true)
         const otp = await authService.sendOtp(phone)
         if(otp) {
-            console.log(`here is your password: ${otp}`)
+            console.log(`your one time password: ${otp}`)
             setIsGotPassword(true)
         }
         setWaitingForPassword(false)

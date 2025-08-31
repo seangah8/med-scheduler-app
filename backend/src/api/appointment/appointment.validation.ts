@@ -13,7 +13,6 @@ export async function validateBooking(
 
   try {
     // check if medical field exists
-    console.log('medicalFieldId', medicalFieldId)
     const field = await medicalFieldService.getById(medicalFieldId)
     if (!field) throw new Error('Invalid medical field')
 

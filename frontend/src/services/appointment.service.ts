@@ -41,7 +41,8 @@ async function getAppointmentsData(filter : AppointmentFilterModel)
         return {appointments: finalAppointments, doctorMap, medicalFieldMap}
 
     } catch(err){
-        console.error('Could not get an appointments:', err)
+        if(import.meta.env.MODE === "development")
+            console.error('Could not get an appointments:', err)
         return null
     }
 }
@@ -57,7 +58,8 @@ async function getAppointmentData(id : string)
         return {appointment: finalAppointment, doctor, medicalField}
 
     } catch(err){
-        console.error('Could not get an appointment:', err)
+        if(import.meta.env.MODE === "development")
+            console.error('Could not get an appointment:', err)
         return null
     }
 }
@@ -74,7 +76,8 @@ async function createAppointment(
         return appointment
 
     } catch(err){
-        console.error('Could not create an appointment:', err)
+        if(import.meta.env.MODE === "development")
+            console.error('Could not create an appointment:', err)
         return null
     }
 }
@@ -86,7 +89,8 @@ async function cancelAppointment(id: string) : Promise<AppointmentModel | null>{
         return appointment
 
     } catch(err){
-        console.error('Could not cancel the appointment:', err)
+        if(import.meta.env.MODE === "development")
+            console.error('Could not cancel the appointment:', err)
         return null
     }
 }
@@ -98,7 +102,8 @@ async function rescheduleAppointment(id: string, date: Date) : Promise<Appointme
         return appointment
 
     } catch(err){
-        console.error('Could not reschedule the appointment:', err)
+        if(import.meta.env.MODE === "development")
+            console.error('Could not reschedule the appointment:', err)
         return null
     }
 }
@@ -110,7 +115,8 @@ async function changeAppointmentMethod(id: string, isVirtual: boolean) : Promise
         return appointment
 
     } catch(err){
-        console.error('Could not change appointment visit method:', err)
+        if(import.meta.env.MODE === "development")
+            console.error('Could not change appointment visit method:', err)
         return null
     }
 }
@@ -127,20 +133,27 @@ async function getAllUnavailabilities(medicalFieldId: string, doctorId: string)
         return allUnavailability
 
     } catch (err) {
-        console.error('Could not get unavailable dates:', err)
+        if(import.meta.env.MODE === "development")
+            console.error('Could not get unavailable dates:', err)
         return null
     }
 }
 
 
-async function getPdf(id: string): Promise<Blob> {
-  const response = await axios.get(
-    `${import.meta.env.VITE_API_BASE_URL}appointment/pdf/${id}`,
-    { responseType: "blob", withCredentials: true }
-  )
+async function getPdf(id: string): Promise<Blob | null> {
+    try{
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_BASE_URL}appointment/pdf/${id}`,
+            { responseType: "blob", withCredentials: true }
+        )
+        // returns blob
+        return response.data
 
-  // returns blob
-  return response.data
+    } catch(err){
+        if(import.meta.env.MODE === "development")
+            console.error('Could not get pdf file:', err)
+        return null
+    }
 }
 
 
@@ -149,7 +162,6 @@ function saveLocalBookingFlow(
     selectedDoctor : DoctorModel | null, 
     selectedDate : Date | null
 ){
-    
     sessionStorage.setItem('bookingFlow', JSON.stringify({
         selectedField, selectedDoctor, selectedDate}))
 }

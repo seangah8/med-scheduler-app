@@ -43,8 +43,11 @@ async function ajax<T = any>(
     } 
     
     catch (err: any) {
-        console.log(`Had issues ${method}ing to the backend, endpoint: ${endpoint}, with data: `, data)
-        console.dir(err)
+        if (import.meta.env.MODE === "development") {
+            console.log(`Had issues ${method}ing to the backend, 
+                endpoint: ${endpoint}, with data: `, data)
+            console.dir(err)
+        }
 
         if (err.response?.status === 401) {
             sessionStorage.clear()

@@ -109,19 +109,17 @@ export function AppointmentManagement(){
 
     async function onDownloadPdf() {
         if (!appointment) return
-        try {
-            const blob = await AppointmentService.getPdf(appointment._id)
-            const url = URL.createObjectURL(blob)
 
-            const link = document.createElement("a")
-            link.href = url
-            link.download = `appointment_${appointment._id}.pdf`
-            link.click()
+        const blob = await AppointmentService.getPdf(appointment._id)
+        if(!blob) return
+        const url = URL.createObjectURL(blob)
 
-            URL.revokeObjectURL(url)
-        } catch (err) {
-            console.error("Failed to download PDF", err)
-        }
+        const link = document.createElement("a")
+        link.href = url
+        link.download = `appointment_${appointment._id}.pdf`
+        link.click()
+
+        URL.revokeObjectURL(url)
     }
 
 

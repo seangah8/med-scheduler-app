@@ -13,8 +13,9 @@ async function getDoctors(medicalFieldId : string) : Promise<DoctorModel[] | nul
         const doctors = await httpService.get<DoctorModel[]>(`doctor/${medicalFieldId}`)
         return doctors
     } catch(err){
+      if(import.meta.env.MODE === "development")
         console.error('Could not get doctors:', err)
-        return null
+      return null
     }
 }
 
@@ -31,7 +32,8 @@ export async function getSoonestAvailableDoctor(
     return doctorId
 
   } catch (err) {
-    console.error("Failed to fetch soonest available doctor:", err)
+    if(import.meta.env.MODE === "development")
+      console.error("Failed to fetch soonest available doctor:", err)
     return null
   }
 }

@@ -12,8 +12,10 @@ async function getMedicalFields() : Promise<MedicalFieldModel[] | null> {
         const medicalFields = await httpService.get
             <MedicalFieldModel[]>('medical-field/')
         return medicalFields
+        
     } catch(err){
-        console.error('Could not get medical fields:', err)
+        if(import.meta.env.MODE === "development")
+            console.error('Could not get medical fields:', err)
         return null
     }
 }

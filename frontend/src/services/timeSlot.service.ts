@@ -23,9 +23,6 @@ function formatDateTimeLong(date: Date): string {
 }
 
 
-
-
-
 function getAvailableSlots(date: Date, doctor: DoctorModel, unavailableSet: Set<string>): Date[] {
     const { start, end, intervalMinutes, breaks } = doctor.schedule
 
@@ -104,6 +101,8 @@ function isDayDisable(
 
   return isPast || isWeekend || isNotAvailableForFieldToday || isInUnavailableDays
 }
+
+
 
 function findFirstAvailableDate(
   doctor: DoctorModel,

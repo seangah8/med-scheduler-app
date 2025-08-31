@@ -43,9 +43,9 @@ function App() {
 
 export default App
 
-// extra features
+// final fixes
 
-// 2. create doctors info pages
-// 3. add documents in completed appointments
-// 4. Google Calendar Integration
+// if downloading pdf goes wrong show message on page for the user
+// in registration if the user ask for another otp and its new, keep it that way
+
 

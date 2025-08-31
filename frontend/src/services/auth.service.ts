@@ -16,7 +16,8 @@ async function sendOtp(phone : string) : Promise<string | null> {
   try{
     return await httpService.post<string>('auth/send-otp', { phone })
   } catch(err) {
-    console.error("It seems there was a proble sending you a password:", err)
+    if(import.meta.env.MODE === "development")
+      console.error("It seems there was a proble sending you a password:", err)
     return null
   }
 }
@@ -30,7 +31,8 @@ async function verifyOtp(phone : string, password : string) : Promise<UserModel 
     return user
 
   } catch(err){
-    console.error("Could't verify password:", err)
+    if(import.meta.env.MODE === "development")
+      console.error("Could't verify password:", err)
     return null
   }
 
@@ -44,7 +46,8 @@ async function logout() : Promise<void> {
     sessionStorage.removeItem('bookingFlow')
 
   } catch (err){
-    console.error("Could not log out:", err)
+    if(import.meta.env.MODE === "development")
+      console.error("Could not log out:", err)
   }
 
 }
@@ -56,7 +59,8 @@ function getLoggedinUser(): UserModel | null{
 }
 
 function saveLocalIsUserNew(isUserNew: boolean) : boolean{
-  sessionStorage.setItem('isUserNew', JSON.stringify(isUserNew))
+  if(import.meta.env.MODE === "development")
+    sessionStorage.setItem('isUserNew', JSON.stringify(isUserNew))
   return isUserNew
 }
 
