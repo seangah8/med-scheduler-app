@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify'
 import { UserModel } from "@/models/user.model"
 import { httpService } from "./http.service"
 
@@ -15,9 +16,12 @@ export const authService = {
 async function sendOtp(phone : string) : Promise<string | null> {
   try{
     return await httpService.post<string>('auth/send-otp', { phone })
+
   } catch(err) {
-    if(import.meta.env.MODE === "development")
-      console.error("It seems there was a proble sending you a password:", err)
+    import.meta.env.MODE === "development"
+    ? console.error("It seems there was a proble sending you a password:", err)
+    : toast.error("Something went wrong, please try again.")
+
     return null
   }
 }
@@ -31,8 +35,9 @@ async function verifyOtp(phone : string, password : string) : Promise<UserModel 
     return user
 
   } catch(err){
-    if(import.meta.env.MODE === "development")
-      console.error("Could't verify password:", err)
+    import.meta.env.MODE === "development"
+    ? console.error("Could't verify password:", err)
+    : toast.error("Something went wrong, please try again.")
     return null
   }
 
@@ -46,8 +51,9 @@ async function logout() : Promise<void> {
     sessionStorage.removeItem('bookingFlow')
 
   } catch (err){
-    if(import.meta.env.MODE === "development")
-      console.error("Could not log out:", err)
+    import.meta.env.MODE === "development"
+    ? console.error("Could not log out:", err)
+    : toast.error("Something went wrong, please try again.")
   }
 
 }

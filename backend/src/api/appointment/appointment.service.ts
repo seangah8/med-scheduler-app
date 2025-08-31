@@ -308,7 +308,7 @@ async function isAppointmentExists(
     return !!existing
 
   } catch (err) {
-    console.error("Failed to check appointment existence:", err)
+    logger.error(`Failed to check appointment existence: ${err}`)
     throw err
   }
 }

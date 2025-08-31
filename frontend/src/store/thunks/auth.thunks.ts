@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify'
 import { AuthActionsType } from "../interfaces/auth.store"
 import { authService } from "../../services/auth.service"
 import { UserModel } from "@/models/user.model"
@@ -20,7 +21,10 @@ function login(phone: string, password: string): AppThunk<Promise<UserModel | nu
             return user
 
         } catch (err) {
-            console.log("Cannot login", err)
+            import.meta.env.MODE === "development"
+            ? console.log("Cannot login", err)
+            : toast.error("Something went wrong, please try again.")
+
             return null
         }
     }
@@ -38,7 +42,10 @@ function logout() : AppThunk<Promise<void>>{
             })
 
         } catch (err) {
-            console.log("Cannot logout", err)
+            import.meta.env.MODE === "development"
+            ? console.log("Cannot logout", err)
+            : toast.error("Something went wrong, please try again.")
+
             throw err
         }
     }

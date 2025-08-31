@@ -1,4 +1,5 @@
 import axios from "axios"
+import { toast } from 'react-toastify'
 import { DoctorModel } from "../models/doctor.model"
 import { httpService } from "./http.service"
 import { AppointmentModel, 
@@ -41,8 +42,10 @@ async function getAppointmentsData(filter : AppointmentFilterModel)
         return {appointments: finalAppointments, doctorMap, medicalFieldMap}
 
     } catch(err){
-        if(import.meta.env.MODE === "development")
-            console.error('Could not get an appointments:', err)
+        import.meta.env.MODE === "development"
+        ? console.error('Could not get an appointments:', err)
+        : toast.error("Something went wrong, please try again.")
+        
         return null
     }
 }
@@ -58,8 +61,10 @@ async function getAppointmentData(id : string)
         return {appointment: finalAppointment, doctor, medicalField}
 
     } catch(err){
-        if(import.meta.env.MODE === "development")
-            console.error('Could not get an appointment:', err)
+        import.meta.env.MODE === "development"
+        ? console.error('Could not get an appointment:', err)
+        : toast.error("Something went wrong, please try again.")
+
         return null
     }
 }
@@ -76,8 +81,10 @@ async function createAppointment(
         return appointment
 
     } catch(err){
-        if(import.meta.env.MODE === "development")
-            console.error('Could not create an appointment:', err)
+        import.meta.env.MODE === "development"
+        ? console.error('Could not create an appointment:', err)
+        : toast.error("Something went wrong, please try again.")
+
         return null
     }
 }
@@ -89,8 +96,10 @@ async function cancelAppointment(id: string) : Promise<AppointmentModel | null>{
         return appointment
 
     } catch(err){
-        if(import.meta.env.MODE === "development")
-            console.error('Could not cancel the appointment:', err)
+        import.meta.env.MODE === "development"
+        ? console.error('Could not cancel the appointment:', err)
+        : toast.error("Something went wrong, please try again.")
+
         return null
     }
 }
@@ -102,8 +111,10 @@ async function rescheduleAppointment(id: string, date: Date) : Promise<Appointme
         return appointment
 
     } catch(err){
-        if(import.meta.env.MODE === "development")
-            console.error('Could not reschedule the appointment:', err)
+        import.meta.env.MODE === "development"
+        ? console.error('Could not reschedule the appointment:', err)
+        : toast.error("Something went wrong, please try again.")
+
         return null
     }
 }
@@ -115,8 +126,9 @@ async function changeAppointmentMethod(id: string, isVirtual: boolean) : Promise
         return appointment
 
     } catch(err){
-        if(import.meta.env.MODE === "development")
-            console.error('Could not change appointment visit method:', err)
+        import.meta.env.MODE === "development"
+        ? console.error('Could not change appointment visit method:', err)
+        : toast.error("Something went wrong, please try again.")
         return null
     }
 }
@@ -133,8 +145,10 @@ async function getAllUnavailabilities(medicalFieldId: string, doctorId: string)
         return allUnavailability
 
     } catch (err) {
-        if(import.meta.env.MODE === "development")
-            console.error('Could not get unavailable dates:', err)
+        import.meta.env.MODE === "development"
+        ? console.error('Could not get unavailable dates:', err)
+        : toast.error("Something went wrong, please try again.")
+
         return null
     }
 }
@@ -150,8 +164,10 @@ async function getPdf(id: string): Promise<Blob | null> {
         return response.data
 
     } catch(err){
-        if(import.meta.env.MODE === "development")
-            console.error('Could not get pdf file:', err)
+        import.meta.env.MODE === "development"
+        ? console.error('Could not get pdf file:', err)
+        : toast.error("Something went wrong, please try again.")
+        
         return null
     }
 }

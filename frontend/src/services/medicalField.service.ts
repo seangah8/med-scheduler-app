@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify'
 import { httpService } from "./http.service"
 import { MedicalFieldModel, SwipMedicalFieldModal } from "@/models/medicalField.model"
 
@@ -14,8 +15,9 @@ async function getMedicalFields() : Promise<MedicalFieldModel[] | null> {
         return medicalFields
         
     } catch(err){
-        if(import.meta.env.MODE === "development")
-            console.error('Could not get medical fields:', err)
+        import.meta.env.MODE === "development"
+        ? console.error('Could not get medical fields:', err)
+        : toast.error("Something went wrong, please try again.")
         return null
     }
 }

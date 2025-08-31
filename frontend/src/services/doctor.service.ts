@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify'
 import { httpService } from "./http.service"
 import { DoctorModel } from "@/models/doctor.model"
 
@@ -13,8 +14,10 @@ async function getDoctors(medicalFieldId : string) : Promise<DoctorModel[] | nul
         const doctors = await httpService.get<DoctorModel[]>(`doctor/${medicalFieldId}`)
         return doctors
     } catch(err){
-      if(import.meta.env.MODE === "development")
-        console.error('Could not get doctors:', err)
+      import.meta.env.MODE === "development"
+      ? console.error('Could not get doctors:', err)
+      : toast.error("Something went wrong, please try again.")
+      
       return null
     }
 }
@@ -32,8 +35,10 @@ export async function getSoonestAvailableDoctor(
     return doctorId
 
   } catch (err) {
-    if(import.meta.env.MODE === "development")
-      console.error("Failed to fetch soonest available doctor:", err)
+    import.meta.env.MODE === "development"
+    ? console.error("Failed to fetch soonest available doctor:", err)
+    : toast.error("Something went wrong, please try again.")
+
     return null
   }
 }
