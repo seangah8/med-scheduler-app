@@ -5,11 +5,11 @@ import { connectDB } from './config/database'
 import { ENV } from './config/env'
 import { logger } from './services/logger.service'
 import { setupAsyncLocalStorage } from './middlewares/setupAls.middleware'
-import { userRoutes } from './api/user/user.routs'
-import { authRoutes } from './api/auth/auth.routs'
-import { medicalFieldRoutes } from './api/medicalField/medicalField.routs'
+import { userRoutes } from './api/user/user.routes'
+import { authRoutes } from './api/auth/auth.routes'
+import { medicalFieldRoutes } from './api/medicalField/medicalField.routes'
 import { doctorRoutes } from './api/doctor/doctor.routs'
-import { appointmentRoutes } from './api/appointment/appointment.routs'
+import { appointmentRoutes } from './api/appointment/appointment.routes'
 
 
 

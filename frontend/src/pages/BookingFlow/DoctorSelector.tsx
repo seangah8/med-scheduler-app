@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Autocomplete, TextField } from '@mui/material'
-import { DoctorService } from '../../services/docor.service'
+import { DoctorService } from '../../services/doctor.service'
 import { DoctorModel } from '../../models/doctor.model'
 import { MedicalFieldModel } from '../../models/medicalField.model'
 import { Rating } from '@mui/material'
