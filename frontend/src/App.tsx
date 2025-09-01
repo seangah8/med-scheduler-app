@@ -45,14 +45,14 @@ export default App
 
 // final fixes
 
-// 1. when looking at upcoming appointments, remove the startDate and endDate at filter
-// 2. make sure its ok from backend to not having doctors in medical field (dont throw error)
+// 1. make sure its ok from backend to not having doctors in medical field (dont throw error)
+
+// 2. if downloading pdf goes wrong show message on page for the user
 
 // 3. change soonest doctor to another word
-// 4. if downloading pdf goes wrong show message on page for the user
-// 5. make log middleware only be in necceray routs
-// 6. add to create appointment buttons icon of +
-// 7. when caceling appointment and its not working make sure the button dont say back to home page
+// 4. make log middleware only be in necceray routs
+// 5. add to create appointment buttons icon of +
+// 6. when caceling appointment and its not working make sure the button dont say back to home page
 
 
 

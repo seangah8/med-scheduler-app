@@ -27,7 +27,7 @@ export async function getSoonestAvailableDoctor(
 
     const soonestDoctorId = await doctorService.getSoonestId(doctorsId, fieldId)
 
-    if (!soonestDoctorId) 
+    if (doctorsId.length > 0 && !soonestDoctorId) 
       return next({ status: 404, message: "No available doctor found"})
     
     res.send(soonestDoctorId)
