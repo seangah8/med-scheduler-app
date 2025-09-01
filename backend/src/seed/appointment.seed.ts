@@ -8,56 +8,63 @@ import { Types } from 'mongoose'
 export async function seedAppointments(
   users: (UserTSModel & { _id: Types.ObjectId })[],
   doctors: (DoctorTSModel & { _id: Types.ObjectId })[],
-  amount: number,
-  monthsAhead: number
+  minAppsPreDoctor: number,
+  maxAppsPreDoctor: number
 ) {
-  const usedSlots = new Set<string>()
-  const appointments = []
 
-  while (appointments.length < amount) {
-    const user = faker.helpers.arrayElement(users)
-    const doctor = faker.helpers.arrayElement(doctors)
+  const appointments: any[] = []
+  const now = new Date()
 
-    // pick a fieldWorkdays entry
-    const fieldEntry = faker.helpers.arrayElement(doctor.schedule.fieldWorkdays)
-    const medicalFieldId = fieldEntry.medicalFieldId
-    const availableDays = fieldEntry.days
+  for (const doctor of doctors) {
 
-    const now = new Date
+    const slotsAmount = faker.number.int({ min: minAppsPreDoctor, max: maxAppsPreDoctor })
+    let created = 0
+    let current = new Date()
 
-    // generate a valid appointment date within monthsAhead months
-    let start: Date
-    while (true) {
-      const randomDaysAhead = faker.number.int({ min: 0, max: monthsAhead * 30 })
-      const date = new Date()
-      date.setDate(date.getDate() + randomDaysAhead)
+    while (created < slotsAmount) {
+      const dayOfWeek = current.getDay()
+      const fieldEntry = doctor.schedule.fieldWorkdays.find(f => f.days.includes(dayOfWeek))
 
-      const dayOfWeek = date.getDay()
-      if (availableDays.includes(dayOfWeek)) {
-        const hour = faker.number.int({ min: 8, max: 15 })
-        const minute = faker.helpers.arrayElement([0, 15, 30, 45])
+      if (fieldEntry) {
+        const startHour = parseInt(doctor.schedule.start.split(':')[0])
+        const startMin = parseInt(doctor.schedule.start.split(':')[1])
+        const endHour = parseInt(doctor.schedule.end.split(':')[0])
+        const endMin = parseInt(doctor.schedule.end.split(':')[1])
 
-        date.setHours(hour, minute, 0, 0)
-        start = date
-        break
+        const startOfDay = new Date(current)
+        startOfDay.setHours(startHour, startMin, 0, 0)
+
+        const endOfDay = new Date(current)
+        endOfDay.setHours(endHour, endMin, 0, 0)
+        let slot = new Date(startOfDay)
+
+        while (slot < endOfDay && created < slotsAmount) {
+          // skip breaks
+          const inBreak = doctor.schedule.breaks.some(b => {
+            const bStart = new Date(current)
+            bStart.setHours(parseInt(b.start.split(':')[0]), parseInt(b.start.split(':')[1]))
+            const bEnd = new Date(current)
+            bEnd.setHours(parseInt(b.end.split(':')[0]), parseInt(b.end.split(':')[1]))
+            return slot >= bStart && slot < bEnd
+          })
+          if (!inBreak) {
+            const user = faker.helpers.arrayElement(users)
+            appointments.push({
+              userId: user._id,
+              doctorId: doctor._id,
+              medicalFieldId: fieldEntry.medicalFieldId,
+              startAt: new Date(slot),
+              createdAt: now,
+              virtual: Math.random() < 0.5,
+              status: 'scheduled',
+            })
+            created++
+          }
+          slot = new Date(slot.getTime() + doctor.schedule.intervalMinutes * 60000)
+        }
       }
+      current.setDate(current.getDate() + 1)
     }
-
-    // avoid double-booking the doctor at the same time
-    const key = `${doctor._id}_${start.toISOString()}`
-    if (usedSlots.has(key)) continue
-    usedSlots.add(key)
-
-
-    appointments.push({
-      userId: user._id,
-      doctorId: doctor._id,
-      medicalFieldId,
-      startAt: start,
-      createdAt: now,
-      virtual: Math.random() < 0.5, // 50% virtual
-      status: faker.helpers.arrayElement(['scheduled', 'completed', 'cancelled']),
-    })
   }
 
   await AppointmentMongoModel.insertMany(appointments)

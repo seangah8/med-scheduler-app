@@ -62,9 +62,13 @@ async function getSoonestId(
   const valid = results.filter(r => r.availableDay)
   if (!valid.length) return null
 
+  console.log('valid', valid)
+
   const soonest = valid.reduce((a, b) =>
     a.availableDay! < b.availableDay! ? a : b
   )
+
+  console.log('soonest', soonest)
 
   return soonest.doctorId
 }

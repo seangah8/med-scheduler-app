@@ -43,11 +43,6 @@ function App() {
 
 export default App
 
-// final fixes
-
-// do the number 12 and 13 chors
-// update seeding appointments to seed the first months and not randomly
-
 
 
 

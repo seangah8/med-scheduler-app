@@ -12,7 +12,7 @@ import { seedUsers } from './user.seed'
 
 async function seedDatabase() {
 
-  const amount = {users: 10, doctors: 50, apointments: 1000, monthsAhead: 3}
+  const amount = {users: 10, doctors: 200, minAppsPreDoctor: 1000, maxAppsPreDoctor: 2000}
 
   try{
 
@@ -39,7 +39,7 @@ async function seedDatabase() {
     const doctors = await seedDoctors(medicalFields, amount.doctors)
 
     logger.info(`seeding appointments...`)
-    await seedAppointments(users, doctors, amount.apointments, amount.monthsAhead)
+    await seedAppointments(users, doctors, amount.minAppsPreDoctor, amount.maxAppsPreDoctor)
 
     logger.info('seeding complete')
     process.exit(0)
