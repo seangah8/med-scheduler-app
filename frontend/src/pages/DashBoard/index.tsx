@@ -1,40 +1,24 @@
 import { useState, useEffect } from "react"
 import { AppointmentModel, AppointmentFilterModel } from "../../models/appointment.model"
 import { AppointmentService } from "../../services/appointment.service"
-import { authService } from "../../services/auth.service"
 import { DashboardRegular } from "./DashboardRegular"
 import { DashboardWelcome } from "./DashboardWelcome"
 import { LoadingSpinner } from "../../components/LoadingSpinner"
+import { useAppSelector } from "../../store/hooks"
 
 
 export function Dashboard(){
 
+    const loggedInUser = useAppSelector(state => state.authModule.loggedInUser)
     const [appointments, setAppointments] = useState<AppointmentModel[]>([])
     const [loadingApps, setLoadingApps] = useState<boolean>(true)
     const [doctorMap, setDoctorMap] = useState<Record<string, string>>({})
     const [medicalFieldMap, setMedicalFieldMap] = useState<Record<string, string>>({})
     const [filter, setFilter] = useState<AppointmentFilterModel>(AppointmentService.getDefulteAppointmentFilter)
-    const [isUserNew, setIsUserNew] = useState<boolean>(false)
-    const [loadingUserStat, setLoadingUserStat] = useState<boolean>(true)
-
-    // check if user is new to display proper welcome
-    // if user was new and booked appointment he's not new anymore
-    useEffect(()=>{
-        let isNew = authService.getIsUserNew()
-        if(isNew !== null){
-            if(isNew && appointments.length > 0){
-                authService.saveLocalIsUserNew(false)
-                isNew = false
-            }
-            setIsUserNew(isNew)
-        }
-        setLoadingUserStat(false)
-    },[appointments])
 
     useEffect(()=>{
         loadAppointments()
     },[filter])
-
 
 
     async function loadAppointments(){
@@ -70,14 +54,14 @@ export function Dashboard(){
         return filter
     }
 
-    if(loadingUserStat) return <LoadingSpinner />
+    if(!loggedInUser) return <LoadingSpinner />
 
     return(
         <section className="dashboard">
 
             {/* for regular users */}
             {
-                !isUserNew &&
+                !loggedInUser.isUserNew &&
                 <DashboardRegular
                     appointments={appointments} 
                     doctorMap={doctorMap}
@@ -90,7 +74,7 @@ export function Dashboard(){
 
             {/* for new users */}
             {
-                isUserNew &&
+                loggedInUser.isUserNew &&
                 <DashboardWelcome/>
             }
         </section>

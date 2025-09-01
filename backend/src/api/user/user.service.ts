@@ -7,6 +7,7 @@ export const userService = {
   getByPhone,
   getById,
   add,
+  update,
 }
 
 async function getByPhone(phone: string): Promise<UserTSModel | null> {
@@ -40,7 +41,7 @@ async function getById(id: string): Promise<UserTSModel | null> {
 async function add(credentials: CredentialsTSModel): Promise<UserTSModel> {
   try {
     const now = new Date
-    const newUserDoc = await UserMongoModel.create({...credentials, createdAt: now})
+    const newUserDoc = await UserMongoModel.create({...credentials, createdAt: now, isUserNew: true})
     const newUser: UserTSModel = 
       { ...newUserDoc.toObject(), _id: newUserDoc._id.toString() }
     logger.info(`User ${newUserDoc._id} added`)
@@ -51,6 +52,28 @@ async function add(credentials: CredentialsTSModel): Promise<UserTSModel> {
     throw err
   }
 }
+
+
+async function update(userId: string, updates: Partial<UserTSModel>): Promise<UserTSModel | null> {
+  try {
+    const updatedUserDoc = await UserMongoModel.findByIdAndUpdate(
+      userId, updates, { new: true })
+
+    if (!updatedUserDoc)
+      return null
+
+    const updatedUser: UserTSModel = { ...updatedUserDoc.toObject(),
+      _id: updatedUserDoc._id.toString()}
+
+    logger.info(`User ${userId} updated`)
+    return updatedUser
+    
+  } catch (err: any) {
+    logger.error(`Failed to update user ${userId}: ${err.message}`)
+    throw err
+  }
+}
+
 
 
 

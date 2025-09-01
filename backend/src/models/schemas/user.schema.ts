@@ -1,3 +1,4 @@
+import mongoose from "mongoose"
 
 
 export const getUserSchema = {
@@ -30,4 +31,21 @@ export const addUserSchema = {
     return errors.length ? { error: { details: errors } } : { error: null }
   }
 }
+
+
+
+export const makeUserRegularSchema = {
+  validate: (body: any, _params: any) => {
+    const errors: string[] = []
+
+    if (!body.userId || typeof body.userId !== "string") {
+      errors.push("userId is required and must be a string")
+    } else if (!mongoose.Types.ObjectId.isValid(body.userId)) {
+      errors.push("userId must be a valid ObjectId")
+    }
+
+    return errors.length ? { error: { details: errors } } : { error: null }
+  }
+}
+
 

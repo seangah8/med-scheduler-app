@@ -1,11 +1,13 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useAppSelector , useAppDispatch } from "../../store/hooks"
 import { Switch } from '@mui/material'
 import { DoctorModel } from "@/models/doctor.model"
 import { MedicalFieldModel } from "@/models/medicalField.model"
 import { AppointmentService } from "../../services/appointment.service"
 import { TimeSlotService } from "../../services/timeSlot.service"
 import { LoadingSpinner } from "../../components/LoadingSpinner"
+import { authThunks } from "../../store/thunks/auth.thunks"
 
 
 interface BookConfirmationProps{
@@ -19,6 +21,8 @@ interface BookConfirmationProps{
 
 export function BookConfirmation({ field, doctor, date, confirmBooking, appointmentOnFieldExists, setConfirmBooking } : BookConfirmationProps){
 
+    const loggedInUser = useAppSelector(state => state.authModule.loggedInUser)
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const [isSuccess, setIsSuccess] = useState<boolean>(false)
     const [isBooking, setIsBooking] = useState(false)
@@ -29,6 +33,11 @@ export function BookConfirmation({ field, doctor, date, confirmBooking, appointm
         const appointment = await AppointmentService
             .createAppointment(field._id, doctor._id, date, isVirtual)
         AppointmentService.deleteLocalBookingFlow()
+
+        // update user isUserNew status to false
+        if( appointment && loggedInUser && loggedInUser.isUserNew) 
+            dispatch(authThunks.updateUserToRegular(loggedInUser._id))
+        
         setIsSuccess(!!appointment)
         setConfirmBooking(true)
         setIsBooking(false)

@@ -14,13 +14,13 @@ export async function sendOTP(req: Request, res: Response, next: NextFunction): 
 
   try {
     let user = await userService.getByPhone(phone)
-    let isNewUser = false
+
     if (!user) {
       const credentials : CredentialsTSModel = { phone }
       user = await userService.add(credentials)
-      isNewUser = true
     }
-    const otpStr = await authService.setOTP(user._id.toString(), isNewUser)
+
+    const otpStr = await authService.setOTP(user._id.toString())
     res.send(otpStr)
 
   } catch (err: any) {
@@ -36,7 +36,7 @@ export async function verifyOTP(req: Request, res: Response, next: NextFunction)
     const user = await userService.getByPhone(phone)
     if (!user) throw Error('User not found')
 
-    const isUserNew = await authService.checkOTP(user._id.toString(), password)
+    await authService.checkOTP(user._id.toString(), password)
 
     // create token
     const token = jwt.sign({ userId: user._id }, 
@@ -50,7 +50,7 @@ export async function verifyOTP(req: Request, res: Response, next: NextFunction)
       maxAge: 1000 * 60 * 60 * 2, // 2 hour existance
     })
 
-    res.send({user, isUserNew})
+    res.send(user)
 
   } catch (err: any) {
     logger.error(`OTP verification failed: ${err.message}`)

@@ -7,6 +7,7 @@ import { AppThunk } from "../store"
 export const authThunks = {
     login,
     logout,
+    updateUserToRegular,
 }
 
 function login(phone: string, password: string): AppThunk<Promise<UserModel | null>>{
@@ -50,3 +51,29 @@ function logout() : AppThunk<Promise<void>>{
         }
     }
 }
+
+
+function updateUserToRegular(userId: string): AppThunk<Promise<UserModel | null>> {
+
+  return async function (dispatch) {
+    try {
+      const updatedUser = await authService.updateUserToRegular(userId)
+
+      dispatch({
+        type: AuthActionsType.SET_USER,
+        loggedInUser: updatedUser,
+      })
+
+      return updatedUser
+
+    } catch (err) {
+      import.meta.env.MODE === "development"
+      ? console.log("Cannot update isUserNew", err)
+      : toast.error("Something went wrong, please try again.")
+
+      return null
+    }
+  }
+}
+
+

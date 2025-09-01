@@ -8,8 +8,7 @@ export const authService = {
     verifyOtp,
     logout,
     getLoggedinUser,
-    saveLocalIsUserNew,
-    getIsUserNew,
+    updateUserToRegular
 }
 
 
@@ -29,9 +28,8 @@ async function sendOtp(phone : string) : Promise<string | null> {
 async function verifyOtp(phone : string, password : string) : Promise<UserModel | null> {
 
   try{
-    const {user, isUserNew}  = await httpService.post<{user: UserModel, isUserNew: boolean}>('auth/verify-otp', { phone, password })
+    const user  = await httpService.post<UserModel>('auth/verify-otp', { phone, password })
     _saveLocalUser(user)
-    saveLocalIsUserNew(isUserNew)
     return user
 
   } catch(err){
@@ -58,26 +56,31 @@ async function logout() : Promise<void> {
 
 }
 
+async function updateUserToRegular(userId: string) : Promise<UserModel | null> {
+
+  try{
+    const updatedUser = await httpService.patch<UserModel>('user/make-regular', { userId })
+    _saveLocalUser(updatedUser)
+    return updatedUser
+
+  } catch (err){
+    import.meta.env.MODE === "development"
+    ? console.error("Could not update user status:", err)
+    : toast.error("Something went wrong, please try again.")
+    return null
+  }
+}
+
 function getLoggedinUser(): UserModel | null{
   const userStr = sessionStorage.getItem('loggedInUser')
   if(!userStr) return null
   return JSON.parse(userStr)
 }
 
-function saveLocalIsUserNew(isUserNew: boolean) : boolean{
-  if(import.meta.env.MODE === "development")
-    sessionStorage.setItem('isUserNew', JSON.stringify(isUserNew))
-  return isUserNew
-}
-
-function getIsUserNew(): boolean | null{
-  const isUserNew = sessionStorage.getItem('isUserNew')
-  if(!isUserNew) return null
-  return JSON.parse(isUserNew)
-}
-
 function _saveLocalUser(user : UserModel) : UserModel {
 	sessionStorage.setItem('loggedInUser', JSON.stringify(user))
 	return user
 }
+
+
 

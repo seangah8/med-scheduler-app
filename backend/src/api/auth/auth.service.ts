@@ -5,14 +5,13 @@ import { logger } from '../../services/logger.service'
 import { ENV } from '../../config/env'
 import { LoginTokenModel } from '../../models/typescript/alsStore.model'
 
-
 export const authService = {
   setOTP,
   checkOTP,
   validateToken,
 }
 
-export async function setOTP(userId: string, isUserNew: boolean): Promise<string> {
+export async function setOTP(userId: string): Promise<string> {
 
   // remove any existing otps for this user
   await OtpMongoModel.deleteMany({ userId })
@@ -27,7 +26,6 @@ export async function setOTP(userId: string, isUserNew: boolean): Promise<string
     userId: new mongoose.Types.ObjectId(userId),
     password: otp,
     expiresAt,
-    isUserNew
   })
 
   logger.info(`mock otp for user ${userId}: ${otp}`)
@@ -35,7 +33,7 @@ export async function setOTP(userId: string, isUserNew: boolean): Promise<string
 }
 
 
-export async function checkOTP(userId: string, password: string): Promise<boolean> {
+export async function checkOTP(userId: string, password: string): Promise<void> {
 
   const otpDoc = await OtpMongoModel.findOne({
       userId,
@@ -50,8 +48,8 @@ export async function checkOTP(userId: string, password: string): Promise<boolea
     await OtpMongoModel.deleteOne({ _id: otpDoc._id })
 
     logger.info(`OTP confirmed valid for user ${userId}`)
-    return otpDoc.isUserNew
 }
+
 
 export function validateToken(token: string): LoginTokenModel | null {
   try {
@@ -62,4 +60,5 @@ export function validateToken(token: string): LoginTokenModel | null {
     return null
   }
 }
+
 

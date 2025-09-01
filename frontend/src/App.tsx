@@ -45,13 +45,15 @@ export default App
 
 // final fixes
 
-// if downloading pdf goes wrong show message on page for the user
-// in registration if the user ask for another otp and its new, keep it that way
-// change soonest doctor to another word
-// in appointment managment if something goes wrong with action buttons make sure user can try again
-// make log middleware only be in necceray routs
-// when loogink at upcoming appointments, remove the startDate and endDate at filter
-// make sure its ok from backend to not having doctors in medical field (dont throw error)
+// 1. in registration if the user ask for another otp and its new, keep it that way
+// 2. in appointment managment if something goes wrong with action buttons make sure user can try again
+// 3. when looking at upcoming appointments, remove the startDate and endDate at filter
+// 4. make sure its ok from backend to not having doctors in medical field (dont throw error)
+
+// 5. change soonest doctor to another word
+// 6. if downloading pdf goes wrong show message on page for the user
+// 7. make log middleware only be in necceray routs
+// 8. add to create appointment buttons icon of +
 
 
 

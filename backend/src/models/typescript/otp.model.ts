@@ -5,5 +5,4 @@ export interface OtpTSModel {
   userId: ObjectId | string
   password: string
   expiresAt: Date
-  isUserNew: boolean
 }

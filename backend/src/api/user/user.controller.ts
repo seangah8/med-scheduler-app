@@ -34,3 +34,20 @@ export async function addUser(req: Request<{}, {}, CredentialsTSModel>,
     next({ status: 400, message: "Failed to save user", details: err })
   }
 }
+
+
+export async function makeUserRegular(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { userId } = req.body
+
+    const updatedUser = await userService.update(userId, { isUserNew: false })
+
+    if (!updatedUser) 
+      return next({ status: 404, message: "User not found"})
+
+    res.send(updatedUser)
+  } catch (err: any) {
+    logger.error(`Failed to update user ${req.body?.userId} to regular: ${err.message}`)
+    next({ status: 500, message: "Failed to update user", details: err })
+  }
+}

@@ -11,6 +11,7 @@ export async function seedUsers(amount:number) : Promise<(UserTSModel & { _id: m
         Array.from({ length: amount }).map(() => ({
             phone: `05${faker.number.int({ min: 10000000, max: 99999999 })}`,
             createdAt: now,
+            isUserNew: Math.random() < 0.05, // 5% new
         }))
     )
 

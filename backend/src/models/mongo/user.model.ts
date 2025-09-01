@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema<UserDocument>({
   createdAt:{
     type: Date,
     required: true
+  },
+
+  isUserNew: {
+    type: Boolean,
+    required: true
   }
   
 
