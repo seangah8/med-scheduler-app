@@ -9,6 +9,6 @@ const router : Router = express.Router()
 
 router.get("/:phone", validateRequest(getUserSchema), getUser)
 router.post('/', log, validateRequest(addUserSchema), addUser)
-router.patch('/make-regular', log, requireAuth, validateRequest(makeUserRegularSchema), makeUserRegular)
+router.patch('/make-regular', requireAuth, validateRequest(makeUserRegularSchema), makeUserRegular)
 
 export const userRoutes : Router = router

@@ -45,10 +45,9 @@ export default App
 
 // final fixes
 
-// 2. make log middleware only be in necceray routs
-// 3. add to create appointment buttons icon of +
-// 4. when caceling appointment and its not working make sure the button dont say back to home page
-// 5. add loading circle when loading appointments in dashboard
+// 1. add to create appointment buttons icon of +
+// 2. when caceling appointment and its not working make sure the button dont say back to home page
+// 3. add loading circle when loading appointments in dashboard
 
 
 

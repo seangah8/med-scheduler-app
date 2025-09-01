@@ -26,9 +26,9 @@ import { validateRequest } from '../../middlewares/validate.middleware'
 
 const router : Router = express.Router()
 
-router.get('/', log, requireAuth, validateRequest(getAppointmentsSchema), getAppointments)
-router.get('/:id', log, requireAuth, validateRequest(getAppointmentSchema), getAppointment)
-router.get('/unavailable-dates/:fieldId/:doctorId', log, requireAuth, validateRequest(getAllUnavailabilitySchema), getAllUnavailability)
+router.get('/', requireAuth, validateRequest(getAppointmentsSchema), getAppointments)
+router.get('/:id', requireAuth, validateRequest(getAppointmentSchema), getAppointment)
+router.get('/unavailable-dates/:fieldId/:doctorId', requireAuth, validateRequest(getAllUnavailabilitySchema), getAllUnavailability)
 router.get('/pdf/:id', log, requireAuth, validateRequest(getAppointmentPdfSchema), getAppointmentPdf)
 router.post('/', log, requireAuth, validateBooking, validateRequest(addAppointmentSchema), addAppointment)
 router.patch('/cancel/:id', log, requireAuth, validateRequest(cancelAppointmentSchema), cancelAppointment)
