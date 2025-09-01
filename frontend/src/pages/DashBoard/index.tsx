@@ -23,8 +23,7 @@ export function Dashboard(){
 
     async function loadAppointments(){
 
-        const validatedFilter = validateStartEndDates(filter)
-        setFilter(validatedFilter)
+        const validatedFilter = validateFilter(filter)
 
         setLoadingApps(true)
         const data = await AppointmentService.getAppointmentsData(validatedFilter)
@@ -38,20 +37,31 @@ export function Dashboard(){
         setLoadingApps(false)
     }
 
-    function validateStartEndDates(filter: AppointmentFilterModel)
+    function validateFilter(filter: AppointmentFilterModel)
         : AppointmentFilterModel {
 
-        // make sure endDate include appointments within the same day
-        if(filter.endDate){
-            const endOfDay = new Date(filter.endDate)
-            endOfDay.setHours(23, 59, 59, 999)
-            filter.endDate = endOfDay
+        // keep the original filter
+        const validatedFilter = {...filter}
+        
+        // dont apply startDate and endDate filtering on upcoming appointments 
+        if(validatedFilter.status === 'scheduled'){
+            validatedFilter.endDate = undefined
+            validatedFilter.startDate = undefined
         }
 
-        if (filter.startDate && filter.endDate && 
-            filter.startDate > filter.endDate) 
-            return { ...filter, endDate: filter.startDate }
-        return filter
+        // make sure endDate include appointments within the same day
+        if(validatedFilter.endDate){
+            const endOfDay = new Date(validatedFilter.endDate)
+            endOfDay.setHours(23, 59, 59, 999)
+            validatedFilter.endDate = endOfDay
+        }
+
+        // make sure endDate wont be before startDate
+        if (validatedFilter.startDate && validatedFilter.endDate && 
+            validatedFilter.startDate > validatedFilter.endDate) 
+            return { ...validatedFilter, endDate: validatedFilter.startDate }
+
+        return validatedFilter
     }
 
     if(!loggedInUser) return <LoadingSpinner />
