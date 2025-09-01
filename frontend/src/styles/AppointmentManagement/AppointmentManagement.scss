@@ -61,6 +61,14 @@
             }
         }
 
+    }
+
+    .download-area{
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
         .download-butt{
             width: 200px;
             display: flex;
@@ -75,6 +83,11 @@
             &:hover{
                 background-color: ghostwhite;
             }
+        }
+
+        p{
+            color: var.$red-mark;
+            font-size: 1.1rem;
         }
     }
 

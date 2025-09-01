@@ -17,7 +17,6 @@ export function AppointmentManagement(){
     const now = new Date
     const { id } = useParams<{ id: string }>()
     const [appointment, setAppointment] = useState<AppointmentModel | null>(null)
-    const [wasAppCompleted, setWasAppCompleted] = useState<boolean>(false)
     const [doctor, setDoctor] = useState<DoctorModel | null>(null)
     const [medicalField, setMedicalField] = useState<MedicalFieldModel | null>(null)
     const [showCancelModal, setShowCancelModal] = useState<boolean>(false)
@@ -28,6 +27,9 @@ export function AppointmentManagement(){
     const [wasSwitchMethodSuccessfully, setWasSwitchMethodSuccessfully] = useState<boolean | null>(null)
     const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
     const [isTenMinutsBeforeApp, setIsTenMinutsBeforeApp] = useState<boolean>(false)
+    const [isDownloadingPDF, setIsDownloadingPDF] = useState<boolean>(false)
+    const [wasFailedDownload, setWasFailedDownload] = useState<boolean>(false)
+
 
     useEffect(()=>{
         setWasCanceledSuccessfully(null)
@@ -39,7 +41,6 @@ export function AppointmentManagement(){
 
     useEffect(()=>{
         if(appointment){
-            setWasAppCompleted(appointment.status === 'completed')
             setIsTenMinutsBeforeApp(
                 (appointment.startAt.getTime()-now.getTime())/
                 (1000 * 60) <= 10)
@@ -113,8 +114,13 @@ export function AppointmentManagement(){
     async function onDownloadPdf() {
         if (!appointment) return
 
+        setIsDownloadingPDF(true)
         const blob = await AppointmentService.getPdf(appointment._id)
-        if(!blob) return
+        if(!blob) { 
+            setWasFailedDownload(true) 
+            setIsDownloadingPDF(false)
+            return 
+        } 
         const url = URL.createObjectURL(blob)
 
         const link = document.createElement("a")
@@ -123,11 +129,15 @@ export function AppointmentManagement(){
         link.click()
 
         URL.revokeObjectURL(url)
+
+        setIsDownloadingPDF(false)
+        setWasFailedDownload(false)
     }
 
 
     if(!appointment || !medicalField || !doctor) 
         return <LoadingSpinner />
+
 
     return(
         <section className="appointment-management">
@@ -135,9 +145,12 @@ export function AppointmentManagement(){
             <p><span>Field:</span> {medicalField.name}</p>
             <p><span>Doctor:</span> {doctor.name}</p>
             <p><span>Date:</span> {TimeSlotService.formatDateTimeLong(appointment.startAt)}</p>
-            {medicalField.requiredInfo && <p><span>Requirements:</span> {medicalField.requiredInfo}</p>}
             {
-            !isTenMinutsBeforeApp && !wasAppCompleted &&
+                medicalField.requiredInfo && appointment.status !== 'completed' &&
+                <p><span>Requirements:</span> {medicalField.requiredInfo}</p>
+            }
+            {
+            !isTenMinutsBeforeApp && appointment.status !== 'completed' &&
                 <div className="switch">
                     <Switch
                         checked={appointment.virtual}
@@ -148,7 +161,7 @@ export function AppointmentManagement(){
             }
 
             {
-                !isTenMinutsBeforeApp && !wasAppCompleted &&
+                !isTenMinutsBeforeApp && appointment.status !== 'completed' &&
                 <section className="action-buttons">
                     <button className="reschedule-butt" onClick={()=>setShowRescheduleModal(true)}>Reschedule</button>
                     <button className="cancel-butt" onClick={()=>setShowCancelModal(true)}>Cancel Appointment</button>
@@ -161,12 +174,13 @@ export function AppointmentManagement(){
             }
 
             {
-                wasAppCompleted && 
-                <section className="action-buttons">
-                    <button className="download-butt" onClick={onDownloadPdf}>
-                        Download Summary
+                appointment.status === 'completed' && 
+                <section className="download-area">
+                    <button className="download-butt" onClick={onDownloadPdf} disabled={isDownloadingPDF}>
+                        {`${isDownloadingPDF ? 'Downloading...' : 'Download Summary'}`}
                         <i className="fa-solid fa-file-pdf"/>
                     </button>
+                    {wasFailedDownload && <p>There was a problem downloading the PDf, please try again later.</p>}
                 </section>  
             }
 

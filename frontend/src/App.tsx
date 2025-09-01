@@ -45,14 +45,11 @@ export default App
 
 // final fixes
 
-// 1. make sure its ok from backend to not having doctors in medical field (dont throw error)
-
-// 2. if downloading pdf goes wrong show message on page for the user
-
-// 3. change soonest doctor to another word
-// 4. make log middleware only be in necceray routs
-// 5. add to create appointment buttons icon of +
-// 6. when caceling appointment and its not working make sure the button dont say back to home page
+// 1. change soonest doctor to another word
+// 2. make log middleware only be in necceray routs
+// 3. add to create appointment buttons icon of +
+// 4. when caceling appointment and its not working make sure the button dont say back to home page
+// 5. add loading circle when loading appointments in dashboard
 
 
 
