@@ -9,8 +9,10 @@ export function DashboardWelcome() {
       <h1>Welcome to Shiba <span>Connect</span></h1>
 
       <button onClick={() => navigate("/booking-appointment")}>
-        Create Appointment +
+        <p>Create Appointment</p>
+        <i className="fa-solid fa-plus"></i>
       </button>
+      
 
       <FieldSlideShow/>
 

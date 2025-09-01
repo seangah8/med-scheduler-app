@@ -17,7 +17,11 @@
     }
 
     button{
-        width: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 310px;
         background-color: white;
         color: var.$blue;
         border: solid var.$blue 2px;
@@ -26,6 +30,10 @@
 
         &:hover{
             background-color: ghostwhite;
+        }
+
+        i{
+            font-size: 1.2rem;
         }
     }
 }
