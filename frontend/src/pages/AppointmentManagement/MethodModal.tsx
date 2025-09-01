@@ -59,8 +59,7 @@ export function MethodModal({
                     </h3>
                     <button onClick={()=>{
                         setShowMethodModal(false)
-                        if(wasSwitchMethodSuccessfully)
-                            handleRefresh()
+                        handleRefresh()
                     }}>
                         Approve
                     </button>

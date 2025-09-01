@@ -88,8 +88,7 @@ export function RescheduleModal({
                     </h3>
                     <button onClick={()=>{
                         setShowRescheduleModal(false)
-                        if (wasRescheduledSuccessfully)
-                            handleRefresh()
+                        handleRefresh()
                         }}>
                         Approve
                     </button>

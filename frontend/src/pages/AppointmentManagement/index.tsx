@@ -96,11 +96,14 @@ export function AppointmentManagement(){
 
     function onClickOutsideModal(){
         if(wasCanceledSuccessfully) navigator('/dashboard')
-        if(wasRescheduledSuccessfully ||   
-            wasSwitchMethodSuccessfully) handleRefresh()
         setShowCancelModal(false)
         setShowRescheduleModal(false)
         setShowMethodModal(false)
+
+        if(wasCanceledSuccessfully !== null ||
+           wasRescheduledSuccessfully !== null ||
+           wasSwitchMethodSuccessfully !== null)
+            handleRefresh()
     }
 
     function handleRefresh() {
@@ -176,6 +179,7 @@ export function AppointmentManagement(){
                         onCancelAppointment={onCancelAppointment}
                         wasCanceledSuccessfully={wasCanceledSuccessfully}
                         setWasCanceledSuccessfully={setWasCanceledSuccessfully}
+                        handleRefresh={handleRefresh}
                     />
                 }
 

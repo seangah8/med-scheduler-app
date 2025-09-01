@@ -8,13 +8,15 @@ interface CancelModalProps{
     setShowCancelModal: (toShow : boolean) => void
     setWasCanceledSuccessfully: (success : boolean) => void
     onCancelAppointment: () => Promise<AppointmentModel | null>
+    handleRefresh: () => void
 }
 
 export function CancelModal({
     wasCanceledSuccessfully,
     setShowCancelModal, 
     setWasCanceledSuccessfully,
-    onCancelAppointment
+    onCancelAppointment,
+    handleRefresh
 } 
     : CancelModalProps){
 
@@ -57,10 +59,12 @@ export function CancelModal({
                             : 'Could not cancel the appointment, try again later'
                         }
                     </h3>
-                    <button onClick={()=>
+                    <button onClick={()=>{
                         wasCanceledSuccessfully
                         ? navigate('/dashboard')
-                        : setShowCancelModal(false)
+                        : handleRefresh(); setShowCancelModal(false)
+                    }
+
                     }>
                         Back to home page
                     </button>
