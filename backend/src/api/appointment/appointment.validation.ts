@@ -7,7 +7,7 @@ import { logger } from '../../services/logger.service'
 
 export async function validateBooking(
   req: Request<{}, {}, { medicalFieldId: string, doctorId: string, date: Date }>,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ) {
   const { medicalFieldId, doctorId, date } = req.body

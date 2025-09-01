@@ -45,7 +45,8 @@ export default App
 
 // final fixes
 
-// add loading circle when loading appointments in dashboard
+// do the number 12 and 13 chors
+// update seeding appointments to seed the first months and not randomly
 
 
 
