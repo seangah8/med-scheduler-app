@@ -66,7 +66,11 @@ export function CancelModal({
                     }
 
                     }>
-                        Back to home page
+                        {
+                            wasCanceledSuccessfully
+                            ? 'Back to home page'
+                            : 'Try again later'
+                        }
                     </button>
                 </section>
             }

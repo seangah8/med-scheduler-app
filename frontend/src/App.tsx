@@ -45,9 +45,7 @@ export default App
 
 // final fixes
 
-// 1. add to create appointment buttons icon of +
-// 2. when caceling appointment and its not working make sure the button dont say back to home page
-// 3. add loading circle when loading appointments in dashboard
+// add loading circle when loading appointments in dashboard
 
 
 
