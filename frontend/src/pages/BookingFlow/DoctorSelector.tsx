@@ -88,7 +88,7 @@ async function loadDoctors() {
 
                             {option._id === soonestId && 
                             <div className='unique'>
-                                <p>Soonest</p>
+                                <p>Earliest</p>
                                 <i className="fa-solid fa-clock"></i>
                             </div>
                             }

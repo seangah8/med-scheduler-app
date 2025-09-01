@@ -45,7 +45,6 @@ export default App
 
 // final fixes
 
-// 1. change soonest doctor to another word
 // 2. make log middleware only be in necceray routs
 // 3. add to create appointment buttons icon of +
 // 4. when caceling appointment and its not working make sure the button dont say back to home page
