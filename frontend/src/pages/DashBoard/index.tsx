@@ -16,20 +16,24 @@ export function Dashboard(){
     const [medicalFieldMap, setMedicalFieldMap] = useState<Record<string, string>>({})
     const [filter, setFilter] = useState<AppointmentFilterModel>(AppointmentService.getDefulteAppointmentFilter)
 
-    useEffect(()=>{
-        loadAppointments()
-    },[filter])
+    useEffect(() => {
+        const validated = validateFilter(filter)
+
+        
+        if (JSON.stringify(validated) !== JSON.stringify(filter)) {
+            setFilter(validated)
+            return
+        }
+
+        loadAppointments(validated)
+    }, [filter])
 
 
-    async function loadAppointments(){
-
-        const validatedFilter = validateFilter(filter)
-
+    async function loadAppointments(validatedFilter: AppointmentFilterModel) {
         setLoadingApps(true)
         const data = await AppointmentService.getAppointmentsData(validatedFilter)
-        if(data) {
-            const { appointments: aps, doctorMap: drMap, 
-                medicalFieldMap: fieldMap } = data
+        if (data) {
+            const { appointments: aps, doctorMap: drMap, medicalFieldMap: fieldMap } = data
             setAppointments(aps)
             setDoctorMap(drMap)
             setMedicalFieldMap(fieldMap)
@@ -37,31 +41,25 @@ export function Dashboard(){
         setLoadingApps(false)
     }
 
-    function validateFilter(filter: AppointmentFilterModel)
-        : AppointmentFilterModel {
+    function validateFilter(filter: AppointmentFilterModel): AppointmentFilterModel {
+        let validated = { ...filter }
 
-        // keep the original filter
-        const validatedFilter = {...filter}
-        
-        // dont apply startDate and endDate filtering on upcoming appointments 
-        if(validatedFilter.status === 'scheduled'){
-            validatedFilter.endDate = undefined
-            validatedFilter.startDate = undefined
+        if (validated.status === 'scheduled') {
+            validated.startDate = undefined
+            validated.endDate = undefined
         }
 
-        // make sure endDate include appointments within the same day
-        if(validatedFilter.endDate){
-            const endOfDay = new Date(validatedFilter.endDate)
+        if (validated.endDate) {
+            const endOfDay = new Date(validated.endDate)
             endOfDay.setHours(23, 59, 59, 999)
-            validatedFilter.endDate = endOfDay
+            validated.endDate = endOfDay
         }
 
-        // make sure endDate wont be before startDate
-        if (validatedFilter.startDate && validatedFilter.endDate && 
-            validatedFilter.startDate > validatedFilter.endDate) 
-            return { ...validatedFilter, endDate: validatedFilter.startDate }
+        if (validated.startDate && validated.endDate && validated.startDate > validated.endDate) {
+            validated.endDate = validated.startDate
+        }
 
-        return validatedFilter
+        return validated
     }
 
     if(!loggedInUser) return <LoadingSpinner />
