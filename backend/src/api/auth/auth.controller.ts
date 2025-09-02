@@ -36,7 +36,8 @@ export async function verifyOTP(req: Request, res: Response, next: NextFunction)
     const user = await userService.getByPhone(phone)
     if (!user) throw Error('User not found')
 
-    await authService.checkOTP(user._id.toString(), password)
+    const isCorrect = await authService.checkOTP(user._id.toString(), password)
+    if(!isCorrect) res.send(null)
 
     // create token
     const token = jwt.sign({ userId: user._id }, 

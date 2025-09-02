@@ -28,7 +28,8 @@ async function sendOtp(phone : string) : Promise<string | null> {
 async function verifyOtp(phone : string, password : string) : Promise<UserModel | null> {
 
   try{
-    const user  = await httpService.post<UserModel>('auth/verify-otp', { phone, password })
+    const user  = await httpService.post<UserModel | null>('auth/verify-otp', { phone, password })
+    if(!user) return null
     _saveLocalUser(user)
     return user
 

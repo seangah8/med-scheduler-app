@@ -33,7 +33,7 @@ export async function setOTP(userId: string): Promise<string> {
 }
 
 
-export async function checkOTP(userId: string, password: string): Promise<void> {
+export async function checkOTP(userId: string, password: string): Promise<boolean> {
 
   const otpDoc = await OtpMongoModel.findOne({
       userId,
@@ -41,13 +41,15 @@ export async function checkOTP(userId: string, password: string): Promise<void> 
       expiresAt: { $gt: new Date() }
     })
 
-    if (!otpDoc) 
-      throw new Error('Invalid or expired OTP')
+    if (!otpDoc) {
+      logger.error('Invalid or expired OTP')
+      return false
+    }
 
     // remove the otp from db
     await OtpMongoModel.deleteOne({ _id: otpDoc._id })
-
     logger.info(`OTP confirmed valid for user ${userId}`)
+    return true
 }
 
 

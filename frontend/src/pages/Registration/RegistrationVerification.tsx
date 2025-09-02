@@ -30,7 +30,7 @@ export function RegistrationVerification({password, isVerifying, showInvalidPass
             />
             {   showInvalidPassMsg  && 
                 <p className="invalid-input-err">
-                    Invalid password, please try again.
+                    Invalid or expired password, please try again.
                 </p>
             }
             <button onClick={onVerifyOtp} disabled={isVerifying}>
