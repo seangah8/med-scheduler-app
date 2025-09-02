@@ -2,7 +2,7 @@
 
 A full-stack medical appointment scheduling application.
 
-**Live Demo:** https://sheba-connect.vercel.app
+**Live Demo:** https://sheba-connect.vercel.app  
 **Demo Video:** https://drive.google.com/file/d/1_KTW3xdvPEmAH8tpJmq_fQpFe6SxRpam/view
 
 ## Setup Instructions
@@ -37,7 +37,7 @@ npm run dev     # Start on port 5173
 - Optimized indexes for appointment queries and doctor searches
 - Unique constraints prevent appointment conflicts
 
-**Authentication:** Phone-based OTP with JWT
+**Authentication:** OTP-based login with JWT
 - OTP stored in MongoDB with 5-min expiry  
 - Verified OTP issues JWT in HTTP-only cookie  
 - OTP delivery mocked by logging to console  
@@ -66,10 +66,12 @@ npm run dev     # Start on port 5173
   3. Time Slot Selection (calendar with real-time availability)
   4. Appointment Confirmation (summary with virtual/in-person option)
 
+
 ### Additional Features
 - Switch between virtual and in-person meetings
 - PDF download for completed appointments
 - Smart doctor recommendations (highest rated, earliest available)
+- Dashboard filtering (by status, field, date)  
 
 ## Deployment Details
 
