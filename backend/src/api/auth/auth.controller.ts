@@ -41,7 +41,7 @@ export async function verifyOTP(req: Request, res: Response, next: NextFunction)
 
     // create token
     const token = jwt.sign({ userId: user._id }, 
-      ENV.JWT_SECRET, { expiresIn: '1h' })
+      ENV.JWT_SECRET, { expiresIn: '2h' })
 
     // send cookie
     res.cookie('loginToken', token, {
