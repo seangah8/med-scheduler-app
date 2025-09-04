@@ -62,6 +62,8 @@ async function getSoonestId(
   const valid = results.filter(r => r.availableDay)
   if (!valid.length) return null
 
+  console.log('valid', valid)
+
   const soonest = valid.reduce((a, b) =>
     a.availableDay! < b.availableDay! ? a : b
   )
@@ -84,9 +86,17 @@ async function _findSoonestAvailableDay(
 
   const today = new Date()
 
-  for (let i = 1; i < maxDays; i++) {
+  for (let i = 0; i < maxDays; i++) {
     const day = new Date(today)
     day.setDate(today.getDate() + i)
+
+    if (i === 0) {
+      const nowTime = today.getHours() * 60 + today.getMinutes()
+      const [endHour, endMin] = doctor.schedule.end.split(":").map(Number)
+      const endTime = endHour * 60 + endMin
+
+      if (nowTime >= endTime) continue
+    }
 
     if (!_isDayDisable(day, fieldId, doctor, unavailableDaysSet)) 
       return day
